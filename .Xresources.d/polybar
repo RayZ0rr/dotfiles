@@ -1,0 +1,20 @@
+! Polybar !
+polybar.background:             c00
+polybar.background-alt:         base01
+
+polybar.foreground:             c15
+polybar.foreground-alt:         c07
+
+polybar.icon:                   c15
+polybar.alert:                  c01
+
+polybar.tag-focused-background:     base0F
+polybar.tag-unfocused-background:   base01
+polybar.tag-visible-background:     c00
+polybar.tag-urgent-background:      c09
+
+polybar.primary:      c00
+polybar.secondary:    c00
+polybar.tertiary:     c00
+polybar.quaternary:   c00
+polybar.quinary:      c00

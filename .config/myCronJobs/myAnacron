@@ -1,0 +1,28 @@
+# Personal anacrontab
+# User defined configuration file for anacron
+
+# See anacron(8) and anacrontab(5) for details.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+MAILTO=razorr
+
+# the maximal random delay added to the base delay of the jobs
+RANDOM_DELAY=10
+# the jobs will be started during the following hours only
+START_HOURS_RANGE=3-23
+
+#EXAMPLES
+#-----------------------------------------------------------
+
+#period in days   delay in minutes   job-identifier   command
+# 1	5	cron.daily		nice run-parts /etc/cron.daily
+# 7	25	cron.weekly		nice run-parts /etc/cron.weekly
+# @monthly 45	cron.monthly		nice run-parts /etc/cron.monthly
+# @daily  	1  	twice.weekly  	/home/razorr/data_shared/BackUp/restic/resticBU
+# 1  	0  	twice.weekly  	/usr/bin/bash /home/razorr/data_shared/BackUp/restic/resticBU
+# 1  	0  	twice.weekly  	/home/razorr/data_shared/BackUp/restic/resticBU
+@daily  	5  	twice.weekly  	~/data_shared/BackUp/restic/resticBU
+
+# vim: ft=sh:

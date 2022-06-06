@@ -1,0 +1,144 @@
+
+
+source -q ~/.tmux/config.tmux
+source -q ~/.tmux/options.tmux
+source -q ~/.tmux/keybindings.tmux
+source -q ~/.tmux/colors.tmux
+
+
+##########################
+#  Options
+###########################
+
+# use 256 xterm for pretty colors. This enables same colors from iTerm2 within tmux.
+# This is recommended in neovim :healthcheck
+set -g default-terminal "screen-256color"
+set -ga terminal-overrides ",xterm-256color:Tc"
+
+set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
+setw -q -g utf8 on
+
+# use vim key bindings
+#setw -g mode-keys vi
+
+# disable mouse
+set -g mouse on
+
+# Enable mouse control (clickable windows, panes, resizable panes)
+# set -g mouse-select-window on
+# set -g mouse-select-pane on
+# set -g mouse-resize-pane on
+
+# Set the base index for windows to 1 instead of 0
+set -g base-index 1
+
+# Set the base index for panes to 1 instead of 0
+set -g pane-base-index 1
+
+#Don't rename windows automatically
+set-option -g allow-rename off
+
+# increase scroll-back history
+set -g history-limit 5000
+
+# highlight window when it has new activity
+setw -g monitor-activity on
+set -g visual-activity on
+
+# re-number windows when one is closed
+set -g renumber-windows on
+
+###########################
+#  Key Bindings
+###########################
+
+# Tmux prefix
+# Current solution is to keep the default
+# and have term map C-; to C-b. This is the nicest
+# bind I've found and this is the only way to enable it in tmux
+#unbind C-b
+#set -g prefix C-a
+#bind C-b send-prefix
+
+set -g prefix None
+bind -Troot C-b switchc -Tprefix
+bind -Tprefix C-x if -F '#{s/empty//:key-table}' 'set key-table empty' 'set -u key-table'
+bind -Tempty F12 switchc -Tprefix
+
+# Set bind key to reload configuration file
+bind R source-file ~/.tmux.conf \; display "Tmux config Reloaded!"
+
+#Open tmux config
+bind C-c send-keys "$EDITOR ~/.tmux.conf" Enter
+
+#Log all the text on current pane to vim buffer, which is not saved
+#bind lv capture-pane -S - \; save-buffer ~/.x \; delete-buffer \; new-window 'vim "set buftype=nofile" +"!rm ~/.x"
+
+#Log save to file with prompt for filename
+#bind-key lf command-prompt -p 'save history to filename:' -I '~/tmux.history' 'capture-pane -e -J -S- ; save-buffer $PWD/%1 ; delete-buffer'
+
+bind-key -Tmy-keys x send-keys "my binding"
+
+# Pane (i.e. 'W'indow commands like Vim with C-w)
+bind-key -Tmy-keys-log-type f command-prompt -p 'save history to filename:' -I '~/.tmux/history/' 'capture-pane -e -S- ; save-buffer %1 ; delete-buffer'
+bind-key -Tmy-keys-log-type v capture-pane -e -S- \; save-buffer ~/tmuxtempfilelog \; delete-buffer \; new-window '$EDITOR "set buftype=nofile" +"!rm ~/tmuxtempfilelog" ~/tmuxtempfilelog +'
+#bind-key -Troot C-q switch-client -Tmy-keys-log
+bind-key C-l switch-client -Tmy-keys-log-type
+
+#bind v capture-pane -S - \; save-buffer ~/.x \; delete-buffer \; new-window 'vim "set buftype=nofile" +"!rm ~/.x" ~/.x +'
+
+# resize panes
+bind -r H resize-pane -L 2   # 5 px bigger to the left
+bind -r J resize-pane -D 2   # 5 px bigger down
+bind -r K resize-pane -U 2   # 5 px bigger up
+bind -r L resize-pane -R 2   # 5 px bigger right
+bind > swap-pane -D       # swap current pane with the next one
+bind < swap-pane -U       # swap current pane with the previous one
+###########################
+# Colors
+###########################
+
+#Color256 cheatsheet https://jonasjacek.github.io/colors/
+
+# color of message bar
+set -g message-style fg=black,bold,bg=colour130
+
+# highlight current window
+setw -g window-status-style fg=green,bg=colour235
+# Set different background color for active window
+setw -g window-status-current-style fg=black,bold,bg=cyan
+#set -g window-status-current-bg magenta
+
+# set color of active pane
+set -g pane-border-style fg=colour240,bg=black
+set -g pane-active-border-style fg=green,bg=black
+
+# statusbar
+set -g status-position bottom
+set -g status-style fg=white,bg=colour235
+# set -g status-style 'bg=colour18 fg=colour137 dim'
+# set -g status-left ''
+# set -g status-justify left
+set -g status-right '#[fg=colour233,bg=colour39] %d/%m #[fg=colour233,bg=colour11] %H:%M '
+set -g status-right-length 20
+set -g status-left-length 20
+
+# nerd-fonts-bitstream-vera-mono                                                                                                                                                          
+# tmux_conf_theme_left_separator_main='\ue0c0'                                                                                                                                              
+# tmux_conf_theme_left_separator_sub='\ue0c1'                                                                                                                                               
+# tmux_conf_theme_right_separator_main='\ue0c2'
+
+###########################
+# Plugins
+###########################
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+
+#Auto install in new system
+if "test ! -d ~/.tmux/plugins/tpm" \
+   "run 'git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins'"
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
+

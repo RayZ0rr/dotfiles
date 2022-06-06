@@ -1,0 +1,84 @@
+#!/bin/bash
+
+
+tmxlocal () {
+    # Use -d to allow the rest of the function to run
+    tmux new-session -d -s Local -n test1
+		tmux send-keys
+    tmux new-window -n test2
+    # -d to prevent current window from changing
+    tmux new-window -n test3
+    tmux new-window -n test4
+    tmux new-window -n extra
+    # -d to detach any other client (which there shouldn't be,
+    # since you just created the session).
+    tmux attach-session -d -t TEST:test1
+    # tmux select-window -t test1
+}
+
+tmxtest () {
+    # Use -d to allow the rest of the function to run
+    tmux new-session -d -s TEST -n test1
+    tmux new-window -n test2
+    # -d to prevent current window from changing
+    tmux new-window -n test3
+    tmux new-window -n test4
+    tmux new-window -n extra
+    # -d to detach any other client (which there shouldn't be,
+    # since you just created the session).
+    tmux attach-session -d -t TEST:test1
+    # tmux select-window -t test1
+}
+
+tmxwndw () {
+    # Use -d to allow the rest of the function to run
+    tmux new-session -d -s WINDOWS -n window1
+    tmux new-window -n window2
+    # -d to prevent current window from changing
+    tmux new-window -n window3
+    tmux new-window -n window4
+    tmux new-window -n extra
+    # -d to detach any other client (which there shouldn't be,
+    # since you just created the session).
+    tmux attach-session -d -t WINDOWS:window1
+    # tmux select-window -t window1
+}
+
+tmxdataH () {
+    # Use -d to allow the rest of the function to run
+    tmux new-session -d -s DataH
+    tmux new-window -n herwig1
+    # -d to prevent current window from changing
+    tmux new-window -d -n rivet1
+    tmux new-window -d -n herwig2
+    tmux new-window -d -n rivet2
+    # -d to detach any other client (which there shouldn't be,
+    # since you just created the session).
+    tmux attach-session -d -t DataH
+}
+
+tmxdataP () {
+    # Use -d to allow the rest of the function to run
+    tmux new-session -d -s DataP
+    tmux new-window -n pythia
+    # -d to prevent current window from changing
+    tmux new-window -d -n rivet
+    # -d to detach any other client (which there shouldn't be,
+    # since you just created the session).
+    tmux attach-session -d -t DataP
+}
+
+tmxdataS () {
+    # Use -d to allow the rest of the function to run
+    tmux new-session -d -s DataS
+    tmux new-window -n sherpa1
+    # -d to prevent current window from changing
+    tmux new-window -d -n rivet1
+    tmux new-window -d -n sherpa2
+    tmux new-window -d -n rivet2
+    tmux new-window -d -n sherpa3
+    tmux new-window -d -n rivet3
+    # -d to detach any other client (which there shouldn't be,
+    # since you just created the session).
+    tmux attach-session -d -t DataS
+}

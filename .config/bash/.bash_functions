@@ -1,0 +1,389 @@
+#!/usr/bin/env bash
+
+nvmk() { mkdir -p "$(dirname "$1")" && ${EDITOR:-vim} "$1" ; }
+nvtime() {
+  rm /tmp/vim.log > /dev/null 2>&1
+  nv --startuptime /tmp/vim.log -c "quit"
+  cat '/tmp/vim.log'
+}
+
+
+fsearch() {
+  if [ -x "$(command -v fd)" ]
+  then
+    if [ -x "$(command -v fzf)" ]
+    then
+      fd --hidden --follow --no-ignore . "${1:-./}" | fzf -m
+      return 0
+    else
+      fd --hidden --follow --no-ignore .
+      return 0
+    fi
+  else
+    echo "fd command not found"
+    return 1
+  fi
+}
+
+gitac() {
+  if [[ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]]
+  then
+    git add . && echo "All added" || return 1
+    if [[ -z "$1" ]]
+    then
+      echo -e "\nPlease provide message like 'gitac \"message\"' to provide commit message\n"
+    elif [[ "$@" == "auto" ]]; then
+      gitMessage="$(printf "autocommit: %s" "$(date '+%a %d-%m-%y : %H:%M TZ=%Z(%:z)')")"
+      git commit -m "${gitMessage}"
+    elif [[ -z "${1// }" ]]; then
+      gitMessage="$(printf "autocommit: %s" "$(date '+%a %d-%m-%y : %H:%M TZ=%Z(%:z)')")"
+      git commit -m "${gitMessage}"
+    else
+      if  [[ $# -gt 1 ]] ; then
+        git commit -m "$1" -m "${@: 2}"
+        return 0
+      else
+        git commit -m "$1"
+        return 0
+      fi
+    fi
+  else
+    echo "Not in git repo"
+    return 1
+  fi
+}
+
+gitacp() {
+  if [[ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]]
+  then
+    git add . && echo "All added" || return 1
+    if [[ -z "$1" ]]
+    then
+      echo -e "\nPlease provide message like 'gitac "message"' to provide commit message\n"
+    elif [[ "$@" == "auto" ]]; then
+      gitMessage="$(printf "autocommit: %s" "$(date '+%a %d-%m-%y : %H:%M TZ=%Z(%:z)')")"
+      git commit -m "${gitMessage}"
+      git push
+    elif [[ -z "${1// }" ]]; then
+      gitMessage="$(printf "autocommit: %s" "$(date '+%a %d-%m-%y : %H:%M TZ=%Z(%:z)')")"
+      git commit -m "${gitMessage}"
+      git push
+    else
+      if  [[ $# -gt 1 ]] ; then
+        git commit -m "$1" -m "${@: 2}"
+        git push
+        return 0
+      else
+        git commit -m "$1"
+        git push
+        return 0
+      fi
+    fi
+  else
+    echo "Not in git repo"
+    return 1
+  fi
+}
+
+# rsync alternatives for cp and mv
+cpr() {
+  rsync --archive -hh --partial --progress --info=stats1,progress2 --modify-window=1 "$@"
+}
+mvr() {
+  rsync --archive -hh --partial --progress --info=stats1,progress2 --modify-window=1 --remove-source-files "$@"
+}
+
+mygpgkey() {
+  if  [[ $# -gt 2 ]] ; then
+    printf "\nAccepts only less than 2 arguments.\n1. mode :- in or out.\n2.key-d.\n"
+    return 1
+  fi
+
+  if [[ "$1" == "out" ]] ; then
+
+    if [[ -z "${2// }" ]]; then
+      printf "\nProvide user-id (key ID, fingerprint, a part of your name or email address, etc) as second argument of the key to export.\n"
+      printf "\nBy default 'out' option exports secret key as 'keys.asc' and public key as 'pubkey.gpg'.\n"
+      return 1
+    fi
+
+    gpg --output pubkey.gpg --export $2 && \
+    gpg --output - --export-secret-key $2 |\
+    cat pubkey.gpg - |\
+    gpg --armor --output keys.asc --symmetric --s2k-cipher-algo AES256
+    return 0
+  elif [[ "$1" == "in" ]] ; then
+
+    if [[ -z "${2// }" ]]; then
+      printf "\nProvide key file name as second argument of the key to import.\n"
+      return 1
+    fi
+
+    gpg --output - "$2" | gpg --import
+    return 0
+  elif [[ "$1" == "ls" ]] ; then
+    gpg --list-keys --with-fingerprint --keyid-format 0xlong
+    return 0
+  elif [[ "$1" == "lss" ]] ; then
+    gpg --list-secret-keys --with-fingerprint --keyid-format 0xlong
+    return 0
+  fi
+  printf "No arguments provided.\nUse mygpgkey [in|out] to [input|output] private key. Use key ID, fingerprint, a part of your name or email address, etc) as second argument.\n"
+  printf "\nBy default 'out' option exports secret key as 'keys.asc' and public key as 'pubkey.gpg'.\n"
+  printf "\nUse 'mygpgkey ls' or 'gpg --list-keys --with-fingerprint' to see all keys user-id.\n"
+  printf "\nUse 'mygpgkey lss' or 'gpg --list-secret-keys --with-fingerprint' to see your keys user-id.\n"
+  return 1
+}
+
+targpg() {
+  case "${1}" in
+    "out")
+      tar czvpf - ${@: 3} \
+	 | gpg --symmetric --cipher-algo aes256 -o "$2"
+      return 0 ;;
+    "in")
+      gpg -d "$2" | tar xzvf -
+      return 0 ;;
+    *)
+      # echo "Run 'dotsgit [all|status|statusP|statusAll|commit|commitP|push|pushP|dry]' to [commit all|commit private|commit public] (same for for status/push by adding 'P' like 'dotsP') files between dotfiles repo at github or gitlab and local system"
+      printf "\nRun 'targpg [in|out].\n"
+      printf "\nCompression is gzip.\n"
+      printf "\nRun 'targpg out '<tar name>' '<file1/folder1>' '<file2/folder2>'...\n"
+      printf "\nRun 'targpg in '<tar name>'.\n"
+      return 1 ;;
+  esac
+}
+
+unitls() {
+  if [ -x "$(command -v systemctl)" ]
+  then
+    if [[ "$1" == "s1" ]] ; then
+      systemctl list-unit-files --state=enabled
+      return 0
+    elif [[ "$1" == "s2" ]] ; then
+      systemctl list-units --state=running
+      return 0
+    elif [[ "$1" == "u1" ]]; then
+      systemctl --user list-unit-files --state=enabled
+      return 0
+    elif [[ "$1" == "u2" ]]; then
+      systemctl --user list-units --state=running
+      return 0
+    fi
+    if [[ -z "$@" ]] ; then
+      printf "\nInvalid argument.\nUse 'unitls [1|2|u1|u2]'."
+      return 1
+    fi
+  else
+    echo "systemctl command not found"
+    return 1
+  fi
+}
+
+compressPDF(){
+  if [[ "$1" == "gs1" ]] ; then
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dDownsampleColorImages=true -dColorImageResolution=150 -dNOPAUSE  -dBATCH -sOutputFile="$3" "$2"
+  elif [[ "$1" == "gs2" ]] ; then
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$3" "$2"
+  elif [[ "$1" == "ps" ]] ; then
+    ps2pdf -dPDFSETTINGS=/ebook "$2" "$3"
+  elif [[ "$1" == "convert" ]] ; then
+    convert -compress Zip -density 150x150 "$2" "$3"
+  else
+    printf "\nUsage compressPDF [gs1|gs2|ps|convert] input output"
+  fi
+}
+
+packupdate(){
+  if [ -x "$(command -v pacman)" ]
+  then
+    sudo pacman -sy archlinux-keyring ; sudo pacman -su
+    return 0
+  else
+    echo "pacman command not found"
+    return 1
+  fi
+}
+
+packorphan(){
+  if [ -x "$(command -v pacman)" ]
+  then
+    pacman -Qtdq | sudo pacman -Rns -
+    return 0
+  else
+    echo "pacman command not found"
+    return 1
+  fi
+}
+
+packF(){
+  if [ -x "$(command -v apt)" ]
+  then
+    apt list --installed 2> /dev/null | grep -i "$1" | fzf-tmux
+  elif [[ -x "$(command -v pacman)" ]]
+  then
+    pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'
+  else
+    echo "apt or pacman not found"
+    return 1
+  fi
+}
+
+packN(){
+  if [ -x "$(command -v apt)" ]
+  then
+    apt list --installed 2> /dev/null | grep -i "$1" | wc -l
+  elif [[ -x "$(command -v pacman)" ]]
+  then
+    pacman -Qq | wc -l
+  else
+    echo "apt or pacman not found"
+    return 1
+  fi
+}
+
+packS(){
+  if [ -x "$(command -v apt)" ]
+  then
+    apt list --installed 2> /dev/null | grep -i "$1" | fzf-tmux
+  elif [[ -x "$(command -v expac)" ]]
+  then
+    expac "%n %m" | sort -gk2 | awk '{sum+=$2; printf "%-30s%20.2f MiB\n", $1, $2/2^20} END {printf "----------\n%-30s%20.2f GiB\n", "Total:", sum/2^30}'
+  else
+    echo "apt or expac not found"
+    return 1
+  fi
+}
+
+packls(){
+  if [ -x "$(command -v apt)" ]
+  then
+    apt list --installed 2> /dev/null | grep -i "$1"
+    return 0
+  elif [[ -x "$(command -v pacman)" ]]
+  then
+    pacman -Qq | grep -i "$1"
+    return 0
+  else
+    echo "apt or pacman not found"
+    return 1
+  fi
+}
+#apt list --installed 2> /dev/null | grep -i "$1" | cut -d/ -f1
+
+packrm() {
+  if [ -x "$(command -v apt)" ]
+  then
+    pak=$(apt list --installed 2>/dev/null | grep -i "$1" | sed 1d | fzf-tmux -m)
+    [ -z "$pak" ] || ( sudo apt remove `echo $pak | cut -d/ -f1 | tr '\n' ' '` && \
+      echo "Packages removed" )
+    return 0
+  elif [[ -x "$(command -v pacman)" ]]
+  then
+    pak=$(pacman -Qq | grep -i "$1" | fzf-tmux -m)
+    [ -z "$pak" ] || ( sudo pacman -Rns `echo $pak | cut -d/ -f1 | tr '\n' ' '` && \
+      echo "Packages removed" )
+    return 0
+  else
+    echo "apt or pacman not found"
+    return 1
+  fi
+}
+
+packpr() {
+  if [ -x "$(command -v apt)" ] ; then
+    return 1
+  fi
+  pak=$(apt list --installed 2>/dev/null | grep -i "$1" | sed 1d | fzf --preview "apt show \$(echo {} |  cut -d/ -f1) 2>/dev/null" --height 100%)
+  [ -z "$pak" ] || ( sudo apt purge `echo $pak | cut -d/ -f1 | tr '\n' ' '` && \
+    echo -n "want to autoremove?" && read -qs && sudo apt autoremove -y )
+  }
+
+# fkill - kill process
+fkill() {
+  local pid
+
+  pid="$(
+  ps -ef \
+    | sed 1d \
+    | fzf -m \
+    | awk '{print $2}'
+      )" || return
+
+      kill -"${1:-9}" "$pid"
+    }
+
+updatemirrors(){
+  if [[ -x "$(command -v pacman)" ]]
+  then
+    case "${1}" in
+      "ra")
+	if [[ -x "$(command -v rankmirrors)" ]]
+	then
+	  if  [[ $# -gt 2 ]] ; then
+	    echo "invalid number of arguments"
+	    return 1
+	  elif  [[ $# -eq 1 ]] ; then
+	    curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 -
+	    return 0
+	  else
+	    curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n $2 -
+	    return 0
+	  fi
+	  # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n ${@} -
+	else
+	  echo "rankmirrors command not found"
+	  return 1
+	fi
+	return 0 ;;
+      "re")
+	if [[ -x "$(command -v reflector)" ]]
+	then
+	  if  [[ $# -gt 2 ]] ; then
+	    echo "invalid number of arguments"
+	    return 1
+	  elif  [[ $# -eq 1 ]] ; then
+	    reflector --latest 10 --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist	    
+	    return 0
+	  else
+	    reflector --latest $2 --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist	    
+	    return 0
+	  fi
+	  # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n ${@} -
+	else
+	  echo "reflector command not found"
+	  return 1
+	fi
+	return 0 ;;
+    esac
+  else
+    echo "pacman command not found"
+    return 1
+  fi
+  echo "Use 'updatemirrors [ra|re] [optional number] to use rankmirrors|reflector with optional number of servers (default : 10)."
+}
+
+# Alias for herbstclient if herbstluftwm is Installed
+hc() {
+  if ! [ -x "$(command -v herbstclient)" ]
+  then
+    echo 'Error: herbstluftwm is not installed.' >&2
+    exit 1
+  else
+    herbstclient "$@"
+  fi
+}
+
+#----------------------------------------------------
+opcl() {
+
+  "$@" & disown
+  exit
+}
+
+oclbw() {
+
+  lbw & disown
+  exit
+
+}

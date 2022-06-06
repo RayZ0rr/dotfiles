@@ -1,0 +1,22 @@
+.local/share/Steam/*
+.local/lib/python3.*/site-packages/*/*
+.local/share/Trash/*/*
+.local/share/vifm/Trash/*/*
+.cache/*/*
+anaconda3/*/*
+.rpmdb/*
+.npm/*
+.cargo/*
+.steam/*
+.mozilla/*
+**/Counter-Strike Global Offensive/*
+**/timeshift/*
+# .conda/*
+**/gFolder/RaZ0rr/github/dotfiles/*
+**/.ccls-cache/*
+**/ccls-cache/*
+**/nvim/.undoDir/*
+**/nvim/.mkViewDir/*
+**/nvim/.sessionDir/*
+**/nvim/swap/*
+**/TabSessionManager - Backup/*

@@ -1,0 +1,213 @@
+/*
+ *
+ * Author  : Aditya Shakya
+ * Mail    : adi1090x@gmail.com
+ * Github  : @adi1090x
+ * Twitter : @adi1090x
+ *
+ */
+
+* {
+  al:             #00000000;
+  darkblue:       #25344Bff;
+  se:             #2A3950ff;
+  fg:             #FEFFF1ff;
+  violet:         #A162F7ff;
+  red:            #EC7875ff;
+  green:          #61C766ff;
+  yellow:         #FDD835ff;
+  blue:           #42A5F5ff;
+  purple:         #BA68C8ff;
+  cyan:           #4DD0E1ff;
+  black:          #000000;
+  ac:             @darkblue;
+  accent-color:   @darkblue;
+  bg:             @black;
+}
+
+configuration {
+  font:                 "Iosevka Nerd Font 10";
+  show-icons:           true;
+  icon-theme:           "Papirus";
+  display-drun:         "";
+  drun-display-format:  "{name}";
+  disable-history:      false;
+  sidebar-mode:         true;
+}
+
+mainbox {
+  background-color:   @black;
+  border:             0% 0% 0% 0%;
+  border-radius:      0% 0% 0% 0%;
+  border-color:       @ac;
+  // children:           [ inputbar, listview ];
+  spacing:            0%;
+  padding:            0%;
+}
+
+window {
+  transparency:       "real";
+  background-color:   @black;
+  text-color:         @bg;
+  border:             0px;
+  border-color:       @ac;
+  border-radius:      12px;
+  width:              70%;
+  height:             70%;
+  location:           center;
+  x-offset:           0;
+  y-offset:           0;
+}
+
+textbox {
+  font:               "Iosevka Nerd Font 10";
+  padding:            8px;
+  text-color:         @blue;
+  background-color:   @bg;
+  border:             3px;
+  border-color:       @ac;
+}
+
+scrollbar {
+  background-color:         @bg;
+  margin:                   0% 0% 0% 0.5%;
+  handle-width:             10px;
+  handle-color:             @blue;
+  padding:                  0.0% 0% 0% 0%;
+  border:                   3px;
+  border-color:             @ac;
+  // border-radius:            12px;
+  spacing:                  50%;
+}
+
+prompt {
+  enabled:              true;
+  padding:              0.6% 1% 0% 0%;
+  background-color:     @al;
+  text-color:           @bg;
+  font:                 "FantasqueSansMono Nerd Font 12";
+}
+
+entry {
+  background-color:               @al;
+  text-color:                     @bg;
+  placeholder-color:              @bg;
+  expand:                         true;
+  horizontal-align:               0;
+  placeholder:                    "Search";
+  padding:                        0.60% 0% 0% 0%;
+  blink:                          true;
+}
+
+inputbar {
+  children:             [ prompt, entry ];
+  background-color:     @ac;
+  text-color:           @bg;
+  expand:               false;
+  border:               0% 0% 0% 0%;
+  border-radius:        0px;
+  border-color:         @ac;
+  margin:               0% 0% 0% 0%;
+  padding:              1.5%;
+}
+
+listview {
+    background-color:               @black;
+    columns:                        5;
+    lines:                          3;
+    padding:                        30px 0px 0px;
+    spacing:                        0.1%;
+    cycle:                          false;
+    dynamic:                        true;
+    layout:                         vertical;
+  // children:                         [ scrollbar ];
+}
+
+element {
+    background-color:               @bg;
+    text-color:                     @bg;
+    orientation:                    vertical;
+    border-radius:                  0%;
+    border-color:                   @bg;
+    padding:                        2% 0% 2% 0%;
+}
+
+element-icon {
+    background-color:         @bg;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    size:                           64px;
+    border:                         0px;
+}
+
+element-text {
+    background-color:         @bg;
+    text-color:               @blue;
+    expand:                         true;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    border:                         0px;
+    border-color:                   @ac;
+    // margin:                         0.5% 0.5% -0.5% 0.5%;
+}
+
+element normal.normal, element alternate.normal {
+    background-color:               @bg;
+    text-color:                     @bg;
+    orientation:                    vertical;
+    border-radius:                  0%;
+    // border-color:                   @ac;
+    // padding:                        2% 0% 2% 0%;
+}
+
+element selected normal {
+  background-color:               @bg;
+  text-color:                     @bg;
+  border:                         2px;
+  // border-radius:                  5px;
+  border-color:                   @blue;
+}
+
+mode-switcher {
+    /** we use spacing between children to draw a 'border' */
+    // spacing: 0px 4px;
+    // margin: 3px;
+    // border: 1px;
+    // border-radius: 0px 4px 4px 0px;
+    /** border and background are same color, widget will have desired bg color.*/
+    /** this way the spacing shows as a border */
+    border-color:             @yellow;
+    background-color:         @bg;
+    // padding:                  2% 0% 2% 0%;
+    /** inherit font setting from parent */
+    /* font: inherit; */
+}
+
+/**
+ * Buttons in mode switcher.
+ */
+button {
+    /* background-color:  @ac; */
+    background-color:     @bg;
+    border-color:         @blue;
+    border:               2px;
+    // border-radius:     0px 40px 4px 0px;
+    text-color:           @blue;
+    // border-color:         darkgrey;
+    padding:              5px 0% 5px 0%;
+    // inherit font setting from parent
+    font:                 inherit;
+    cursor:               pointer;
+}
+
+/**
+ * Selected buttons in mode switcher.
+ */
+button selected {
+    background-color:     @bg;
+    border-color:         @ac;
+    border:               2px;
+    // border-radius: 0px 40px 4px 0px;
+    text-color:           @blue ;
+}
+

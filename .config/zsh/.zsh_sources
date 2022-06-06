@@ -1,0 +1,140 @@
+#!/usr/bin/env zsh
+
+path+='/bin:/sbin:/usr/sbin'
+export PATH=$PATH:$HOME/.local/bin
+typeset -U PATH
+
+#----------------------------------------------------
+# NEOVIM
+#----------------------------------------------------
+# export EDITOR="$HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage"
+# man pages as neovim
+# export MANPAGER="$HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage +Man!"
+# export PATH="$PATH:$HOME/Softwares/Installed/Neovim/bin"
+# if (( $+commands[nvim] )) ; then
+if [[ -x "$(command -v nvim)" ]]; then
+  export EDITOR='nvim'
+  export MANPAGER="nvim -c Man!"
+  export MANWIDTH=999
+fi
+
+#----------------------------------------------------
+# GPG-AGENT as SSH-AGENT
+#----------------------------------------------------
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
+#----------------------------------------------------
+# >>> conda initialize >>>
+#----------------------------------------------------
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/razorr/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+  eval "$__conda_setup"
+else
+  if [ -f "/home/razorr/anaconda3/etc/profile.d/conda.sh" ]; then
+    . "/home/razorr/anaconda3/etc/profile.d/conda.sh"
+  else
+    export PATH="/home/razorr/anaconda3/bin:$PATH"
+  fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# Git folder path
+export GITFDIR=gFolder/RaZ0rr
+# Dotfiles path
+export DOTFDIR=gFolder/RaZ0rr/dotfiles
+
+# Qt5 applications theme configuration
+if (( $+commands[qt5ct] )) ; then
+  export QT_QPA_PLATFORMTHEME=qt5ct
+fi
+
+# Wine Config
+export WINEPREFIX=~/GameZ/Wine
+
+#----------------------------------------------------
+# zoxide - jumper
+#----------------------------------------------------
+export _ZO_DATA_DIR="$HOME/.config/zoxide"
+if [ -x "$(command -v zoxide)" ]; then
+  eval "$(zoxide init --cmd zd zsh)"
+fi
+
+#----------------------------------------------------
+# GO language
+#----------------------------------------------------
+if [ -x "$(command -v go)" ]; then
+  export GOPATH=${HOME}/go
+  export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin
+fi
+
+#----------------------------------------------------
+#Tmux
+#Tmuxp default path
+#----------------------------------------------------
+export TMUXP_CONFIGDIR=$HOME/.config/tmux/tmuxp
+
+#--------------------------------------------------------
+# fzf / Fuzzy Finder
+#--------------------------------------------------------
+
+export MY_FZF_PATH=$HOME/data_shared/Softwares/Source/fzf/gitclone
+
+#source /usr/share/bash-completion/completions/fzf
+#source /usr/share/doc/fzf/examples/key-bindings.bash
+#if [ -f ~/.fzf_config ]; then
+#    source ~/.fzf_config
+#fi
+[ -f $ZDOTDIR/.fzf_cfg.zsh ] && source $ZDOTDIR/.fzf_cfg.zsh
+if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
+  source $ZDOTDIR/fzf-zsh-completion.sh
+  bindkey '^I' fzf_completion
+  # only for git
+  zstyle ':completion:*:*:git:*' fzf-search-display true
+  # or for everything
+  zstyle ':completion:*' fzf-search-display true
+fi
+
+#----------------------------------------------------
+#Starship config file
+#----------------------------------------------------
+export STARSHIP_CONFIG=~/.config/starshipPrompt/starship.toml
+
+################## tmux extra configurations #######################
+#tmux extra config
+if [ -f ~/.config/tmux/extra/.tmux_extra ]; then
+  source ~/.config/tmux/extra/.tmux_extra
+fi
+
+################# vifm terminal file manager ######################
+#vifm config
+if [ -f ~/.config/vifm/vifm_extra ]; then
+  source ~/.config/vifm/vifm_extra
+fi
+
+#--------------------------------------------------------
+# nnn Terminal File manager
+#--------------------------------------------------------
+#nnn config
+if [ -x "$(command -v nnn)" ]; then
+  if [ -f ~/.nnn_config ]; then
+    source ~/.nnn_config
+  fi
+fi
+
+#--------------------------------------------------------
+# dotbare bare git repo manager
+#--------------------------------------------------------
+#dotbare config
+#if [ -x "$(command -v dotbare)" ]; then
+if (( $+commands[dotbare] )) ; then
+  if [ -f ~/.dotbare_config ]; then
+    source ~/.dotbare_config
+  fi
+fi

@@ -1,0 +1,29 @@
+config:
+  import_variables:
+  - ../variables.yaml:optional
+dotfiles:
+  f_home_zshenv:
+    src: "{{@@ MY_DOTS_FULL @@}}/HOME/.zshenv"
+    dst: ~/.zshenv
+    link: "{{@@ link_default @@}}"
+  f_home_ignore:
+    src: "{{@@ MY_DOTS_FULL @@}}/HOME/.ignore"
+    dst: ~/.ignore
+    link: nolink
+  f_home_bashrc:
+    src: "{{@@ MY_DOTS_FULL @@}}/HOME/.bashrc"
+    dst: ~/.bashrc
+    link: "{{@@ link_default @@}}"
+  f_home_tmux.conf:
+    src: "{{@@ MY_DOTS_FULL @@}}/HOME/.tmux.conf"
+    dst: ~/.tmux.conf
+    link: "{{@@ link_default @@}}"
+  f_home_xresources:
+    src: "{{@@ MY_DOTS_FULL @@}}/HOME/.Xresources"
+    dst: ~/.Xresources
+    link: "{{@@ link_default @@}}"
+  d_home_xresources_d:
+    src: "{{@@ MY_DOTS_FULL @@}}/.Xresources.d"
+    dst: ~/.Xresources.d
+    link: "{{@@ link_multi @@}}"
+profiles:

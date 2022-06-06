@@ -1,0 +1,7 @@
+-Wall
+-Wextra
+-pedantic
+-Weffc++
+-Wsign-conversion
+-I
+include/

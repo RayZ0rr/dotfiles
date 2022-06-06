@@ -1,0 +1,9 @@
+actions:
+  always_action: 'echo "dotdrop used on $(date)" > ~/.config/dotdrop/.dotdrop.log'
+  echoaction: echo '{0}' > {1}
+  vim-plug: vim +PlugInstall +qall
+  pre:
+    vim-plug-install: test -e ~/.vim/autoload/plug.vim || (mkdir -p ~/.vim/autoload; curl
+      -fLo ~/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
+  post:
+    loginstall: "echo {{@@ _dotfile_abs_src @@}} installed to {{@@ _dotfile_abs_dst @@}} >> {0}"

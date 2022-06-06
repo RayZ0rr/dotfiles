@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+#vifm preview dependency scripts
+if [ -n "$INSIDE_VIFM" ]; then
+    PS1="[Vi]$PS1"
+    unset INSIDE_VIFM
+fi
+
+vfcd()
+{
+    local dst="$(command vifm --choose-dir - "$@")"
+    if [ -z "$dst" ]; then
+        echo 'Directory picking cancelled/failed'
+        return 1
+    fi
+    cd "$dst"
+}

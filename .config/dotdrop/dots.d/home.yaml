@@ -1,0 +1,7 @@
+dotfiles:
+  - f_home_zshenv
+  - f_home_ignore
+  - f_home_bashrc
+  - f_home_tmux.conf
+  - f_home_xresources
+  - d_home_xresources_d

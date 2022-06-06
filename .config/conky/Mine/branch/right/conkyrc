@@ -1,0 +1,110 @@
+conky.config = {
+-- Conky settings #
+  background = true,
+  update_interval = 1,
+
+  cpu_avg_samples = 2,
+  net_avg_samples = 2,
+
+  -- override_utf8_locale = true,
+
+  double_buffer = true,
+  no_buffers = false,
+
+  -- text_buffer_size = 3048,
+--imlib_cache_size 0
+
+  temperature_unit = 'fahrenheit',
+
+-- Window specifications #
+
+  own_window = true,
+  own_window_class = 'conky',
+  own_window_type = 'override',
+  own_window_transparent = true,
+  own_window_hints = 'undecorated,skip_taskbar,skip_pager,below',
+
+  -- border_inner_margin = 0,
+  -- border_outer_margin = 10,
+
+minimum_height = 800,
+  minimum_width = 500,
+  maximum_width = 800,
+
+  alignment = 'top_right',
+  gap_x = - 220,
+  gap_y = 55,
+
+-- Graphics settings #
+  draw_shades = false,
+  draw_outline = false,
+  draw_borders = false,
+  draw_graph_borders = false,
+
+-- Text settings #
+  use_xft = true,
+  override_utf8_locale = true,
+  font = 'Roboto:size=20',
+  font1 = 'FiraCode Nerd Font Mono:size=150',
+  font2 = 'Hack Nerd Font Mono:size=150',
+  xftalpha = 0.8,
+  uppercase = false,
+
+  temperature_unit = 'celsius',
+
+--
+  default_color = '#FFFFFF',
+  color0 = '#FFFFFF',  -- FFFFFF
+  color1 = '#696969',  -- FE0055 
+  color2 = '#FF0055',  -- FF0055
+
+-- Lua Load  #
+  lua_load = '~/.config/conky/Mine/branch/right/clock_rings.lua',
+  lua_draw_hook_pre = 'clock_rings',
+
+--own_window_argb_value 0
+--own_window_argb_visual no
+--own_window_colour 000000
+  own_window_argb_value = 0,
+  -- own_window_argb_visual = true,
+  own_window_colour = '#000000',
+
+
+-- if_up_strictness link:  up | link | address
+    if_up_strictness = 'address',
+
+-- network templates
+   template0 = 'eth0',
+   template1 = 'eth1',
+   template2 = 'wlan0',
+   template3 = 'wlan1',
+
+-- time template
+   template7 = '%H:%M',
+
+
+
+};
+
+conky.text = [[
+${offset 30}${color1}${font}
+${voffset -80}
+${color1}${goto 5}${offset 25}CPU1
+${color1}${goto 5}${offset 25}${cpu cpu1}%
+${voffset 40}
+${color1}${goto 5}${offset 25}CPU2
+${color1}${goto 5}${offset 25}${cpu cpu2}%
+${voffset 50}
+${color1}${goto 5}${offset 25}CPU3
+${color1}${goto 5}${offset 25}${cpu cpu3}%
+${voffset 50}
+${color1}${goto 5}${offset 25}CPU4
+${color1}${goto 5}${offset 25}${cpu cpu4}%
+${voffset -10}
+${color1}${goto 5}${offset 25}${voffset 60}RAM
+${color1}${goto 5}${offset 25}${memperc}%
+${font Roboto:size=14}${voffset -55}${color1}${goto 2}${offset 125}SWAP
+${color1}${offset 130}${cpu swap}%
+]];
+
+-- vim:ft=lua

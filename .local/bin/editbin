@@ -1,0 +1,71 @@
+#!/bin/zsh
+# Edit scripts/textfiles that are in PATH locations
+sudo=""
+
+localBinPath="${HOME}/gFolder/RaZ0rr/dotfiles/.local/bin"
+
+printHelp()
+{
+  echo "Usage:  editbin [options] [filename in PATH]"
+  echo ""
+  echo "Options:"
+  echo -e "-s\tUse [S]udo/root privileges"
+  echo -e "-l\t[L]ist files in ~/.local/bin"
+  echo -e "-a\tList [A]ll binaries in PATH"
+  echo -e "-f\tSelect with [f]zf, list all binaries in ~/.local/bin"
+  echo -e "-F\tSelect with [F]zf, list all binaries in PATH"
+  echo -e "-n\tCreate new script in ~/.local/bin"
+  echo -e "-h\tPrint this help dialog"
+}
+
+while getopts "slafFhn:" flag; do
+  case "${flag}" in
+    "s") # use [S]udo/root
+      sudo="sudo"
+      ;;
+    "l") # [L]ist binaries from ~/.local/bin
+      ls -1 ~/.local/bin
+      exit
+      ;;
+    "a") # list [A]ll binaries
+      print -rC1 -- ${(ko)commands}
+      exit
+      ;;
+    "f") # Select with fzf, list all binaries in ~/.local/bin
+      editbin -l | fzf --preview 'bat ~/.local/bin/{1}' | xargs -ro editbin
+      exit
+      ;;
+    "F") # Select with fzf, list all binaries in PATH
+      print -rC1 -- ${(ko)commands} | fzf | xargs -ro editbin
+      ;;
+    "h") #help
+      printHelp
+      exit
+      ;;
+    "n") # new script
+      $EDITOR "${localBinPath}"/${OPTARG}
+      chmod +x "${localBinPath}"/${OPTARG}
+      exit
+      ;;
+    *)
+      #invalid flag
+      echo "Invalid flag used!"
+      printHelp
+      exit
+      ;;
+  esac
+done
+
+if [[ -z "$@" ]]; then
+  printHelp
+  exit 1
+fi
+
+binary=$(whereis $1 | awk '{print $2}')
+
+if [[ -n $binary ]]; then
+  echo $binary
+  $sudo $EDITOR $binary
+else
+  echo "binary/script file '$@' doesn't exist"
+fi

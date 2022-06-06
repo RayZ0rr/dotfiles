@@ -1,0 +1,14 @@
+
+!Folders
+.ssh/
+gFolder/
+symlinks/
+Notes/
+**/okular/
+**/okular_bak/
+.config/nnn/Backup/
+
+!Files
+HOME/okularpartrc
+HOME/okularrc
+ActivateEIC

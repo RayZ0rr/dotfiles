@@ -1,0 +1,10 @@
+config:
+dotfiles:
+  fake:
+    src:
+    dst:
+    actions:
+      - always_action
+    upignore:
+      - '*'
+profiles:

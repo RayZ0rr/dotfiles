@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+
+#---------------------------------------------------------------
+
+# Requirement: bash >= 4.0 (because of the usage of $BASHPID)
+
+spawn_with_rules() {(
+    # this rule also requires, that the client
+    # sets the _NET_WM_PID property
+    # herbstclient rule once pid=$BASHPID maxage=10 "${RULES[@]}"
+    herbstclient rule once pid=$BASHPID "${RULES[@]}"
+    exec "$@"
+    ) &
+}
+
+#---------------------------------------------------------------
+
+tag_names=("1-" "2-" "3-﬑" "4-" "5-" "6-" "7-" "8-" "9-")
+tag_10="﩯"
+
+#---------------------------------------------------------------
+
+if [ -x "$(command -v alacritty)" ]
+then
+
+  herbstclient load "${tag_names[0]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
+  # spawn two terminals (alacritty and default terminal in two windows) in tag 1
+  RULES=( tag="${tag_names[0]}" index=0 ) # left-hand frame
+  spawn_with_rules alacritty --class AL1
+  sleep 1
+  xdotool type --window $(xdotool search --classname Al1) $'la\n'
+
+  RULES=( tag="${tag_names[0]}" index=1 )  # right-hand frame
+  spawn_with_rules alacritty --class Al2
+  sleep 1
+  xdotool type --window $(xdotool search --classname Al2) $'neofetch\n'
+
+  herbstclient load "${tag_names[1]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
+  # spawn two terminals (alacritty and default terminal in two windows) in tag 1
+  RULES=( tag="${tag_names[1]}" index=0 ) # left-hand frame
+  spawn_with_rules alacritty --class AL3
+  sleep 1
+
+  RULES=( tag="${tag_names[1]}" index=1 )  # right-hand frame
+  spawn_with_rules alacritty --class Al4
+  sleep 1
+
+else
+  echo "Alacritty not installed"
+fi
+
+#---------------------------------------------------------------
+
+if [ -x "$(command -v st)" ]
+then
+
+  # spawn an vifm in tag 4
+  RULES=( tag="${tag_names[3]}" )
+  spawn_with_rules st -n VifmAl
+  sleep 1
+  herbstclient use "${tag_names[3]}"
+  xdotool type --window $(xdotool search --classname VifmAl) $'vf\n'
+
+#---------------------------------------------------------------
+
+  # spawn an bottom (htop alternative) in tag 5
+  RULES=( tag="${tag_names[4]}" )
+  spawn_with_rules st -n BottomAl
+  sleep 1
+  herbstclient use "${tag_names[4]}"
+  xdotool type --window $(xdotool search --classname BottomAl) $'btm\n'
+  # spawn_with_rules xdotool key Return
+
+#---------------------------------------------------------------
+
+  herbstclient load "${tag_10}" "$(cat ~/.config/herbstluftwm/layouts/6win_2bigCenter)"
+  RULES=( tag="${tag_10}" index=000 )  # Top left terminal
+  spawn_with_rules st -n stNothing1 &
+
+#---------------------------------------------------------------
+
+  RULES=( tag="${tag_10}" index=001 )  # Top center htop
+  spawn_with_rules st -n stHtop -e htop &
+
+#---------------------------------------------------------------
+
+  RULES=( tag="${tag_10}" index=010 )  # Top right terminal
+  spawn_with_rules st -n stPokemon &
+  sleep 1
+  xdotool type --window $(xdotool search --classname stPokemon) $'pokemon-colorscripts -r\n'
+  # spawn_with_rules st -n stNothing2 &
+
+#---------------------------------------------------------------
+
+  RULES=( tag="${tag_10}" index=100 )  # Bottom left terminal
+  spawn_with_rules st -n stCmatrix -e cmatrix &
+
+#---------------------------------------------------------------
+
+  RULES=( tag="${tag_10}" index=101 )  # Bottom center terminal
+  spawn_with_rules st -n stAqua -e asciiquarium  &
+
+#---------------------------------------------------------------
+
+  RULES=( tag="${tag_10}" index=111 )  # Bottom right terminal
+  spawn_with_rules st -n stPipes -e ~/.local/bin/pipes &
+
+#---------------------------------------------------------------
+
+  herbstclient use_index 0
+
+else
+  echo "st (suckless/simple terminal) not installed"
+  exit 1
+fi
+

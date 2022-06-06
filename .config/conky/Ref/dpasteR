@@ -1,0 +1,57 @@
+conky.config = {
+alignment = 'top_right',
+background = true,
+cpu_avg_samples = 2,
+draw_shades = false,
+double_buffer = true,
+font = 'Monospace:size=8',
+gap_x = 10,
+gap_y = 25,
+minimum_width = 280,
+maximum_width = 2000,
+no_buffers = true,
+own_window = true,
+own_window_transparent = true,
+own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+own_window_type = 'desktop',
+own_window_argb_visual = true,
+update_interval = 2.0,
+use_xft = true,
+draw_graph_borders = false,
+}
+
+
+conky.text = [[
+${voffset 3}${hr 1}
+${goto -25}${font Courier:size=9}SYSTEM
+${voffset 10}${font Courier_10_Pitch:style=bold:size=8}${alignr}MANJARO LINUX | XFCE
+${voffset 3}${font Courier:size=8}${alignr}${kernel}
+${voffset 14}${hr 1}
+${goto -25}${font Courier:size=9}CORES
+${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}CPU1:$alignr${cpu cpu1}%$color$font
+${voffset 3}${alignr}${cpubar cpu1 4,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}CPU2:$alignr${cpu cpu2}%$color$font
+${voffset 3}${alignr}${cpubar cpu2 4,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}CPU3:$alignr${cpu cpu3}%$color$font
+${voffset 3}${alignr}${cpubar cpu3 4,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}CPU4:$alignr${cpu cpu4}%$color$font
+${voffset 3}${alignr}${cpubar cpu4 4,237}
+${voffset 24}${hr 1}
+${goto -25}${font Courier:size=9}MEMORY
+${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}RAM$alignr$memperc%
+${voffset 3}${alignr}${membar 4,237}$color
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}SWAP$alignr$swapperc%
+${voffset 3}${alignr}${swapbar 4,237}
+${voffset 24}${hr 1}
+${goto -25}${font Courier:size=9}DISKS
+${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}HDD $alignr${fs_used /}$color
+${voffset 3}${alignr}${fs_bar 5,237 /}
+${voffset 24}${hr 1}
+${goto -25}${font Courier:size=9}WIRELESS
+${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}D/L SPEED    ${font Courier_10_Pitch:style=bold:size=8}$alignr${downspeed wlp3s0}
+${voffset 3}${alignr}${downspeedgraph wlp3s0 40,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}U/L SPEED    ${font Courier_10_Pitch:style=bold:size=8}$alignr${upspeed wlp3s0}
+${voffset 3}${alignr}${upspeedgraph wlp3s0 40,237}
+
+
+]]

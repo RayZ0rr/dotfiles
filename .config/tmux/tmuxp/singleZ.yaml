@@ -1,0 +1,12 @@
+session_name: singleZ
+shell_command_before:
+  - zsh
+  - clear
+windows:
+  - window_name: ZSH1
+    start_directory: '$PWD'
+    focus: true
+    options:
+        automatic-rename: true
+    panes:
+      - blank

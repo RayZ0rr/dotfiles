@@ -1,0 +1,88 @@
+# terminal emulator
+control + alt + Return
+  alacritty
+
+control + alt + t
+  st
+
+# make sxhkd reload its configuration files:
+control + alt +  s ; u
+  pkill -USR1 -x sxhkd
+
+# Flameshot screenshot utility
+control + alt + s ; c
+  flameshot gui
+
+# Peek - Screen recorder ( GIF maker )
+control + alt + s ; p
+  peek -t
+
+#Launch dmenu file browser (might take some time to load)
+control + alt + s ; f
+  ~/.local/bin/dmfind
+
+#Launch dmenu to kill processes
+control + alt + s ; x
+  ~/.local/bin/dmkill
+
+#tdrop
+control + alt + s ; t
+  tdrop -y 40 alacritty -t tdrop
+  # tdrop -ma alacritty -t tdrop
+  # tdrop -ma -y 50 alacritty
+
+# run + desktop apps launcher
+control + alt + s ; a
+  ~/.local/bin/sway-launcher
+  # alacritty --class="fzf-menuSwayL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/sway-launcher-desktop
+
+# run apps launcher
+control + alt + s ; r
+  alacritty --class="fzf-menuL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzflaunch
+  # dmenu_path | ~/.local/bin/fzfmenu | bash
+
+#Launch fzf-menu
+control + alt + s ; m
+  ~/.local/bin/fzfmenu
+
+#Launch fzf_dots
+control + alt + s ; d ; o
+  alacritty --class="fzf-menuDots" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf_dots
+
+#Launch fzf_docs
+control + alt + s ; d ; u
+  alacritty --class="fzf-menuDocs" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf_docs
+
+#jgmenu
+control + alt + button3
+  jgmenu_run apps | jgmenu --simple
+
+# Rofi launcher bindings
+control + alt + r ; {d,a,c,r,w,f}
+  rofi {-show drun -theme desktop_apps,-theme squared-everforest -show combi -modi "combi#run#window#keys",-theme spotlight-dark -show bcalc -modi "bcalc:~/.config/rofi/scripts/rofi-bcalc" -no-show-match -no-sort,-show run -modi run -theme rounded-red-dark,-theme nord-twoLines -show window -modi window, -show filebrowser -modi filebrowser -theme file_manager}
+
+# clipmenu
+control + alt + r ; y
+  CM_LAUNCHER=rofi clipmenu -p clipmenu -theme material-git
+
+alt + control + space ; {t,p,f,o,m,x}
+  {thunar,pcmanfm,firefox,okular,mpv,xflock4}
+
+# Keybindings to control volume
+control + alt + {u,d}
+  ~/.local/bin/pulseaudio-control {up,down}
+# pactl set-sink-volume @DEFAULT_SINK@ {+,-}2% && dunstify -u low -t 3000 -r 90210 "墳       $(pulsemixer --get-volume | cut -f1 -d " ")"
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+  ~/.local/bin/pulseaudio-control {up,down}
+# pactl set-sink-volume @DEFAULT_SINK@ {+,-}2% && dunstify -u low -t 3000 -r 90210 "墳       $(pulsemixer --get-volume | cut -f1 -d " ")"
+control + alt + k
+  ~/.local/bin/pulseaudio-control togmute
+# pactl set-sink-mute @DEFAULT_SINK@ toggle
+XF86AudioMute
+  ~/.local/bin/pulseaudio-control togmute
+# pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# set directly keycode (here control + f with my keyboard)
+# c:41 + m:0x4
+
+# vim: commentstring=#\ %s

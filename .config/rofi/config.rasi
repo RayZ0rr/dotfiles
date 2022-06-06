@@ -1,0 +1,64 @@
+configuration {
+  modi:                       "combi,drun,window,run,ssh" ;
+  combi-modi:                 "drun,run";
+  font:                       "Hack Nerd Font Mono 12";
+  show-icons:                 true;
+  terminal:                   "alacritty";
+  /*  window-command: "wmctrl -i -R {window}";*/
+  /*  window-match-fields: "all";*/
+  /*  icon-theme: ;*/
+  display-combi:              "All";
+  display-run:                "";
+  display-ssh:                "";
+  // display-drun: 					"";
+  display-drun:               "";
+  display-window:             "";
+  display-keys:               "";
+  display-filebrowser:        "";
+  sidebar-mode:               true;
+  drun-display-format:        "{icon} {name}";
+  drun-url-launcher:          "xdg-open";
+  /*  sort: false;*/
+  /*  sorting-method: "normal";*/
+  case-sensitive:             false;
+  cycle:                      true;
+  sidebar-mode:               true;
+  hover-select:               true;
+  matching:                   "fuzzy";
+  /*  tokenize: true;*/
+  /*  m: "-5";*/
+  /*  filter: ;*/
+  /*  dpi: -1;*/
+  /*  threads: 0;*/
+  /*  scroll-method: 0;*/
+  /*  window-format: "{w}    {c}   {t}";*/
+  click-to-exit:              true;
+  /*  max-history-size: 25;*/
+  combi-hide-mode-prefix:     true;
+  /*  matching-negate-char: '-' /* unsupported */;*/
+  /*  cache-dir: ;*/
+  window-thumbnail:           true;
+
+  kb-accept-entry:            "Return,KP_Enter";
+  kb-mode-next:               "Control+Right,Control+Tab,Tab";
+  kb-mode-previous:           "Control+Left,Control+ISO_Left_Tab,ISO_Left_Tab";
+  kb-toggle-case-sensitivity: "Control+i";
+  kb-cancel:                  "Escape,Control+c,Control+q";
+  me-accept-entry:            "MousePrimary,MouseDPrimary";
+  kb-move-word-back:          "Alt+b";
+  kb-move-word-forward:       "Alt+f";
+  kb-row-up:                  "Up,Control+p";
+  kb-row-tab:                 "";
+  me-select-entry:            "";
+
+  timeout {
+    action:                   "kb-cancel";
+    delay:                    0;
+  }
+  filebrowser {
+    sorting-method:           "name";
+    directories-first:        true;
+  }
+}
+
+@theme "launcher"

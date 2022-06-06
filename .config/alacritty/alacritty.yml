@@ -1,0 +1,18 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator.
+
+# Import additional configuration files
+#
+# Imports are loaded in order, skipping all missing files, with the importing
+# file being loaded last. If a field is already present in a previous import, it
+# will be replaced.
+#
+# All imports must either be absolute paths starting with `/`, or paths relative
+# to the user's home directory starting with `~/`.
+#import:
+#  - /path/to/alacritty.yml
+
+import:
+  - ~/.config/alacritty/main.yml
+  - ~/.config/alacritty/keybindings.yml
+  - ~/.config/alacritty/theme.yml
+  # - ~/.config/alacritty/themes/dracula.yml

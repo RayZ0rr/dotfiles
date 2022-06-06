@@ -1,0 +1,32 @@
+config:
+  dotpath: dotfiles
+dotfiles:
+  f_copying:
+    src: dotsplaceholder/COPYING
+    dst: ~/dotsplaceholder/COPYING
+  f_zshenv:
+    src: dotsplaceholder/HOME/.zshenv
+    dst: ~/dotsplaceholder/HOME/.zshenv
+  f_ignore:
+    src: dotsplaceholder/HOME/.ignore
+    dst: ~/dotsplaceholder/HOME/.ignore
+  f_bashrc:
+    src: dotsplaceholder/HOME/.bashrc
+    dst: ~/dotsplaceholder/HOME/.bashrc
+  f_tmux.conf:
+    src: dotsplaceholder/HOME/.tmux.conf
+    dst: ~/dotsplaceholder/HOME/.tmux.conf
+  f_compile2:
+    src: dotsplaceholder/HOME/compile2
+    dst: ~/dotsplaceholder/HOME/compile2
+    chmod: '755'
+  f_activateeic:
+    src: dotsplaceholder/HOME/ActivateEIC
+    dst: ~/dotsplaceholder/HOME/ActivateEIC
+  f_xresources:
+    src: dotsplaceholder/HOME/.Xresources
+    dst: ~/dotsplaceholder/HOME/.Xresources
+  f_compile_flags.txt:
+    src: dotsplaceholder/HOME/compile_flags.txt
+    dst: ~/dotsplaceholder/HOME/compile_flags.txt
+profiles:

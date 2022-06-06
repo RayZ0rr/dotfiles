@@ -1,0 +1,27 @@
+session_name: simpleB
+start_directory: '~'
+windows:
+  - window_name: Bash1
+    start_directory: '$PWD'
+    focus: true
+    panes:
+      - pane
+  - window_name: Bash2
+    start_directory: '$PWD'
+    panes:
+      - blank
+  - window_name: Bash3
+    panes:
+      - shell_command:
+        - ''
+  - window_name: Bash4
+    panes:
+      - shell_command: ''
+  - window_name: Bash5
+    panes:
+      - null
+  - window_name: Extra
+    options:
+        automatic-rename: true
+    panes:
+      - blank

@@ -1,0 +1,70 @@
+conky.config = {
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+    double_buffer = true,
+    alignment = 'top_left',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 11,
+    default_color = '#FFFFFF',
+
+    font = 'Luminari-Regular:size=90',
+    font1 = 'Luminari-Regular:size=24',
+    font2 = 'Luminari-Regular:size=14',
+    font3 = 'Luminari-Regular:bold:size=14',
+
+    draw_borders = false,
+    draw_graph_borders = false,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    gap_x = 20,
+    gap_y = 20,
+
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+
+    minimum_height = 5,
+
+    maximum_width  = 400,
+    minimum_width  = 300,
+
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_hints =  'below',
+    own_window_type =  'desktop',
+
+    stippled_borders = 0,
+    update_interval = 1,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false,
+    draw_graph_borders = true,
+
+}
+
+conky.text = [[
+${voffset -230}
+${alignc}${font2}------------------------${font3}CPU${font2}------------------------ 
+${alignc}${cpugraph cpu0 100,300 -l}
+${alignc}Core 1 :${cpubar cpu1 15,130}     Core 2 :${cpubar cpu1 15,130}
+${alignc}Core 3 :${cpubar cpu1 15,130}    Core 4 :${cpubar cpu1 15,130}
+${alignc}Frequency: ${freq}MHz
+${alignc}Temp: ${hwmon 2 temp 1}°C${voffset +15}
+${alignc}${font2}------------------------${font3}RAM${font2}------------------------
+${alignc}${memgraph 100,300 -l}
+${alignc}Total RAM:  ${memmax} 
+${alignc}Used:  ${mem}
+${alignc}Percentage in use:  ${memperc}%${voffset +15}
+${alignc}${font2}---------------------${font3}Processes${font2}---------------------
+${font3}Name ${goto 180}PID ${goto 250}MEM% ${goto 330}CPU%${voffset -10}
+
+${font2}1.${top_mem name 1} ${goto 170}${top_mem pid 1} ${goto 250}${top_mem mem 1} ${goto 330}${top_mem cpu 1}
+${font2}2.${top_mem name 2} ${goto 170}${top_mem pid 2} ${goto 250}${top_mem mem 2} ${goto 330}${top_mem cpu 2}
+${font2}3.${top_mem name 3} ${goto 170}${top_mem pid 3} ${goto 250}${top_mem mem 3} ${goto 330}${top_mem cpu 3}
+${font2}4.${top_mem name 4} ${goto 170}${top_mem pid 4} ${goto 250}${top_mem mem 4} ${goto 330}${top_mem cpu 4}
+]]

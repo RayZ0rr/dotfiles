@@ -1,0 +1,9 @@
+dotfiles:
+  - d_local_bin
+  - d_local_backup
+  - f_local_battery_charge_notify.sh
+  - f_local_battery_notifications.sh
+  - f_local_lock.png
+  - f_local_wall.png
+  - d_local_src
+  - d_local_rofi

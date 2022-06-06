@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#[ -n "$NNNLVL" ] && PS1="N$NNNLVL $PS1"
+
+#nnn config
+if [ -f ~/.nnn_functions ]; then
+    source ~/.nnn_functions
+fi
+
+#nnn config
+if [ -f ~/.nnn_export ]; then
+    source ~/.nnn_export
+fi

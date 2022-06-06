@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+sleep 20
+conky -q -c /home/ACM-Lab/.conky/Mine/HLWMTimeDateLeft &
+conky -q -c /home/ACM-Lab/.conky/Mine/HLWMSystemInfoRight &
+exit

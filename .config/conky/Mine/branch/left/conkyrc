@@ -1,0 +1,67 @@
+conky.config = {
+  update_interval = 1,
+  total_run_times = 0,
+  net_avg_samples = 1,
+  cpu_avg_samples = 1,
+  imlib_cache_size = 0,
+  double_buffer = true,
+  no_buffers = false,
+  use_xft = true,
+  font = 'Roboto:size=12',
+  font1 = 'FiraCode Nerd Font Mono:size=12',
+  font2 = 'Hack Nerd Font Mono:size=12',
+  -- font = 'Zekton:size=12',
+  -- override_utf8_locale = true,
+  text_buffer_size = 2048,
+  own_window_class = 'conky',
+  own_window = true,
+  own_window_type = 'override',
+  own_window_transparent = true,
+  own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager',
+  alignment = 'bottom_left',
+  gap_x = 50,
+  gap_y = 80,
+  minimum_width = 265, minimum_height = 412,
+  default_bar_width = 30, default_bar_height = 8,
+  draw_shades = false,
+  default_color = '#696969',
+  -- default_shade_color = '000000',
+  color0 = '#ff4466',
+  color1 = 'ffffff',
+  color2 = 'ffffff',
+
+  -- lua_load = '~/.conky/Mine/branch/left/lsd_rings.lua',
+  -- lua_draw_hook_post = 'main',
+
+  own_window_argb_value = 0,
+  -- own_window_argb_visual = true,
+  own_window_colour = '000000',
+-- time template
+  template7 = '%H:%M',
+
+
+
+};
+
+conky.text = [[
+${voffset 20}
+${goto 220}${voffset 0}${color0}${font}${execi 3600 echo $USER}
+${goto 70}${voffset -30}${color}${font}Temperature
+${goto 110}${color}${font}${acpitemp}%
+${goto 10}${voffset 70}${font}\
+${offset 10}${font Roboto:size=40}${time $template7}
+${voffset -80}${goto 220}${voffset 20}${font}Battery
+${alignc -100}${font}\
+${if_existing /sys/class/power_supply/BAT0}${battery_percent BAT0}%\
+${else}\
+${if_existing /sys/class/power_supply/BAT1}${battery_percent BAT1}%${else}%${endif}${endif}
+${voffset 25}${color0}${goto 60}ROOT
+${goto 50}${font}${fs_used /}
+${goto 50}${font}${fs_free /}
+${voffset -70}${color0}${goto 170}HOME
+${goto 160}${font}${fs_used /home}
+${goto 160}${font}${fs_free /home}
+${voffset 80}${image ~/.config/conky/Mine/branch/left/lsd.png -p 10,0 -s 355x502}
+]];
+
+-- vim:ft=lua

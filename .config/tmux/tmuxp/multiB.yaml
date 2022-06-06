@@ -1,0 +1,36 @@
+session_name: LocalB
+start_directory: '~'
+windows:
+  - window_name: BashSh1
+    focus: true
+    panes:
+      -
+  - window_name: vifm
+    panes:
+      - vf
+  - window_name: nvim1
+    panes:
+      - shell_command:
+        - ''
+        - clear
+        - nv
+        - gg
+  - window_name: nvim2
+    # shell_command_before:
+    start_directory: '$PWD'
+    panes:
+      - shell_command:
+        - ''
+        - clear
+        - nv
+        - gg
+  - window_name: BashSh2
+    start_directory: '$PWD'
+    panes:
+      - ''
+  - window_name: Extra
+    options:
+        automatic-rename: true
+    panes:
+      - pane
+    # - start_directory: /tmp

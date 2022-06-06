@@ -1,0 +1,38 @@
+conky.config = {
+background = true,
+uptime_interval = 1,
+cpu_avg_samples = 1,
+double_buffer = true,
+use_xft = true,
+font = 'Monospace:size=8',
+maximum_height = 2000,
+own_window_class = 'Conky',
+own_window = true,
+own_window_type = 'override',
+own_window_transparent = true,
+own_window_hints = 'undecorated,below,skip_taskbar,skip_pager',
+own_window_argb_visual = false,
+alignment = 'top_left',
+gap_x = 70,
+gap_y = 100,
+minimum_width = 110,
+minimum_height = 1500,
+draw_shades = false,
+default_color = '#BDB5A1',
+default_shade_color = '#1d1d1d',
+color0 = '#ffffff',
+color1 = '#0099CC',
+color2 = '#c83232',
+color3 = '#c89632',
+color4 = '#fac864',
+color5 = '#ff3333'
+}
+
+conky.text = [[
+${font Courier_10_Pitch:style=bold:size=30}${color2}${voffset 10}${time %p}
+${color3}${voffset 40}${font Roboto:size=130}${time %I}
+${font Monospace:size=130}${color2}${voffset -370}${offset 190}${time %M}${color2}
+${font Droid Sans:size=16}${time %A}${color2}${time -- %B -}${color3}${time - %d -- %m / %y}
+]]
+
+-- vim:ft=lua

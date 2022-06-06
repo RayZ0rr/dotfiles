@@ -1,0 +1,14 @@
+dynvariables:
+  MY_NAME:          "echo $USER"
+  MY_HOME:          "echo $HOME"
+  MY_DOTS:          "echo $DOTFDIR"
+  MY_DOTS_FULL:     "echo $HOME/$DOTFDIR"
+  USER_CONFIG:      "echo .config/dotdrop"
+  USER_CONFIG_FULL: "echo $HOME/.config/dotdrop"
+  DOTS_CONFIG:      "echo $DOTFDIR/.config/dotdrop"
+  DOTS_CONFIG_FULL: "echo $HOME/$DOTFDIR/.config/dotdrop"
+  IMPORT_PATH:      "{{@@ DOTS_CONFIG_FULL @@}}"
+variables:
+  link_single:  "link"
+  link_multi:   "link_children"
+  link_default: "{{@@ link_single @@}}"

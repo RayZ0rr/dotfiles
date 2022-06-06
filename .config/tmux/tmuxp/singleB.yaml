@@ -1,0 +1,10 @@
+session_name: singleB
+# start_directory: '~'
+windows:
+  - window_name: Bash1
+    start_directory: '$PWD'
+    focus: true
+    options:
+        automatic-rename: true
+    panes:
+      - blank

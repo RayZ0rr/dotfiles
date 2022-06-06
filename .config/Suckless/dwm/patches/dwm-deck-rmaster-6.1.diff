@@ -1,0 +1,45 @@
+From ea45fb6fe67e5815e1455559dca4103f6d429f07 Mon Sep 17 00:00:00 2001
+From: aleks <aleks.stier@icloud.com>
+Date: Thu, 23 May 2019 23:11:34 +0200
+Subject: [PATCH] Make deck-patch work with the rmaster-patch
+
+Apply this patch on top of the deck-patch to make it work with the
+rmaster-patch.
+---
+ dwm.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/dwm.c b/dwm.c
+index 11649dd..441a99a 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -667,7 +667,9 @@ deck(Monitor *m) {
+ 		return;
+ 
+ 	if(n > m->nmaster) {
+-		mw = m->nmaster ? m->ww * m->mfact : 0;
++		mw = m->nmaster
++			? m->ww * (m->rmaster ? 1.0 - m->mfact : m->mfact)
++			: 0;
+ 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n - m->nmaster);
+ 	}
+ 	else
+@@ -675,11 +677,13 @@ deck(Monitor *m) {
+ 	for(i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+ 		if(i < m->nmaster) {
+ 			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
++			resize(c, m->rmaster ? m->wx + m->ww - mw : m->wx,
++					m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+ 			my += HEIGHT(c);
+ 		}
+ 		else
+-			resize(c, m->wx + mw, m->wy, m->ww - mw - (2*c->bw), m->wh - (2*c->bw), False);
++			resize(c, m->rmaster ? m->wx : m->wx + mw, m->wy,
++					m->ww - mw - (2*c->bw), m->wh - (2*c->bw), 0);
+ }
+ 
+ void
+-- 
+2.21.0
+

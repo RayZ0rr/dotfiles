@@ -1,0 +1,43 @@
+configuration {
+  show-icons:      true;
+  font: "Hack Nerd Font Mono 12";
+  show-icons: true;
+  terminal: "alacritty";
+  icon-theme:      "Papirus";
+  cycle:           true;
+  disable-history: false;
+  monitor:         "-4";
+  modi:            "drun";
+  display-drun:    "apps";
+
+  kb-accept-entry: "Return,KP_Enter";
+  kb-mode-next: "Control+Right,Control+Tab,Tab";
+  kb-mode-previous: "Control+Left,Control+ISO_Left_Tab,ISO_Left_Tab";
+  kb-toggle-case-sensitivity: "Control+i";
+  kb-cancel: "Escape,Control+c,Control+q";
+  me-accept-entry: "MousePrimary,MouseDPrimary";
+  kb-move-word-back: "Alt+b";
+  kb-move-word-forward: "Alt+f";
+  kb-row-up: "Up,Control+p";
+  kb-row-tab: "";
+  me-select-entry: "";
+}
+
+/* Fixes for rofi 1.7.0 */
+window {
+  border: 0px;
+}
+inputbar {
+  spacing: -4px;
+}
+listview {
+  columns: 1;
+  scrollbar: false;
+  border: 0px;
+}
+element-text,
+element-icon {
+  /* background-color: transparent; */
+}
+
+@import "themes/gruvbox.rasi"

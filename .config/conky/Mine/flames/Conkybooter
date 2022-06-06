@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+sleep 20
+conky -q -c /home/ACM-Lab/.config/conky/Mine/DWMTimeDateLeft &
+conky -q -c /home/ACM-Lab/.config/conky/Mine/DWMSystemInfoRight &
+exit

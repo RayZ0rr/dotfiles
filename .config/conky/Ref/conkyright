@@ -1,0 +1,77 @@
+conky.config = {
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+    double_buffer = true,
+    alignment = 'top_right',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 11,
+    default_color = '#FFFFFF',
+
+    font = 'Luminari-Regular:size=90',
+    font1 = 'Luminari-Regular:size=24',
+    font2 = 'Luminari-Regular:size=14',
+    font3 = 'Luminari-Regular:bold:size=14',
+    font4 = 'FontAwesome:size=20',
+    font5 = 'ConkyMonoNum:size=14',
+
+    draw_borders = false,
+    draw_graph_borders = false,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    gap_x = 20,
+    gap_y = 20,
+
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+
+    minimum_height = 5,
+
+    maximum_width  = 400,
+    minimum_width  = 300,
+
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_hints =  'below',
+    own_window_type =  'desktop',
+
+    stippled_borders = 0,
+    update_interval = 1,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false,
+    draw_graph_borders = true,
+
+} 
+
+conky.text = [[
+${alignc}${font}${time %I:%M}${voffset -120}
+${alignc}${font1}${time %a, %d %B %Y}${voffset -10}
+${alignc}${font3}${execpi 86400 date '+%B'}${voffset +10}
+${font2}${goto 0}Mo ${goto 63}Tu ${goto 118}We ${goto 178}Th ${goto 238}Fr ${goto 290}Sa ${goto 350}Su
+${alignc}${font5}${execpi 86400 ncal -bM | sed '3!d'}
+${alignc}${font5}${execpi 86400 ncal -bM | sed '4!d'}
+${alignc}${font5}${execpi 86400 ncal -bM | sed '5!d'}
+${alignc}${font5}${execpi 86400 ncal -bM | sed '6!d'}
+${alignc}${font5}${execpi 86400 ncal -bM | sed '7!d'}
+${alignc}${font5}${execpi 86400 ncal -bM | sed '8!d'}${voffset +10}
+${alignc}${font2}-------------------${font3}NETWORK${font2}--------------------
+${goto 70}${font4}   ${font2}${upspeed wlan0}${voffset -30}
+${goto 270}${font4}   ${font2}${downspeed wlan0}${voffset +20}
+${goto 50}Today ${goto 170}Yesterday ${goto 300}Month 
+${goto 40}${execi 60 vnstat -i wlan0 | grep "today" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 190}${execi 300 vnstat -i wlan0 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 310}${execi 300 vnstat -i wlan0 -m | grep "`date -d "$D" '+%Y-%m'`" | awk '{print $8" "substr ($9, 1, 1)}'}${voffset +10}
+${alignc}${font2}---------------------${font3}DISK${font2}---------------------
+${goto 70}Read:  ${diskio_read /dev/sda}${voffset -25}                         
+${goto 270}Write:  ${diskio_write /dev/sda}
+${alignc}Root (/)
+${alignc}${fs_bar 15,300 /}
+${alignc}${fs_free /} Out of ${fs_size /} Free
+${alignc}Home (/home)
+${alignc}${fs_bar 15,300 /home}
+${alignc}${fs_free /home} Out of ${fs_size /home} Free
+]]

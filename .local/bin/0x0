@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+logPath="$HOME/.local/src"
+! [[ -d "$logPath" ]] && mkdir -p $logPath
+logFile="${logPath}/0x0_list"
+
+if [[ "$1" == "up" ]]
+then
+  if [[ ${#2} > 0 ]]
+  then
+    if [[ $2 = '/'* ]] ; then
+      ! [[ -f "$2" ]] && exit 1
+      filePath="$2"
+      command="curl -s -F'file=@${filePath}' https://0x0.st"
+      echo "Executing: $command"
+
+      url=$(eval $command)
+      echo "URL: $url"
+
+      # printf "$url" | xclip -sel clip
+      # notify-send "File Uploaded" "URL: $url \ncopied to clipboard" -t 5000 -i "$HOME/.program/icon.png"
+      notify-send "File Uploaded" "\nURL: $url" -t 5000 -i "$HOME/.program/icon.png"
+
+      entry="$(date '+%d-%m-%y-%H:%M:%S')    $url    $(echo ${filePath} | awk -F'/' '{print $(NF)}')"
+      echo $entry >> ${logFile}
+      echo "Uploaded"
+      exit 0
+    elif [[ -f "$(pwd)/$2" ]]
+    then
+      filePath="$(pwd)/$2"
+      command="curl -s -F'file=@${filePath}' https://0x0.st"
+      echo "Executing: $command"
+
+      url=$(eval $command)
+      echo "URL: $url"
+
+      # printf "$url" | xclip -sel clip
+      # notify-send "File Uploaded" "URL: $url \ncopied to clipboard" -t 5000 -i "$HOME/.program/icon.png"
+      notify-send "File Uploaded" "\nURL: $url" -t 5000 -i "$HOME/.program/icon.png"
+
+      entry="$(date '+%d-%m-%y-%H:%M:%S')    $url    $(echo ${filePath} | awk -F'/' '{print $(NF)}')"
+      echo $entry >> "${logFile}"
+      echo "Uploaded"
+      exit 0
+    else
+      echo "File doesnt exist"
+      exit 1
+    fi
+  else
+    echo "Please give a file name"
+    exit 1
+  fi
+
+elif [[ "$1" == "tail" ]]
+then
+  if [[ ${#2} > 0 ]]
+  then
+    if [[ $2 =~ ^[0-9]+$ ]]
+    then
+      cat "${logFile}" | tail -$2
+      exit 0
+    else
+      echo "Enter a valid integer"
+      exit 1
+    fi
+  fi
+elif [[ "$1" == "less" ]]
+then
+  cat "${logFile}" | less
+  exit 0
+elif [[ "$1" == "ls" ]] ; then
+    cat "${logFile}"
+    exit 0
+elif [[ "$1" == "ed" ]]
+then
+  nvim "${logFile}"
+  exit 0
+else
+  echo "Invalid argument"
+  echo "Usage:"
+  echo "0x0 [up|ls|less|tail <number>|ed] to upload|list previous|less previous|tail|open list"
+  exit 1
+fi

@@ -1,0 +1,90 @@
+#==============================================================================
+#                               conkyrc_orange
+#
+#  author  : SLK
+#  version : v2011011601
+#  license : Distributed under the terms of GNU GPL version 2 or later
+#
+#==============================================================================
+
+use_xft yes
+xftfont cure:size=10
+#xftfont Sansation:size=9
+xftfont Rounded Elegance:size=10
+xftalpha 0
+
+update_interval 2
+cpu_avg_samples 2
+net_avg_samples 2
+
+double_buffer yes
+no_buffers yes
+update_interval 2
+background yes
+use_spacer left
+uppercase no
+
+own_window yes
+own_window_transparent yes
+# own_window_type desktop
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_argb_visual yes
+own_window_argb_value 0
+out_to_console no
+
+draw_shades no
+draw_outline no
+draw_borders no
+stippled_borders 1
+border_width 0
+
+alignment top_right
+minimum_size 280 65
+gap_x 20
+gap_y 60
+pad_percents 2
+top_name_width 10
+maximum_width 320
+
+default_color ffffff
+default_shade_color white
+default_outline_color white
+color0 white
+color1 white #Month color
+color2 0099CC #Blue
+color3 5294E2 #blue
+color4 0EFF00 #green
+color5 FFF200 #yellow
+color6 c89632	# warm yellow
+color7 fac864	# warm light yellow
+
+
+own_window_colour 000000
+
+TEXT
+#-----------------------System information-----------------------
+${voffset -05}
+${offset 5}${font Good Times:size=12}${color ff3333}SYSTEM INFORMATION ${color}${hr 2}
+
+${font :style=Bold}${goto 20}${color white}CPU  : ${color1}${execi 1000 cat /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq | cut -c 1-26} ${freq_g cpu0}Ghz
+${font :style=Bold}${color white}
+${goto 20}${execi 3600 cat /etc/mx-version}
+
+${goto 20}${font :style=Bold}${color}xfce 
+
+${goto 20}Kernel: $kernel $machine
+
+${goto 20}User: ${execi 3600 whoami}
+
+${goto 20}Uptime: $uptime
+#${font DJB Get Digital:size=30}${tab 90}${time %H:%M:%S}
+${goto 20}${if_match "x${battery_short BAT0}" == "x"}${else}${if_match "${battery_short BAT0}" == "N"}${else}${color}Battery: ${color6}${battery_bar 10,100 BAT0} ${color0}${battery_percent BAT0}%  ${endif} 
+
+
+${font :style=Bold:pixelsize=15}${goto 20}${color0}RAM  :   ${goto 70}$mem / $memmax  $memperc%
+${goto 20}${color6}$membar
+
+${font :style=Bold:pixelsize=15}${goto 20}${color0}SWAP  :   ${goto 70}$swap / $swapmax  $swapperc%
+${goto 20}${color6}$swapbar
+
+#${voffset 3}${alignr}${swapbar 4,237}

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# This is the terminal program that term-dmenu runs. Some examples:
+# alacritty --class fzf-menuFT -e "$@"
+# kitty --class fzf-menuFT "$@"
+# These examples give the window the "fzf-menuFT" class so you can make your window
+# manager float anything with class "fzf-menuFT"
+
+# I use havoc (https://github.com/ii8/havoc) for my launchers because it starts up
+# super quickly and is Wayland-native.
+
+if [ -z "$FLOATING_TERMINAL" ]; then
+  # find_alt() prints the first parameter recognized by `command -v`
+  find_alt() {
+    for i; do
+      command -v "${i%% *}" >/dev/null && {
+	echo "$i"
+	      return 0
+	    }
+    done
+    return 1
+  }
+  FLOATING_TERMINAL=$(find_alt 'foot -a fzf-menuFT' havoc 'alacritty --class=fzf-menuFT' 'kitty --class=fzf-menuFT' 'konsole' 'gnome-terminal' 'termite' 'st -c fzf-menuFT' 'xterm')
+fi
+
+$FLOATING_TERMINAL "$@"
+
+# vi:ft=sh

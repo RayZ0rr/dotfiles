@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ x"${DESKTOP_SESSION##*/}" = x"lightdm-xsession" ]; then 
+   sleep 10s
+   killall conky
+   cd "$HOME/.conky/Mine"
+   conky -c "$HOME/.conky/Mine/SystemInfoRight" &
+   cd "$HOME/.conky/Mine"
+   conky -c "$HOME/.conky/Mine/TimeDateLeft" &
+   exit 0
+fi

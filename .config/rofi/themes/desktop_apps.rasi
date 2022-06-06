@@ -1,0 +1,192 @@
+configuration {
+    modi:                "drun";
+    show-icons:          true;
+    font:                "Iosevka 10";
+    icon-theme:          "Papirus";
+    display-drun:        "";
+    drun-display-format: "{name}";
+    scroll-method:       0;
+}
+
+* {
+    /*#87b5d7;*/
+    /*#6eacda;*/
+    /*#deca72;*/
+    /*#39c9fe;*/
+
+    yellow:              #b58900;
+    orange:              #cb4b16;
+    red:                 #dc322f;
+    magenta:             #d33682;
+    violet:              #6c71c4;
+    blue:                #268bd2;
+    cyan:                #2aa198;
+    green:               #859900;
+    pink:                #d07ef2;
+    fg:                  #abb2bfaa;
+    bg:                  #282c3444;
+    selected-bg:         #4b5263aa;
+    selected-fg:         #abb2bf;
+    win-bg:              #282c34cc;
+    highlight-bg:        #4F576999;
+    urgent:              #dc322f55;
+}
+
+#window {
+    transparency:        "real";
+    fullscreen:          true;
+    background-color:    @win-bg;
+}
+
+#mainbox {
+    border:              0;
+    padding:             10% 5% 5% 5%;
+    children:            [inputbar, listview];
+    background-color:    transparent;
+    spacing:             5%;
+}
+
+inputbar {
+    width:               500px;
+    border:              1px;
+    border-radius:       50%;
+    border-color:        #d07ef2 ;
+    background-color:    @bg;
+    // margin: 5px 20% 5px 20%;
+    // padding : 10% 5% 5% 5%;
+    // spacing:	5%;
+    children:            [icon-prompt, entry];
+}
+
+entry {
+    background-color:    @selected-bg;
+    padding:             10px;
+    placeholder:         "Search desktop apps...";
+    placeholder-color:   @fg;
+    text-color:          @fg;
+}
+
+icon-prompt {
+    padding:             10px;
+    background-color:    @pink;
+    text-color:          @fg;
+    /** Only use required space. */
+    expand:              false;
+    /** icon is around 1.2 font width */
+    size:                1.2em;
+    /** Icon name, we use symbolic name here */
+    filename:            "search";
+}
+
+#listview {
+    orientation:         horizontal;
+    columns:             3;
+    lines:               10;
+    layout:              vertical;
+    background-color:    transparent;
+}
+
+element {
+    padding:             2%;
+    border-radius:       5px;
+    width:               5%;
+    margin:              0.55%;
+}
+
+element-icon {
+    size:                48px;
+    margin:              2px;
+    horizontal-align:    0.5;
+    vertical-align:      0.5;
+    background-color:    transparent;
+}
+
+element-text {
+    font:                "Mono bold italic 12";
+    horizontal-align:    0.5;
+    vertical-align:      0.5;
+    background-color:    transparent;
+    text-color:          @fg;
+}
+
+element selected {
+    padding:             2%;
+    border-radius:       5px;
+    width:               5%;
+    margin:              0.55%;
+    border:              2px;
+    border-color:        #d07ef2 ;
+}
+
+element-text selected {
+    font:                "Mono 10";
+    background-color:    transparent;
+    text-color:          @fg;
+}
+
+/* --NORMAL-- */
+
+element normal.normal {
+    background-color:    rgba(0, 0, 0, 0);
+    text-color:          @fg;
+}
+
+element selected.normal {
+    background-color:    @selected-bg;
+    text-color:          @red;
+}
+
+element alternate.normal {
+    background-color:    rgba(0,0,0,0);
+    text-color:          @fg;
+}
+
+
+/* --ACTIVE-- */
+
+element normal.active {
+    background-color:    @highlight-bg;
+}
+
+element selected.active {
+   background-color:     @selected-bg;
+   text-color:           @red;
+}
+
+element alternate.active {
+    background-color:    rgba(0,0,0,0);
+    text-color:          @fg;
+}
+
+
+/* --URGENT-- */
+
+element normal.urgent {
+    background-color:    @urgent;
+    text-color:          @fg;
+}
+
+element selected.urgent {
+   background-color:     @urgent;
+    text-color:          @red;
+}
+
+element alternate.urgent {
+    background-color:    @urgent;
+    text-color:          @selected-bg;
+}
+
+mode-switcher {
+    border:              0px 0px 0px ;
+    border-color:        @separatorcolor;
+}
+
+button {
+    spacing:             0;
+    text-color:          @fg;
+}
+
+button.selected {
+    background-color:    @selected-bg;
+    text-color:          @selected-fg;
+}

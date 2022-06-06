@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+DOTDIR="${HOME}/gFolder/RaZ0rr/dotfiles"
+
+# fd -t f --hidden --follow --no-ignore . ${DOTDIR} | fzf -m | xargs -I{} nvim "{}"
+# fd -t f --hidden --follow --no-ignore . ${DOTDIR} | fzf -m | xargs -I{} tmux new -A -s Dots nvim "{}"
+tmux new -s Dots nvim $(fd -t f --hidden --follow --no-ignore . ${DOTDIR} | fzf -m)

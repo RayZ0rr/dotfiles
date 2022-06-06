@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+export FZF_DEFAULT_OPTS="--height=100% --layout=reverse --border --no-sort --prompt=\"~ \" --color=dark,hl:red:regular,fg+:white:regular,hl+:red:regular:reverse,query:white:regular,info:gray:regular,prompt:red:bold,pointer:red:bold"
+
+alacritty --class="fzf-menuSwayL" --config-file=$HOME/.config/alacritty/scratchpad.yml -e bash -c 'GLYPH_PROMPT=">_ " ~/.local/bin/sway-launcher-desktop'
+# alacritty --class="fzf-menuSwayL" --config-file=$HOME/.config/alacritty/scratchpad.yml -e bash -c 'GLYPH_COMMAND="" GLYPH_DESKTOP="" GLYPH_PROMPT=">_ " ~/.local/bin/sway-launcher-desktop'

@@ -1,0 +1,7 @@
+# Place in ~/.config/autostart/sxhkd.desktop
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=SXHKD Agent
+Exec=/usr/bin/sxhkd
+Terminal=false

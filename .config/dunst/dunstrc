@@ -1,0 +1,80 @@
+[global]
+monitor = 0
+follow = mouse
+width = 300
+height = 80
+origin = top-right
+offset = 10x40
+scale = 0
+indicate_hidden = yes
+shrink = no
+separator_color = auto
+separator_height = 4
+line_height = 4
+padding = 15
+horizontal_padding = 15
+frame_width = 2
+sort = no
+idle_threshold = 120
+font = JetBrains Mono Medium 10
+markup = full
+format = "<b>%s</b>\n%b"
+alignment = left
+show_age_threshold = 60
+word_wrap = yes
+ignore_newline = no
+stack_duplicates = false
+hide_duplicate_count = yes
+show_indicators = no
+icon_position = left
+max_icon_size = 48
+sticky_history = yes
+history_length = 20
+dmenu = /usr/bin/dmenu -p dunst:
+browser = /usr/bin/xdg-open
+always_run_script = true
+title = Dunst
+class = Dunst
+
+
+# Paths to default icons.
+icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/:/usr/share/icons/Papirus/16x16/panel/
+
+### mouse
+
+# Defines list of actions for each mouse event
+# Possible values are:
+# * none: Don't do anything.
+# * do_action: Invoke the action determined by the action_name rule. If there is no
+#              such action, open the context menu.
+# * open_url: If the notification has exactly one url, open it. If there are multiple
+#             ones, open the context menu.
+# * close_current: Close current notification.
+# * close_all: Close all notifications.
+# * context: Open context menu for the notification.
+# * context_all: Open context menu for all notifications.
+# These values can be strung together for each mouse event, and
+# will be executed in sequence.
+mouse_left_click = do_action, close_current
+mouse_middle_click = context
+mouse_right_click = close_current
+
+[urgency_low]
+timeout = 2
+background = "#262626"
+foreground = "#EEEEEE"
+frame_color = "#373737"
+
+[urgency_normal]
+timeout = 5
+background = "#262626"
+foreground = "#EEEEEE"
+frame_color = "#373737"
+
+[urgency_critical]
+timeout = 0
+background = "#262626"
+foreground = "#D88B9F"
+frame_color = "#D88B9F"
+
+# vim: ft=cfg

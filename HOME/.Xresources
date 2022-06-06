@@ -1,0 +1,8 @@
+! INCLUDE THEME !
+#include ".Xresources.d/themes/base16-one-dark"
+
+! INCLUDE Urxvt !
+#include ".Xresources.d/Urxvt"
+
+! INCLUDE POLYBAR !
+#include ".Xresources.d/polybar"

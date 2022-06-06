@@ -1,0 +1,23 @@
+alignment top_middle
+background true
+cpu_avg_samples 2
+draw_shades false
+double_buffer true
+gap_x 10
+gap_y 25
+minimum_width 255
+maximum_width 2000
+no_buffers true
+own_window true
+own_window_transparent true
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_type desktop
+own_window_argb_visual true
+update_interval 2.0
+use_xft true
+draw_graph_borders false
+
+TEXT
+${voffset 330}
+${voffset 21}${font Courier:style=Bold:size=40}${alignc}${time %H:%M}
+${voffset 10}${font Courier:style=Bold:size=22}${alignc}${time %A, %d %B %Y}

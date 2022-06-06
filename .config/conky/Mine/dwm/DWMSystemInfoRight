@@ -1,0 +1,69 @@
+conky.config = {
+alignment = 'top_right',
+background = true,
+cpu_avg_samples = 2,
+draw_shades = false,
+double_buffer = true,
+font = 'Monospace:size=8',
+gap_x = 10,
+gap_y = 50,
+minimum_width = 280,
+maximum_width = 2000,
+no_buffers = true,
+own_window = true,
+own_window_class = 'Conky',
+own_window_type = 'override',
+own_window_transparent = true,
+own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+own_window_argb_visual = false,
+update_interval = 2.0,
+use_xft = true,
+draw_graph_borders = false,
+color1 = '#0099CC',
+color2 = '#c83232',
+color3 = '#c89632',
+color4 = '#fac864'
+}
+
+conky.text = [[
+${color3}${voffset 3}${hr 1}
+${goto -25}${font GOOD_TIMES_REGULAR:size=9:style=Bold}SYSTEM
+${color2}${voffset 10}${font Courier_10_Pitch:style=bold:size=8}${alignr}${execi 1000 cat /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq | cut -c 1-26} ${freq_g cpu0}Ghz
+
+${voffset 3}${alignr}${font Courier_10_Pitch:style=bold:size=8}${execi 3600 cat /etc/mx-version}
+
+${voffset 4}${font Courier_10_Pitch:style=bold:size=8}${goto 100}Debian${font Courier_10_Pitch:style=bold:size=8}${goto 150}${execi 3600 cat /etc/debian_version}${font Courier_10_Pitch:style=bold:size=8}${alignr}${kernel}
+${color3}${voffset 14}${hr 1}
+${goto -25}${font GOOD_TIMES_REGULAR:size=9:style=Bold}CORES
+${color2}${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}CPU1:$alignr${cpu cpu1}%
+${color3}${voffset 3}${alignr}${cpubar cpu1 4,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}${color2}CPU2:$alignr${cpu cpu2}%
+${color3}${voffset 3}${alignr}${cpubar cpu2 4,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}${color2}CPU3:$alignr${cpu cpu3}%
+${color3}${voffset 3}${alignr}${cpubar cpu3 4,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}${color2}CPU4:$alignr${cpu cpu4}%
+${color3}${voffset 3}${alignr}${cpubar cpu4 4,237}
+${color2}${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}Battery : ${battery_percent BAT0}% ${alignr}Uptime : ${uptime}
+${color3}${voffset 3}${alignr}${if_match "x${battery_short BAT0}" == "x"}${else}${if_match "${battery_short BAT0}" == "N"}${else}${battery_bar 4,237 BAT0}${endif} 
+${color3}${voffset 24}${hr 1}
+${goto -25}${font GOOD_TIMES_REGULAR:size=9:style=Bold}MEMORY
+${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}${color2}RAM$alignr$memperc%
+${color3}${voffset 3}${alignr}${membar 4,237}
+${voffset 8}${goto 47}${font Courier_10_Pitch:style=bold:size=8}${color2}SWAP$alignr$swapperc%
+${color3}${voffset 3}${alignr}${swapbar 4,237}
+${color3}${voffset 24}${hr 1}
+${goto -25}${font GOOD_TIMES_REGULAR:size=9:style=Bold}DISKS
+${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}${color2}ROOT ${voffset 3}$alignr${color2}${fs_used /}+$alignr${fs_free /}
+${color3}${voffset 3}${alignr}${fs_bar 5,237 /}
+${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}${color2}HOME${voffset 3}${alignr}${color2}${fs_used /home}+$alignr${fs_free /home}
+${color3}${voffset 3}${alignr}${fs_bar 5,237 /home}
+${color3}${voffset 24}${hr 1}
+#${goto -25}${font GOOD_TIMES_REGULAR:size=9:style=Bold}WIRELESS
+#${voffset 20}${goto 47}${font Courier_10_Pitch:style=bold:size=8}D/L SPEED    ${font Courier_10_Pitch:style=bold:size=8}$alignr${downspeed wlan0}
+#${voffset 3}${alignr}${downspeedgraph wlan0 40,237}
+#
+#${voffset -4}${goto 47}${font Courier_10_Pitch:style=bold:size=8}U/L SPEED    ${font Courier_10_Pitch:style=bold:size=8}$alignr${upspeed wlan0}
+#${voffset 3}${alignr}${upspeedgraph wlan0 40,237}
+]]
+
+-- vim:ft=lua

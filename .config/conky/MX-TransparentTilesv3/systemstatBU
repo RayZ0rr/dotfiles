@@ -1,0 +1,56 @@
+# conky package by qaisar nawaz
+# Conky settings #
+background no
+update_interval 6
+double_buffer yes
+no_buffers yes
+
+# Window specifications #
+own_window yes
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_title 
+own_window_colour 4E9A06
+own_window_argb_visual no
+own_window_argb_value 255
+
+minimum_size 266 74
+
+# Alignment #
+alignment bottom_right
+gap_x 110
+gap_y 100
+
+border_inner_margin 8
+border_outer_margin 8
+
+# Graphics settings #
+draw_shades yes
+draw_outline yes
+draw_borders yes
+draw_graph_borders yes
+
+# Text settings #
+use_xft yes
+xftalpha 0
+xftfont Open Sans Light:size=9
+
+# Color scheme #
+default_color ffffff
+
+color1 ffffff
+color2 444444
+color3 669900
+color4 333333
+color5 0099CC
+
+
+own_window_transparent yes
+TEXT
+${voffset 00}${font :style=Bold:pixelsize=25}HARD DRIVEs$font${voffset 30}
+$color${font :pixelsize=15}
+HOME ${alignr}${color5}${fs_bar 16,200 /home}
+${voffset -18}${offset 5}${color}${alignr 5}$color${fs_free /home}$color${font :pixelsize=15}
+SYSTEM ${alignr}${color5}${fs_bar 16,200 /}
+${voffset -18}${offset 5}${color}${alignr 5}$color${fs_free /} free$color$font
+${voffset -58}

@@ -1,0 +1,1 @@
+(split horizontal:0.48:1 (split vertical:0.51:1 (clients max:0 0x4800002 0x4c00002) (clients max:0 0x1200002 0x5e00002)) (clients vertical:0 0x1600002))

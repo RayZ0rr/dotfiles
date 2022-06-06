@@ -1,0 +1,440 @@
+#!/usr/bin/env bash
+
+# fontDir="${HOME}/tmp/fontscheck"
+fontDir="${HOME}/.local/share/fonts"
+fontsRepo="https://github.com/ryanoasis/nerd-fonts"
+fontsRepoRaw="${fontsRepo}/raw/master/patched-fonts"
+# https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete%20Mono.ttf
+fontNames=( "JetBrainsMono" "Hack" "FiraCode" "UbuntuMono" "Iosevka" "SourceCodePro" )
+fontTypes=( "Regular" "Bold" "Italic" "BoldItalic" )
+
+fonts_JetBrainsMono() {
+  name1="${1:-JetBrainsMono}"
+  name2="${2:-JetBrains%20Mono}"
+  fontName1="${3:-JetBrains Mono}"
+  local ligatures="${4:-Ligatures/}"
+  for type in "${fontTypes[@]}"
+  do
+    if [[ "${type}" == "BoldItalic" ]] ; then
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete.ttf"
+      fi
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete Mono.ttf"
+      fi
+    elif wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+    else
+      printf "\n${name1} of type ${type} not found"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete.ttf"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete%20Mono.ttf"
+    fi
+  done
+}
+
+fonts_FiraCode() {
+  name1="${1:-FiraCode}"
+  name2="${2:-Fira%20Code}"
+  fontName1="${3:-Fira Code}"
+  for type in "${fontTypes[@]}"
+  do
+    if [[ "${type}" == "BoldItalic" ]] ; then
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete.ttf"
+      fi
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete Mono.ttf"
+      fi
+    elif wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+    else
+      printf "\n${name1} of type ${type} not found"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}Nerd%20Font%20Complete.ttf"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}Nerd%20Font%20Complete%20Mono.ttf"
+    fi
+  done
+}
+
+fonts_Hack() {
+  name1="${1:-Hack}"
+  name2="${2:-Hack}"
+  fontName1="${3:-Hack}"
+  for type in "${fontTypes[@]}"
+  do
+    if [[ "${type}" == "BoldItalic" ]] ; then
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete.ttf"
+      fi
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete Mono.ttf"
+      fi
+    elif wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+    else
+      printf "\n${name1} of type ${type} not found"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf"
+    fi
+  done
+}
+
+fonts_SourceCodePro() {
+  name1="${1:-SourceCodePro}"
+  name2="${2:-Sauce%20Code%20Pro}"
+  fontName1="${3:-Sauce Code Pro}"
+  for type in "${fontTypes[@]}"
+  do
+    if [[ "${type}" == "BoldItalic" ]] ; then
+      type="Bold-Italic"
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete.ttf"
+      fi
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete Mono.ttf"
+      fi
+    elif [[ "${type}" == "Regular" ]] ; then
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+      fi
+    elif wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+    else
+      printf "\n${name1} of type ${type} not found"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf"
+    fi
+  done
+}
+
+fonts_UbuntuMono() {
+  name1="${1:-UbuntuMono}"
+  name2="${2:-Ubuntu%20Mono}"
+  fontName1="${3:-Ubuntu Mono}"
+  for type in "${fontTypes[@]}"
+  do
+    if [[ "${type}" == "BoldItalic" ]] ; then
+      type="Bold-Italic"
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete.ttf"
+      fi
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete Mono.ttf"
+      fi
+    elif [[ "${type}" == "Regular" ]] ; then
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+      fi
+    elif [[ "${type}" == "Italic" ]] ; then
+      type="Regular-Italic"
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Italic%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Italic%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} Italic Nerd Font Complete.ttf"
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Italic%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} Italic Nerd Font Complete Mono.ttf"
+      fi
+    elif wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+    else
+      printf "\n${name1} of type ${type} not found"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf"
+    fi
+  done
+}
+
+fonts_Iosevka() {
+  name1="${1:-Iosevka}"
+  name2="${2:-Iosevka}"
+  fontName1="${3:-Iosevka}"
+  for type in "${fontTypes[@]}"
+  do
+    if [[ "${type}" == "BoldItalic" ]] ; then
+      type="Bold-Italic"
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete.ttf"
+      fi
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Bold%20Italic%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} Bold Italic Nerd Font Complete Mono.ttf"
+      fi
+    elif [[ "${type}" == "Regular" ]] ; then
+      if wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+        curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+      fi
+    elif wget --spider ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf 2>/dev/null ; then
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete.ttf"
+      curl -L ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf --create-dirs -o "${name1}/${fontName1} ${type} Nerd Font Complete Mono.ttf"
+    else
+      printf "\n${name1} of type ${type} not found"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete.ttf"
+      echo -e "\n URL : ${fontsRepoRaw}/${name1}/${ligatures}${type}/complete/${name2}%20${type}%20Nerd%20Font%20Complete%20Mono.ttf"
+    fi
+  done
+}
+
+fonts_list() {
+  for i in "${fontNames[@]}"
+  do
+    if [[ "$i" == "SourceCodePro" ]] ; then
+      i="SauceCodePro"
+    fi
+    output=$(fc-list : family | grep "$i")
+    if [[ -z "$output" ]] ; then
+      printf "\n:----------------------------------------------"
+      if [[ "$i" == "SauceCodePro" ]] ; then
+        i="SourceCodePro/SauceCodePro"
+      fi
+      printf "\nXX $i font not installed XX\n"
+      printf ":----------------------------------------------\n"
+    else
+      if [[ "$i" == "SauceCodePro" ]] ; then
+        i="SourceCodePro/SauceCodePro"
+      fi
+      printf "\nFont $i Types\n"
+      printf ":----------------------------------------------\n"
+      if [[ "$i" == "SourceCodePro/SauceCodePro" ]] ; then
+        i="SauceCodePro"
+      fi
+      fc-list : family | grep "$i"
+    fi
+  done
+}
+
+fonts_check() {
+  outputFC=$(fc-list : family | grep Nerd | grep "$1")
+  outputLocal=$(find ${fontDir}  | grep Nerd | grep "$1")
+  if ! [[ -z "${outputFC}" ]] ; then
+    echo "fc"
+  elif ! [[ -z "${outputLocal}" ]] ; then
+    echo "local"
+  else
+    echo "nothing"
+  fi
+}
+
+fonts_check_local() {
+  outputLocal=$(find ${fontDir}  | grep Nerd | grep "$1")
+  if ! [[ -z "${outputLocal}" ]] ; then
+    echo "local"
+  else
+    echo "nothing"
+  fi
+}
+
+fonts_get() {
+  current_path="$PWD"
+  ! [[ -d "${fontDir}" ]] && mkdir -p "${fontDir}"
+  cd "${fontDir}"
+  if ! [[ -z "$@" ]] ; then
+    fontNames=( "$@" )
+  fi
+  for i in "${fontNames[@]}"
+  do
+    if [[ "$i" == "SourceCodePro" ]] ; then
+      i="SauceCodePro"
+    fi
+    check=$(fonts_check "$i")
+    if [[ "$check" == "fc" ]] ; then
+      printf "\n:----------------------------------------------"
+      printf "\n$i font already installed\n"
+      printf "\nUse 'fc-list : family | grep $i' to check\n"
+      printf ":----------------------------------------------\n"
+    elif [[ "$check" == "local" ]] ; then
+      printf "\n:----------------------------------------------"
+      printf "\n$i font already present in ${fontDir}\n"
+      printf "\nUse 'fc-cache -fv' to load\n"
+      printf ":----------------------------------------------\n"
+    elif [[ "$check" == "nothing" ]] ; then
+      printf "\n:----------------------------------------------"
+      printf "\nDownloading $i font \n"
+      printf ":----------------------------------------------\n"
+      if [[ "$i" == "JetBrainsMono" ]] ; then
+        fonts_JetBrainsMono
+      elif [[ "$i" == "FiraCode" ]] ; then
+        fonts_FiraCode
+      elif [[ "$i" == "Hack" ]] ; then
+        fonts_Hack
+      elif [[ "$i" == "SourceCodePro" ]] ; then
+        fonts_SourceCodePro
+      elif [[ "$i" == "UbuntuMono" ]] ; then
+        fonts_UbuntuMono
+      elif [[ "$i" == "Iosevka" ]] ; then
+        fonts_Iosevka
+      else
+        printf "\nCode for font $i not setup\n"
+      fi
+    else
+      exit 1
+    fi
+  done
+  printf "\n Refreshing fonts\n"
+  printf ":----------------------------------------------\n"
+  fc-cache -fv
+  cd "$current_path"
+  exit 0
+}
+
+fonts_update() {
+  current_path="$PWD"
+  ! [[ -d "${fontDir}" ]] && mkdir -p "${fontDir}"
+  cd "${fontDir}"
+  if ! [[ -z "$@" ]] ; then
+    fontNames=( "$@" )
+  fi
+  for i in "${fontNames[@]}"
+  do
+    check=$(fonts_check "$i")
+    if [[ "$check" == "fc" ]] ; then
+      printf "\n:----------------------------------------------"
+      printf "\n$i font already installed\n"
+      printf ":----------------------------------------------\n"
+      continue
+    else
+      printf "\n:----------------------------------------------"
+      printf "\n$i font not installed\n"
+      printf ":----------------------------------------------\n"
+    fi
+    check=$(fonts_check_local "$i")
+    printf "\n:----------------------------------------------"
+    printf "\nChecking if font is in ${fontDir}\n"
+    printf "\n:----------------------------------------------"
+    if [[ "$check" == "local" ]] ; then
+      printf "\n:----------------------------------------------"
+      printf "\n$i font already present in ${fontDir}\n"
+      printf "\n:----------------------------------------------"
+      printf "\nUpdating $i font already present in ${fontDir}\n"
+      printf "\n:----------------------------------------------"
+      ! [[ -d "${fontDir}/BackUp" ]] && mkdir -p "${fontDir}/BackUp"
+      printf "\n:----------------------------------------------"
+      printf "\nBacking up already existing $i font files in ${fontDir}\n"
+      printf "\n:----------------------------------------------"
+      if [[ -d "${fontDir}/BackUp/1" && -n "$(ls -A ${fontDir}/BackUp/1)" ]]; then
+        rm -r "${fontDir}/BackUp/2" &> /dev/null
+        mv "${fontDir}/BackUp/1" "${fontDir}/BackUp/2"
+        rm -r "${fontDir}/BackUp/1" &> /dev/null
+        ! [[ -d "${fontDir}/BackUp/1" ]] && mkdir -p "${fontDir}/BackUp/1"
+      fi
+      # [[ -d "${fontDir}/BackUp/1" ]] && mkdir -p "${fontDir}/BackUp"
+      if [[ "$i" == "JetBrainsMono" ]] ; then
+        mv "${fontDir}/$i" ${fontDir}/BackUp/1/
+        rm -r "${fontDir}/$i"
+        fonts_JetBrainsMono
+      elif [[ "$i" == "FiraCode" ]] ; then
+        mv "${fontDir}/$i" ${fontDir}/BackUp/1/
+        rm -r "${fontDir}/$i"
+        fonts_FiraCode
+      elif [[ "$i" == "Hack" ]] ; then
+        mv "${fontDir}/$i" ${fontDir}/BackUp/1/
+        rm -r "${fontDir}/$i"
+        fonts_Hack
+      elif [[ "$i" == "SourceCodePro" ]] ; then
+        mv "${fontDir}/$i" ${fontDir}/BackUp/1/
+        rm -r "${fontDir}/$i"
+        fonts_SourceCodePro
+      elif [[ "$i" == "UbuntuMono" ]] ; then
+        mv "${fontDir}/$i" ${fontDir}/BackUp/1/
+        rm -r "${fontDir}/$i"
+        fonts_UbuntuMono
+      elif [[ "$i" == "Iosevka" ]] ; then
+        mv "${fontDir}/$i" ${fontDir}/BackUp/1/
+        rm -r "${fontDir}/$i"
+        fonts_Iosevka
+      else
+        printf "\nCode for font $i not setup\n"
+      fi
+      printf ":----------------------------------------------\n"
+    else
+      printf "\n$i font not in ${fontDir}\n"
+      printf "\nUse 'myfonts get' or another method to obtain fonts\n"
+    fi
+  done
+  cd "$current_path"
+  exit 0
+}
+
+fonts_update_only() {
+  current_path="$PWD"
+  ! [[ -d "${fontDir}" ]] && mkdir -p "${fontDir}"
+  cd "${fontDir}"
+  if ! [[ -z "$@" ]] ; then
+    fontNames=( "$@" )
+  fi
+  for i in "${fontNames[@]}"
+  do
+    check=$(fonts_check "$i")
+    if [[ "$check" == "fc" ]] ; then
+      printf "\n:----------------------------------------------"
+      printf "\n$i font already installed\n"
+      printf ":----------------------------------------------\n"
+      continue
+    else
+      printf "\n:----------------------------------------------"
+      printf "\n$i font not installed\n"
+      printf ":----------------------------------------------\n"
+    fi
+    check=$(fonts_check_local "$i")
+    printf "\n:----------------------------------------------"
+    printf "\nChecking if font is in ${fontDir}\n"
+    printf "\n:----------------------------------------------"
+    if [[ "$check" == "local" ]] ; then
+      printf "\n:----------------------------------------------"
+      printf "\n$i font already present in ${fontDir}\n"
+      printf "\n:----------------------------------------------"
+      printf "\nUpdating $i font already present in ${fontDir}\n"
+      printf "\n:----------------------------------------------"
+      if [[ "$i" == "JetBrainsMono" ]] ; then
+        rm -r "${fontDir}/$i"
+        fonts_JetBrainsMono
+      elif [[ "$i" == "FiraCode" ]] ; then
+        rm -r "${fontDir}/$i"
+        fonts_FiraCode
+      elif [[ "$i" == "Hack" ]] ; then
+        rm -r "${fontDir}/$i"
+        fonts_Hack
+      elif [[ "$i" == "SourceCodePro" ]] ; then
+        rm -r "${fontDir}/$i"
+        fonts_SourceCodePro
+      elif [[ "$i" == "UbuntuMono" ]] ; then
+        rm -r "${fontDir}/$i"
+        fonts_UbuntuMono
+      elif [[ "$i" == "Iosevka" ]] ; then
+        rm -r "${fontDir}/$i"
+        fonts_Iosevka
+      else
+        printf "\nCode for font $i not setup\n"
+      fi
+      printf ":----------------------------------------------\n"
+    else
+      printf "\n$i font not in ${fontDir}\n"
+      printf "\nUse 'myfonts get' or another method to obtain fonts\n"
+    fi
+  done
+  cd "$current_path"
+  exit 0
+}
+
+case "${1}" in
+  "ls")
+    fonts_list
+    exit 0 ;;
+  "get")
+    fonts_get ${@: 2}
+    exit 0 ;;
+  "up")
+    fonts_update_only ${@: 2}
+    exit 0 ;;
+  "upB")
+    fonts_update ${@: 2}
+    exit 0 ;;
+  "ld")
+    fc-cache -fv
+    exit 0 ;;
+  *)
+    printf "\nRun 'myfonts [ls|get|up|upB|ld]' to [list|download|update already exisiting|update and backup already exisiting|load] nerd fonts from ${fontDir}\n"
+    exit 1 ;;
+esac

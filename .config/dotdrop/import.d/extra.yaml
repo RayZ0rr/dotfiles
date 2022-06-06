@@ -1,0 +1,15 @@
+trans_read:
+  uncompress: "mkdir -p {1} && tar -xzf {0} -C {1}"
+trans_write:
+  compress: "tar -czf {1} -C {0} ."
+config:
+dotfiles:
+  fake:
+    src:
+    dst:
+    actions:
+      - always_action
+    upignore:
+      - '*'
+profiles:
+

@@ -1,0 +1,155 @@
+// vim:ts=4:sw=4:et
+{
+    // splitv split container with 2 children
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "marks": [],
+    "percent": 1,
+    "type": "con",
+    "nodes": [
+        {
+            // splith split container with 3 children
+            "border": "pixel",
+            "floating": "auto_off",
+            "layout": "splith",
+            "marks": [],
+            "percent": 0.5,
+            "type": "con",
+            "nodes": [
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 484,
+                       "width": 804,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "marks": [],
+                    "name": "topleft",
+                    "percent": 0.183333333333333,
+                    "swallows": [
+                       {
+                       "instance": "^stNothing1$"
+                       }
+                    ],
+                    "type": "con"
+                },
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 484,
+                       "width": 804,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "marks": [],
+                    "name": "topcenter",
+                    "percent": 0.633333333333334,
+                    "swallows": [
+                       {
+                       "instance": "^stHtop$"
+                       }
+                    ],
+                    "type": "con"
+                },
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 484,
+                       "width": 804,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "marks": [],
+                    "name": "topright",
+                    "percent": 0.183333333333333,
+                    "swallows": [
+                       {
+                       "instance": "^stNothing2$"
+                       }
+                    ],
+                    "type": "con"
+                }
+            ]
+        },
+        {
+            // splith split container with 3 children
+            "border": "pixel",
+            "floating": "auto_off",
+            "layout": "splith",
+            "marks": [],
+            "percent": 0.5,
+            "type": "con",
+            "nodes": [
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 484,
+                       "width": 804,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "marks": [],
+                    "name": "botttomleft",
+                    "percent": 0.233333333333333,
+                    "swallows": [
+                       {
+                       "instance": "^stPipes$"
+                       }
+                    ],
+                    "type": "con"
+                },
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 484,
+                       "width": 804,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "marks": [],
+                    "name": "bottomcenter",
+                    "percent": 0.533333333333333,
+                    "swallows": [
+                       {
+                       "instance": "^stAqua$"
+                       }
+                    ],
+                    "type": "con"
+                },
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 484,
+                       "width": 804,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "marks": [],
+                    "name": "bottomright",
+                    "percent": 0.233333333333333,
+                    "swallows": [
+                       {
+                       "instance": "^stCmatrix$"
+                       }
+                    ],
+                    "type": "con"
+                }
+            ]
+        }
+    ]
+}
+

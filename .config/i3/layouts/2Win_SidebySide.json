@@ -1,0 +1,49 @@
+// vim:ts=4:sw=4:et
+{
+    "border": "pixel",
+    "current_border_width": 5,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 600,
+       "width": 800,
+       "x": 0,
+       "y": 0
+    },
+    "marks": [],
+    "name": "Al2",
+    "percent": 0.5,
+    "swallows": [
+       {
+       // "class": "^Alacritty$",
+       "instance": "^Al1$"
+       // "machine": "^raz0rr\\-inspiron3542$",
+       // "title": "^Alacritty$"
+       }
+    ],
+    "type": "con"
+}
+
+{
+    "border": "pixel",
+    "current_border_width": 5,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 600,
+       "width": 800,
+       "x": 0,
+       "y": 0
+    },
+    "marks": [],
+    "name": "Al2",
+    "percent": 0.5,
+    "swallows": [
+       {
+       // "class": "^Alacritty$",
+       "instance": "^Al2$"
+       // "machine": "^raz0rr\\-inspiron3542$",
+       // "title": "^Alacritty$"
+       }
+    ],
+    "type": "con"
+}
+

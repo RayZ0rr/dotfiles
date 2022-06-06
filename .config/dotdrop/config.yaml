@@ -1,0 +1,67 @@
+dynvariables:
+  USER_CONFIG: echo .config/dotdrop
+  USER_CONFIG_FULL: echo $HOME/.config/dotdrop
+  DOTS_CONFIG: echo $DOTFDIR/.config/dotdrop
+  DOTS_CONFIG_FULL: echo $HOME/$DOTFDIR/.config/dotdrop
+  IMPORT_PATH: '{{@@ DOTS_CONFIG_FULL @@}}'
+config:
+  dotpath: dotfiles
+  workdir: ~/.config/dotdrop/symlinks_src
+  backup: true
+  banner: true
+  create: true
+  keepdot: true
+  clear_workdir: false
+  link_dotfile_default: link
+  link_on_import: link
+  ignore_missing_in_dotdrop: true
+  showdiff: true
+  diff_command: delta {0} {1}
+  key_prefix: true
+  key_separator: _
+  longkey: true
+  default_actions:
+  - loginstall "~/.config/dotdrop/.dotdrop-installation.log"
+  import_configs:
+  - '{{@@ IMPORT_PATH @@}}/import.d/home.yaml:optional'
+  - '{{@@ IMPORT_PATH @@}}/import.d/root.yaml:optional'
+  - '{{@@ IMPORT_PATH @@}}/import.d/config.yaml:optional'
+  - '{{@@ IMPORT_PATH @@}}/import.d/local.yaml:optional'
+  - '{{@@ IMPORT_PATH @@}}/import.d/misc.yaml:optional'
+  - '{{@@ IMPORT_PATH @@}}/import.d/extra.yaml:optional'
+  import_actions:
+  - '{{@@ IMPORT_PATH @@}}/actions.yaml:optional'
+  import_variables:
+  - '{{@@ IMPORT_PATH @@}}/variables.yaml:optional'
+dotfiles:
+profiles:
+  Cfg:
+    dotfiles:
+    - fake
+    import:
+    - '{{@@ IMPORT_PATH @@}}/dots.d/config.yaml:optional'
+  Local:
+    dotfiles:
+    - fake
+    import:
+    - '{{@@ IMPORT_PATH @@}}/dots.d/local.yaml:optional'
+  Home:
+    dotfiles:
+    - fake
+    import:
+    - '{{@@ IMPORT_PATH @@}}/dots.d/home.yaml:optional'
+  X11:
+    dotfiles:
+    - d_root_x11
+    import:
+    - '{{@@ IMPORT_PATH @@}}/dots.d/root.yaml:optional'
+  Pac:
+    dotfiles:
+    - d_root_pacman
+  Arch:
+    dotfiles:
+    - fake
+    include:
+    - Cfg
+    - Local
+    - Home

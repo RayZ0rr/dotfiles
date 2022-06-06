@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+[ -n "$NNNLVL" ] && PS1="N$NNNLVL $PS1"
+#export NNN_OPTS="P p"
+export NNN_OPTS="HdRP"
+#OneDark Colors
+BLK="04" CHR="04" DIR="04" EXE="00" REG="00" HARDLINK="00" SYMLINK="06" MISSING="00" ORPHAN="01" FIFO="0F" SOCK="0F" OTHER="02"
+#export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+export NNN_SEL=/tmp/.sel
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_OPENER=/home/ACM-Lab/.config/nnn/plugins/nuke
+export NNN_BMS='d:~/Documents;D:~/Downloads/'
+export NNN_SSHFS="sshfs -o follow_symlinks"  # make sshfs follow symlinks on the remote
+export NNN_COLORS="2136"   # use a different color for each context
+export NNN_TRASH=1         # trash (needs trash-cli) instead of delete
+#NNN_FIFO='/tmp/nnn.fifo'
+
+NNN_PLUG_PERSONAL='c:fzcd;f:fzopen'
+NNN_PLUG_WORK='j:work/prettyjson;d:work/foobar'
+NNN_PLUG_INLINE='e:_go run $nnn'
+NNN_PLUG_DEFAULT='1:bookmarks;2:ipinfo;p:preview-tui-ext;o:fzz;b:nbak'
+NNN_PLUG="$NNN_PLUG_PERSONAL;$NNN_PLUG_WORK;$NNN_PLUG_DEFAULT;$NNN_PLUG_INLINE"
+export NNN_PLUG

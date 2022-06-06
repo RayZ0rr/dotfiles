@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Dotbare config, manage dotfiles -----------------------------------
+source ~/.dotbare/dotbare.plugin.bash
+
+#Forgit
+source ~/.forgit/forgit.plugin.sh
+
+export DOTBARE_DIR="$HOME/gFolder/RaZ0rr/dotfiles/bare"
+export DOTBARE_TREE="$HOME"
+# Default value
+export DOTBARE_BACKUP="${XDG_DATA_HOME:-$HOME/.local/share}/dotbare"
+# Default value
+#export EDITOR=nv
+# Default value
+export DOTBARE_KEY="
+  --bind=alt-a:toggle-all       # toggle all selection
+  --bind=alt-j:jump             # label jump mode, sort of like vim-easymotion
+  --bind=alt-0:top              # set cursor back to top
+  --bind=alt-s:toggle-sort      # toggle sorting
+  --bind=alt-t:toggle-preview   # toggle preview
+"

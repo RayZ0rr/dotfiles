@@ -1,0 +1,133 @@
+config:
+  import_variables:
+  - ../variables.yaml:optional
+dotfiles:
+  d_config_alacritty:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/alacritty"
+    dst: ~/.config/alacritty
+    link: "{{@@ link_multi @@}}"
+  d_config_bash:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/bash"
+    dst: ~/.config/bash
+    link: "{{@@ link_multi @@}}"
+  d_config_bat:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/bat"
+    dst: ~/.config/bat
+    link: "{{@@ link_multi @@}}"
+  d_config_bottom:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/bottom"
+    dst: ~/.config/bottom
+    link: "{{@@ link_multi @@}}"
+  d_config_conky:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/conky"
+    dst: ~/.config/conky
+    link: "{{@@ link_multi @@}}"
+  d_config_dotdrop:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/dotdrop"
+    dst: ~/.config/dotdrop
+    link: "{{@@ link_multi @@}}"
+  d_config_dunst:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/dunst"
+    dst: ~/.config/dunst
+    link: "{{@@ link_multi @@}}"
+  d_config_flameshot:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/flameshot"
+    dst: ~/.config/flameshot
+    link: "{{@@ link_multi @@}}"
+  d_config_fzfnova:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/fzfnova"
+    dst: ~/.config/fzfnova
+    link: "{{@@ link_multi @@}}"
+  d_config_git:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/git"
+    dst: ~/.config/git
+    link: "{{@@ link_multi @@}}"
+  d_config_herbstluftwm:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/herbstluftwm"
+    dst: ~/.config/herbstluftwm
+    link: "{{@@ link_multi @@}}"
+  d_config_i3:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/i3"
+    dst: ~/.config/i3
+    link: "{{@@ link_multi @@}}"
+  d_config_jgmenu:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/jgmenu"
+    dst: ~/.config/jgmenu
+    link: "{{@@ link_multi @@}}"
+  d_config_mpd:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/mpd"
+    dst: ~/.config/mpd
+    link: "{{@@ link_multi @@}}"
+  d_config_mycronjobs:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/myCronJobs"
+    dst: ~/.config/myCronJobs
+    link: "{{@@ link_multi @@}}"
+  d_config_neofetch:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/neofetch"
+    dst: ~/.config/neofetch
+    link: "{{@@ link_multi @@}}"
+  d_config_nnn:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/nnn"
+    dst: ~/.config/nnn
+    link: "{{@@ link_multi @@}}"
+  d_config_picom:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/picom"
+    dst: ~/.config/picom
+    link: "{{@@ link_multi @@}}"
+  d_config_polybar:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/polybar"
+    dst: ~/.config/polybar
+    link: "{{@@ link_multi @@}}"
+  d_config_rofi:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/rofi"
+    dst: ~/.config/rofi
+    link: "{{@@ link_multi @@}}"
+  f_config_stalonetrayrc:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/stalonetrayrc"
+    dst: ~/.config/stalonetrayrc
+    link: "{{@@ link_default @@}}"
+  d_config_starshipprompt:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/starshipPrompt"
+    dst: ~/.config/starshipPrompt
+    link: "{{@@ link_multi @@}}"
+  d_config_suckless:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/Suckless"
+    dst: ~/.config/Suckless
+    link: "{{@@ link_multi @@}}"
+  d_config_sway-launcher-desktop:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/sway-launcher-desktop"
+    dst: ~/.config/sway-launcher-desktop
+    link: "{{@@ link_multi @@}}"
+  d_config_sxhkd:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/sxhkd"
+    dst: ~/.config/sxhkd
+    link: "{{@@ link_multi @@}}"
+  d_config_tint2:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/tint2"
+    dst: ~/.config/tint2
+    link: "{{@@ link_multi @@}}"
+  d_config_tmux:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/tmux"
+    dst: ~/.config/tmux
+    link: "{{@@ link_multi @@}}"
+  d_config_vifm:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/vifm"
+    dst: ~/.config/vifm
+    link: "{{@@ link_multi @@}}"
+  d_config_wezterm:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/wezterm"
+    dst: ~/.config/wezterm
+    link: "{{@@ link_multi @@}}"
+  d_config_xfce4:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/xfce4"
+    dst: ~/.config/xfce4
+    link: "{{@@ link_multi @@}}"
+  d_config_zathura:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/zathura"
+    dst: ~/.config/zathura
+    link: "{{@@ link_multi @@}}"
+  d_config_zsh:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/zsh"
+    dst: ~/.config/zsh
+    link: "{{@@ link_multi @@}}"
+profiles:

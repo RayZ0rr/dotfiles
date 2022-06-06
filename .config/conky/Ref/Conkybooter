@@ -1,0 +1,5 @@
+#!/bin/sh
+sleep 20
+conky -q -c /home/noyfb/.config/conky/conky1/conkyrc1 &
+conky -q -c /home/noyfb/.config/conky/conky2/conkyrc2 & 
+exit

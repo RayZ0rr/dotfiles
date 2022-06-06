@@ -1,0 +1,40 @@
+config:
+  import_variables:
+  - ../variables.yaml:optional
+dotfiles:
+  d_local_bin:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/bin"
+    dst: ~/.local/bin
+    link: "{{@@ link_multi @@}}"
+    # link: link_children
+  d_local_backup:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/src/BackUp"
+    dst: ~/.local/src/BackUp
+    link: nolink
+  f_local_battery_charge_notify.sh:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/src/battery_charge_notify.sh"
+    dst: ~/.local/src/battery_charge_notify.sh
+    link: "{{@@ link_default @@}}"
+    chmod: '755'
+  f_local_battery_notifications.sh:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/src/battery_notifications.sh"
+    dst: ~/.local/src/battery_notifications.sh
+    link: "{{@@ link_default @@}}"
+    chmod: '755'
+  f_local_lock.png:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/src/lock.png"
+    dst: ~/.local/src/lock.png
+    link: nolink
+  f_local_wall.png:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/src/wall.png"
+    dst: ~/.local/src/wall.png
+    link: nolink
+  d_local_src:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/src"
+    dst: ~/.local/src
+    link: nolink
+  d_local_rofi:
+    src: "{{@@ MY_DOTS_FULL @@}}/.local/share/rofi"
+    dst: ~/.local/share/rofi
+    link: "{{@@ link_multi @@}}"
+profiles:

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# youtube viewer not using youtube API
+# https://github.com/trizen/pipe-viewer
+pipe-viewer

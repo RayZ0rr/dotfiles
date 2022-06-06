@@ -1,0 +1,4 @@
+SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[5-8]", RUN+="/usr/bin/systemctl hibernate"
+SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[14-15]", RUN+="/usr/bin/touch /home/razorr/.local/src/bat_test"
+SUBSYSTEM=="power_supply", ATTR{status}=="Charging", ATTR{capacity}=="[14-15]", RUN+="/usr/bin/touch /home/razorr/.local/src/bat_test"
+SUBSYSTEM=="power_supply", ATTR{status}=="Charging", ATTR{capacity}=="[31-40]", RUN+="/usr/bin/touch /home/razorr/.local/src/bat_test"
