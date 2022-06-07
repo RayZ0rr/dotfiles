@@ -17,6 +17,7 @@ fi
 if command -v dotdrop &> /dev/null ; then
   distroName=$(cat /etc/os-release | grep  ^NAME | awk 'BEGIN{FS="="}{print $2}' | awk '{print $1}' | sed 's/"//')
   alias dots="dotdrop --cfg $HOME/${GITFDIR}/config.yaml --profile $distroName"
+  alias dotsc="dotdrop --cfg $HOME/${GITFDIR}/config.yaml"
   alias dotsp="dotdrop --cfg $HOME/${GITFDIR}/config.yaml --profile"
 fi
 
