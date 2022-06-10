@@ -1,0 +1,26 @@
+config:
+  import_variables:
+  - ../variables.yaml:optional
+dotfiles:
+  d_nvim_full:
+    src: "{{@@ MY_NVIM_FULL @@}}/nvim"
+    dst: ~/.config/nvim
+    link: "{{@@ link_multi @@}}"
+  f_nvim_init:
+    src: "{{@@ MY_NVIM_FULL @@}}/nvim/init.lua"
+    dst: ~/.config/nvim/init.lua
+    link: "{{@@ link_single @@}}"
+  d_nvim_lua:
+    src: "{{@@ MY_NVIM_FULL @@}}/nvim/lua"
+    dst: ~/.config/nvim/lua
+    link: "{{@@ link_multi @@}}"
+  d_nvim_vimscript:
+    src: "{{@@ MY_NVIM_FULL @@}}/nvim/vimscript"
+    dst: ~/.config/nvim/vimscript
+    link: "{{@@ link_multi @@}}"
+  d_nvim_ftplugin:
+    src: "{{@@ MY_NVIM_FULL @@}}/nvim/ftplugin"
+    dst: ~/.config/nvim/ftplugin
+    link: "{{@@ link_multi @@}}"
+profiles:
+

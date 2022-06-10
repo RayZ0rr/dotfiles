@@ -8,6 +8,8 @@ dynvariables:
   DOTS_CONFIG:      "echo $DOTFDIR/.config/dotdrop"
   DOTS_CONFIG_FULL: "echo $HOME/$DOTFDIR/.config/dotdrop"
   IMPORT_PATH:      "{{@@ DOTS_CONFIG_FULL @@}}"
+  MY_NVIM:          "fd myNeovim"
+  MY_NVIM_FULL:     "echo $HOME/$(fd myNeovim)"
 variables:
   link_single:  "link"
   link_multi:   "link_children"

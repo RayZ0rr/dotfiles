@@ -23,6 +23,7 @@ config:
   default_actions:
   - loginstall "~/.config/dotdrop/.dotdrop-installation.log"
   import_configs:
+  - '{{@@ IMPORT_PATH @@}}/import.d/nvim.yaml:optional'
   - '{{@@ IMPORT_PATH @@}}/import.d/home.yaml:optional'
   - '{{@@ IMPORT_PATH @@}}/import.d/root.yaml:optional'
   - '{{@@ IMPORT_PATH @@}}/import.d/config.yaml:optional'
@@ -35,6 +36,11 @@ config:
   - '{{@@ IMPORT_PATH @@}}/variables.yaml:optional'
 dotfiles:
 profiles:
+  Nvim:
+    dotfiles:
+    - fake
+    import:
+    - '{{@@ IMPORT_PATH @@}}/dots.d/nvim.yaml:optional'
   Cfg:
     dotfiles:
     - fake

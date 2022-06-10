@@ -61,7 +61,7 @@ dotfiles:
   d_config_mycronjobs:
     src: "{{@@ MY_DOTS_FULL @@}}/.config/myCronJobs"
     dst: ~/.config/myCronJobs
-    link: "{{@@ link_multi @@}}"
+    link: nolink
   d_config_neofetch:
     src: "{{@@ MY_DOTS_FULL @@}}/.config/neofetch"
     dst: ~/.config/neofetch

@@ -1,0 +1,11 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=razorr
+
+# MIN HOUR DOM MON DOW CMD
+
+# @daily			touch ~/cronjobs.log && anacron -t ~/.config/myCronJobs/myAnacron -S ~/.config/myCronJobs/spool/anacron
+0,20,40 */4 * * *	anacron -t ~/.config/myCronJobs/myAnacron -S ~/.config/myCronJobs/spool/anacron
+@weekly			rsync -a /boot ~/data_shared/BackUp/Linux/ 2> /dev/null
+
+# vim: commentstring=#\ %s: ft=crontab
