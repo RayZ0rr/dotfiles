@@ -1,5 +1,5 @@
 ###########################
-# Colors
+# Style
 ###########################
 
 #Color256 cheatsheet https://jonasjacek.github.io/colors/
@@ -28,7 +28,6 @@ set -g window-status-format         "#[bg=colour235,nobold]#[fg=colour10]  #I
 set -g window-status-current-format "#[fg=colour30]#[bg=colour235]  #I#[fg=colour235]#[bg=colour30] #[fg=colour235]#[bg=colour30]#W#[fg=colour30]#[bg=colour235]#{@left_separator}"
 
 # statusbar
-set -g status-position bottom
 # set -g status-style 'fg=colour235 bg=colour0'
 set -g status-style 'fg=#5b5f71 bg=colour235'
 # set -g status-style 'bg=colour18 fg=colour137 dim'
@@ -48,9 +47,3 @@ set -ga status-right        "#[fg=colour208]#[bg=colour205]#[fg=colour235]#[b
 # set -g status-right-length 50
 # set -g status-right '#{prefix_highlight}#[fg=colour233,bg=colour39] %a %d/%m #[fg=colour233,bg=colour11]  %H:%M '
 # set -g status-right '#{prefix_highlight} %a %Y-%m-%d  %H:%M'
-
-
-# nerd-fonts-bitstream-vera-mono                                                                                                                                                          
-# tmux_conf_theme_left_separator_main='\ue0c0'                                                                                                                                              
-# tmux_conf_theme_left_separator_sub='\ue0c1'                                                                                                                                               
-# tmux_conf_theme_right_separator_main='\ue0c2'

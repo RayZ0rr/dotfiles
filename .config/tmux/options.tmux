@@ -17,6 +17,7 @@ set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{25
 set -g bell-action none
 
 set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
+set-option -g status-position top
 setw -q -g utf8 on
 
 # use vim key bindings

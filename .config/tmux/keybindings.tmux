@@ -25,13 +25,12 @@ bind-key a send-prefix
 bind C-j display-popup -E "tmux list-sessions | sed -E 's/:.*$//' | grep -v \"^$(tmux display-message -p '#S')\$\" | fzf --reverse | xargs tmux switch-client -t"
 
 if -b '[ "$SSH_CLIENT" ]' '         \
-    set -g status-position top;     \
+    set -g status-position bottom;     \
     set -g prefix M-b;              \
     bind    M-b resize-pane -Z;     \
     bind -r M-p previous-window;    \
     bind -r M-n next-window;        \
     ' '                             \
-    set -g status-position bottom;  \
     set -g prefix C-b;              \
     bind    C-b resize-pane -Z;     \
     bind -r C-p previous-window;    \

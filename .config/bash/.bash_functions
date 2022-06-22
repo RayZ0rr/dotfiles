@@ -7,6 +7,10 @@ nvtime() {
   cat '/tmp/vim.log'
 }
 
+mkcd() {
+  mkdir "$1" &&
+  cd "$1"
+}
 
 fsearch() {
   if [ -x "$(command -v fd)" ]
