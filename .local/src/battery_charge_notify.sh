@@ -82,16 +82,19 @@ do
   # ------- Discharging Protection -------
   elif [[ "${state}" == "${state_discharging}" ]];
   then
-    # ------- Very low hibernate -------
-    if [[ "${hibernation}" == "on" ]];
-    then
-      if [ $percent -lt $charge_critical ];
+    # ------- Critically low notify -------
+    if [ $percent -lt $charge_critical ]; then
+      # ------- Very low hibernate -------
+      if [[ "${hibernation}" == "on" ]];
       then
 	choice=`zenity --entry --title="Hibernate system? (yes or no) " --text="Choice:" --entry-text "yes or no"`
 	! [[ "${choice}" == "no" ]] && systemctl hibernate
+      else
+	notify-send -i $icon_low -u critical "Battery is critically low ($percent %)" "Connect power supply to continue" ;
+	paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
       fi
-    elif [ $percent -lt $charge_low ];
-    then
+    # ------- Very low notify -------
+    elif [ $percent -lt $charge_low ]; then
       notify-send -i $icon_low -u critical "Battery is very low ($percent %)" "Connect power supply to continue" ;
       paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
       # (notify-send -i $icon_low "Battery is about to DISCHARGE = $percent % remaining" "Connect power supply to continue" ; $(play -q -n synth 0.2 sin 880 >& /dev/null) ; sleep 1 ; spd-say "Connect Charger" || speak "Connect Charger")
