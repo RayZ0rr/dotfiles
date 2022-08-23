@@ -7,18 +7,27 @@
 
 export FZF_DEFAULT_OPTS="--height=100% --layout=reverse --border --no-sort --prompt=\"~ \" --color=dark,hl:red:regular,fg+:white:regular,hl+:red:regular:reverse,query:white:regular,info:gray:regular,prompt:red:bold,pointer:red:bold"
 
-bmenu() {
-launchapp=$(IFS=':'; \
-  for p in ${PATH}; \
-  do find -L "${p}" -type f -executable -print 2> /dev/null; done \
-  | fzf --header="Select application to launch from PATH:" \
-    --multi=0 \
-    --height="100%" \
-    --preview="(file -b {})" \
-    --preview-window="down:wrap:3")
-  if [[ "${launchapp}" ]]; then
-    nohup ${SHELL:-"/bin/sh"} -c "${launchapp}" >/dev/null &
-  fi
-}
+# fzflaunch - fzf as dmenu replacement
 
-bmenu "$@"
+# fifos are here to not wait for end of input
+# (useful for e.g. find $HOME | fzfmenu ...)
+input=$(mktemp -u --suffix .fzfmenu.input)
+output=$(mktemp -u --suffix .fzfmenu.output)
+mkfifo $input
+mkfifo $output
+chmod 600 $input $output
+
+# it's better to use st here (starts a lot faster than pretty much everything else)
+# the ugly printf | sed thing is here to make args with quotes work.
+# (e.g. --preview='echo {1}').
+# sadly we can't use "$@" here directly because we are inside sh -c "..." call
+# already.
+# you can also set window dimensions via -g '=COLSxROWS', see man st.
+st -c fzf-menuL -n fzf-menuL -e sh -c "cat $input | fzf $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | tee $output" & disown
+# alacritty --class="fzf-menuL" --config-file $HOME/.config/alacritty/scratchpad.yml -e sh -c "cat $input | fzf -m $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | awk 'BEGIN {ORS=\" \"} {print}' | tee $output" & disown
+
+# handle ctrl+c outside child terminal window
+trap "kill $! 2>/dev/null; rm -f $input $output" EXIT
+
+cat > $input
+cat $output

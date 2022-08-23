@@ -174,6 +174,36 @@ function volSync() {
     done
 }
 
+function GetIcon() {
+    # Switch to mute/unmute the volume with pactl.
+    if ! getCurSink; then
+        echo "PulseAudio not running"
+        return 1
+    fi
+    getIsMuted "$curSink"
+    if [ "$IS_MUTED" = "yes" ]; then
+	echo "婢"
+    else
+	echo "墳"
+    fi
+    if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
+}
+
+function GetMute() {
+    # Switch to mute/unmute the volume with pactl.
+    if ! getCurSink; then
+        echo "PulseAudio not running"
+        return 1
+    fi
+    getIsMuted "$curSink"
+    if [ "$IS_MUTED" == "yes" ] ; then
+      echo true
+    else
+      echo false
+      # echo $IS_MUTED
+    fi
+    if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
+}
 
 function volMute() {
     # Switch to mute/unmute the volume with pactl.
@@ -196,7 +226,6 @@ function volMute() {
 
     if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
 }
-
 
 function nextSink() {
     # The final sinks list, removing the blacklisted ones from the list of
@@ -337,7 +366,8 @@ function output() {
     if [ "$IS_MUTED" = "yes" ]; then
         # shellcheck disable=SC2034
         VOL_ICON=$ICON_MUTED
-        echo "${COLOR_MUTED}$(eval echo "$FORMAT")${END_COLOR}"
+        eval echo "$FORMAT"
+        # echo "${COLOR_MUTED}$(eval echo "$FORMAT")${END_COLOR}"
     else
         eval echo "$FORMAT"
     fi
@@ -507,6 +537,13 @@ while [[ "$1" = --* ]]; do
     esac
 done
 
+function SetVol()
+{
+  local val=$(echo $1 | cut -f1 -d'.')
+  pulsemixer --set-volume $val
+}
+
+
 function send_notification {
     CURVOL=`pactl list sinks | grep -i volume | head -1 | awk '{print $5}' | sed -e 's/%//'`
     if [ $CURVOL -gt 75 ]; then
@@ -528,6 +565,10 @@ function send_notification {
 }
 
 case "$1" in
+    set)
+        SetVol $2
+	send_notification
+        ;;
     up)
         volUp
 	send_notification
@@ -551,6 +592,12 @@ case "$1" in
     unmute)
         volMute unmute
         ;;
+    get-icon)
+	GetIcon
+	;;
+    get-mute)
+	GetMute
+	;;
     sync)
         volSync
         ;;

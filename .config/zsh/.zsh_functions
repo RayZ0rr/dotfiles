@@ -15,7 +15,7 @@ nvtime() {
 }
 
 mkcd() {
-  mkdir "$1" &&
+  mkdir -p "$1" &&
   cd "$1"
 }
 
@@ -180,6 +180,9 @@ unitls() {
     elif [[ "$1" == "u2" ]]; then
       systemctl --user list-units --state=running
       return 0
+    elif [[ "$1" == "find" ]]; then
+      find /etc/systemd -type l -exec test -f {} \; -print | awk -F'/' '{ printf ("%-40s | %s\n", $(NF-0), $(NF-1)) }' | sort -f
+      return 0
     fi
     if [[ -z "$@" ]] ; then
       printf "\nInvalid argument.\nUse 'unitls [1|2|u1|u2]'."
@@ -208,7 +211,7 @@ compressPDF(){
 packupdate(){
   if (( $+commands[pacman] ))
   then
-    sudo pacman -Sy archlinux-keyring ; sudo pacman -Su
+    sudo pacman -Sy archlinux-keyring && sudo pacman -Su
     return 0
   else
     echo "pacman command not found"
@@ -234,8 +237,11 @@ packF(){
   elif [[ -x "$(command -v pacman)" ]]
   then
     pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'
+  elif (( $+commands[dnf] ))
+  then
+    dnf list -q --installed | fzf --preview='p={}; p="${p%% *}"; dnf -q info "${p%.*}"' --layout=reverse --bind 'enter:execute(p={}; p="${p%% *}"; dnf -q info "${p%.*}" | less)'
   else
-    echo "apt or pacman not found"
+    echo "apt or pacman or dnf not found"
     return 1
   fi
 }
@@ -247,8 +253,11 @@ packN(){
   elif [[ -x "$(command -v pacman)" ]]
   then
     pacman -Qq | wc -l
+  elif (( $+commands[dnf] ))
+  then
+    dnf list -q --installed | wc -l
   else
-    echo "apt or pacman not found"
+    echo "apt or pacman or dnf not found"
     return 1
   fi
 }

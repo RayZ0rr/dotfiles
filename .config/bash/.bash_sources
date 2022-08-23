@@ -90,7 +90,7 @@ export SINGULARITY_CACHEDIR="$HOME/.local/cache/singularity"
 #source /usr/share/doc/fzf/examples/key-bindings.bash
 #[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-export MY_FZF_PATH="$HOME/data_shared/Softwares/Source/fzf/gitclone"
+export MY_FZF_PATH="$HOME/Softwares/Source/fzf"
 
 if [ -f ${BASH_CONFIG_PATH}/.fzf_cfg.bash ]; then
   source ${BASH_CONFIG_PATH}/.fzf_cfg.bash

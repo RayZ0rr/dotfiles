@@ -1,9 +1,11 @@
 [Trigger]
+Operation=Install
 Operation=Upgrade
 Type=Package
+Target=linux
 Target=linux-lts
 
 [Action]
-Description = Updating rEFInd on ESP
+Description = Updating Arch linux kernel for rEFInd on ESP
 When=PostTransaction
 Exec=/usr/bin/touch /boot/vmlinuz-linux-lts

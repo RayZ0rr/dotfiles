@@ -12,7 +12,9 @@
 #---------------------------------------------------------------------------------
 if [[ $- == *i* ]]
 then
-  if [[ -d "/usr/share/fzf" ]] ; then
+  if [[ -d "/usr/share/fzf/shell" ]] ; then
+    source "/usr/share/fzf/shell/completion.bash" 2> /dev/null
+  elif [[ -d "/usr/share/fzf" ]] ; then
     source "/usr/share/fzf/completion.bash" 2> /dev/null
   elif [[ -d "${MY_FZF_PATH}/shell" ]] ; then
     source "${MY_FZF_PATH}/shell/completion.bash" 2> /dev/null
@@ -21,8 +23,10 @@ fi
 
 # Key bindings
 #---------------------------------------------------------------------------------
-if [[ -d "/usr/share/fzf" ]] ; then
-  source "/usr/share/fzf/key-bindings.bash" 2> /dev/null
+if [[ -d "/usr/share/fzf/shell" ]] ; then
+  source "/usr/share/fzf/shell/key-bindings.bash" 2> /dev/null
+elif [[ -d "/usr/share/fzf/shell" ]] ; then
+  source "/usr/share/fzf/shell/key-bindings.bash" 2> /dev/null
 elif [[ -d "${MY_FZF_PATH}/shell" ]] ; then
   source "${MY_FZF_PATH}/shell/key-bindings.bash"
 fi
@@ -95,7 +99,7 @@ __sdfw__() {
   READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
   READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 }
-bind -m emacs-standard -x '"\ef": "__sdfw__"'
+bind -m emacs-standard -x '"\et": "__sdfw__"'
 # bind -m emacs-standard -x '"__FolderSearch__": __sdfw__'
 # bind -m emacs-standard '"\ef": "__FolderSearch__"'
 
@@ -116,9 +120,9 @@ __sdhfw__() {
   READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 }
 
-bind -m emacs-standard -x '"\ef\ef": __sdhfw__'
-# bind -m vi-command -x '"\ef\ef": __sdhfw__'
-# bind -m vi-insert -x '"\ef\ef": __sdhfw__'
+bind -m emacs-standard -x '"\et\et": __sdhfw__'
+bind -m vi-command -x '"\et\et": __sdhfw__'
+bind -m vi-insert -x '"\et\et": __sdhfw__'
 
 # (ALT-c)+(Alt-c) - cd into the selected directory from anywhere
 #---------------------------------------------------------------------------------
@@ -129,8 +133,8 @@ __cda__() {
 }
 # Bind cda() to Alt a
 bind -m emacs-standard '"\ec\ec": " \C-b\C-k \C-u`__cda__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
-# bind -m vi-command '"\ec\ec": "\C-z\ec\ec\C-z"'
-# bind -m vi-insert '"\ec\ec": "\C-z\ec\ec\C-z"'
+bind -m vi-command '"\ec\ec": "\C-z\ec\ec\C-z"'
+bind -m vi-insert '"\ec\ec": "\C-z\ec\ec\C-z"'
 #bind -x '"\ev":cda'
 
 
@@ -142,12 +146,15 @@ __cdf__() {
   local cmd
   # cmd="${some_command:-"command fd . $HOME --type f --color=never --follow --hidden 2> /dev/null "}"
   # file=$(eval "($cmd)" | fzf-tmux +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
-  file=$(fzf-tmux +m -q ${FZF_FILE_WINDOW[@]} "$1") && dir=$(dirname "$file") && builtin cd "$dir"
+  file=$(fzf-tmux +m "${FZF_FILE_PREVIEW[@]}" ${FZF_FILE_WINDOW[@]} -q "$1") && dir=$(dirname "$file") && builtin cd "$dir"
 }
-# bind -m emacs-standard -x '"\eg": cdf'
-# bind -m vi-command -x '"\eg": cdf'
-# bind -m vi-insert -x '"\eg": cdf'
-bind '"\ec\ef": "__cdf__\n"'
+bind '"\ec\et": "__cdf__\n"'
+# bind -m emacs-standard -x '"\ec\et": "__cdf__"'
+# bind -m vi-command -x '"\ec\et": "__cdf__"'
+# bind -m vi-insert -x '"\ec\et": "__cdf__"'
+# bind -m emacs-standard '"\ec\et": " \C-b\C-k \C-u`__cdf__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
+# bind -m vi-command '"\ec\et": "\C-z\ec\et\C-z"'
+# bind -m vi-insert '"\ec\et": "\C-z\ec\et\C-z"'
 
 # (Ctrl-t)+(f) fd1 - List contents of the current directory only (not recursive).
 #---------------------------------------------------------------------------------
@@ -165,6 +172,24 @@ __fd1w__() {
   READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 }
 bind -x '"\C-t\C-f":"__fd1w__"'
+
+# (Ctrl-t)+(f) fd1 - List contents of the current directory only (not recursive).
+#---------------------------------------------------------------------------------
+__fzfmenu__() {
+  local cmd="${FZF_FILE_COMMAND} -td --max-depth=1"
+  eval "$cmd" | ~/.local/bin/fzfmenu
+}
+
+__fzf-menu__() {
+  local selected="$(__fzfmenu__)"
+  READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+  READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+}
+bind -x '"\C-t\C-g":"__fzf-menu__"'
+
+#ROFI replacement
+#---------------------------------------------------------------------------------
+bind -x '"\C-t\C-r":"alacritty -t fzf-menuNova --config-file=$HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf-nova"'
 #---------------------------------------------------------------------------------
 onv() {
   IFS=$'\n' files=($(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf-tmux --query="$1" --multi ${FZF_FILE_WINDOW[@]} --preview 'bat --color=always --line-range :100 {}' --bind 'f2:execute(xdg-open {} 2> /dev/null &),ctrl-space:toggle-preview'))
@@ -178,36 +203,21 @@ anv() {
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
-#ROFI replacement
 #---------------------------------------------------------------------------------
-bind '"\efr":"xterm -T fzf-nova -geometry 90x25+350+200 -fs 16 -e ~/.config/fzf_nova/fzf-nova\n"'
-
+fif() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --hidden --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+}
 # Use fpfr to generate the list for directory completion using fdfind
 #---------------------------------------------------------------------------------
 fpfr() {
   fd --hidden --type f --follow --exclude ".git" --exclude node_modules . "$1"
 }
-
 # Use dpfr to generate the list for directory completion using fdfind
 #---------------------------------------------------------------------------------
 dpfr() {
   fd --type d --hidden --follow --exclude ".git" --exclude node_modules . "$1"
 }
-
-# Interactive search.
-# Usage: `irgf` or `irgf <folder>`.
-if [ -f ~/RgIntrFzf ]; then
-  chmod +x ~/RgIntrFzf
-  alias irgf='~/RgIntrFzf'
-fi
-
-# Interactive search.
-# Usage: `irgf` or `irgf <folder>`.
-if [ -f ~/NvRgIntrFzf ]; then
-  chmod +x ~/NvRgIntrFzf
-  alias nvfg='~/NvRgIntrFzf'
-fi
-
 # TMux sessoins create or select
 #---------------------------------------------------------------------------------
 fzts() {
@@ -217,5 +227,4 @@ fzts() {
   fi
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
-
 # End ---------------------------------------------------------------------------------------------

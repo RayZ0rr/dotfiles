@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+current_folder="$(dirname $(readlink -f $0))"
+
+printf "\n--------------------------\n"
+printf "Current directory is ${current_folder}"
+printf "\n--------------------------\n"
+
+printf "\n--------------------------\n"
+printf "Started in directory $PWD"
+printf "\n--------------------------\n"
+
+target="${HOME}/shared_data"
+
+if [[ -n "$@" ]] ; then
+  target="$@"
+fi
+
+Setup()
+{
+  cd "$target"
+  printf "\n--------------------------\n"
+  printf "Running in directory $PWD"
+  printf "\n--------------------------\n"
+  sudo chown -Rc $USER:sdata "${target}"
+  printf "\n--------------------------\n"
+  printf "Current Acl is:"
+  printf "\n--------------------------\n"
+  getfacl "${target}"
+  printf "\n--------------------------\n"
+  printf "Setting new acl"
+  printf "\n--------------------------\n"
+  setfacl -R -d -m "g::rwX" "${target}"
+  chmod g+s "${target}"
+  printf "\n--------------------------\n"
+  printf "New Acl is:"
+  printf "\n--------------------------\n"
+  getfacl "${target}"
+}
+
+Setup

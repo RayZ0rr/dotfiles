@@ -5,7 +5,7 @@ betterlockscreen -u "$HOME/.local/src/lock.png" &
 xset s on
 xset -dpms
 xset s 300 600
-xss-lock -n 'bash /usr/share/doc/xss-lock/dim-screen.sh' -- betterlockscreen -l &
+xss-lock -n 'bash ~/.local/bin/dim-screen.sh' -- betterlockscreen -l &
 # xautolock -time 10 -notify 5 -notifier '/usr/lib/xsecurelock/until_nonidle /usr/lib/xsecurelock/dimmer' -locker 'betterlockscreen -l --blur 0.0' &
 
 # feh --bg-fill $HOME/Pictures/Walls/Minimal/521028.png
@@ -21,7 +21,8 @@ picom --experimental-backends -b
 # /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 /usr/bin/lxqt-policykit-agent &
 
-~/.config/polybar/hlwmbar.sh &
+~/.config/eww/bar/hlwm_bar &
+# ~/.config/polybar/hlwmbar.sh &
 # tint2 &
 
 sxhkd &

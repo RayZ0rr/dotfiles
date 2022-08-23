@@ -47,7 +47,10 @@ set vimhelp
 set norunexec
 
 " colorscheme dracula
-colorscheme zenburn_1
+" colorscheme zenburn_1
+" colorscheme onedark
+colorscheme paradise
+" colorscheme test
 
 set timefmt=%m/%d\ %H:%M
 
@@ -78,7 +81,8 @@ mark D ~/Downloads
 " ------------------------------------------------------------------------------
 
 command! df df -h %m 2> /dev/null
-command! diff vim -d %f %F
+command! diff nvim -d %f %F
+nnoremap <a-d> :diff<CR>
 command! zip zip -r %f.zip %f
 command! run !! ./%f
 command! make !!make %a
@@ -102,8 +106,8 @@ fileviewer */,.*/ exa --icons %c
 fileviewer ../ exa --icons %c
 " fileviewer */,.*/ exa --tree --icons %c
 " fileviewer ../ exa --tree --icons %c
-" fileviewer */,.*/ tree %c -L 1 --dirsfirst
-" fileviewer ../ tree %c -L 1 --dirsfirst
+fileviewer */,.*/ tree %c -L 1 --dirsfirst
+fileviewer ../ tree %c -L 1 --dirsfirst
 
 fileviewer *.pdf
   \ vifmimg pdf %px %py %pw %ph %c
@@ -162,7 +166,6 @@ fileviewer {*.docx},
            \vnd.openxmlformats-officedocument.wordprocessingml.document>
          \ docx2txt.pl %f -
 
-fileviewer *.[a-z] bat --color=always --line-range :100 %c
 fileviewer .* bat --color=always --line-range :100 %c
 fileviewer *.* bat --color=always --line-range :100 %c
 " fileviewer * defviewer %c
@@ -359,6 +362,8 @@ filextype *.pro qtcreator %f &
 "extract better
 command! extf :execute '!%%n extractfiles' &fusehome expand('%%D') expand('%%f:p')
 
+nnoremap <a-e> :extf<CR>
+
 " Compare files with diff
 command! cmpinternal compare-cmd %a %S
 command! cmp : if expand('%%c') == expand('%%f')
@@ -369,7 +374,7 @@ command! cmp : if expand('%%c') == expand('%%f')
       \ |     cmpinternal %f
       \ | endif
 
-nnoremap <a-e> :extf<CR>
+nnoremap <a-c> :cmp<CR>
 
 nnoremap drd :!dragon-drop %f<cr>
 nnoremap drs :!dragon-drop --keep %d<cr>
@@ -432,27 +437,27 @@ if has('win')
     " Yank path to current file to Windows clipboard with forward slashes
     nnoremap yf :!echo %"c:gs!\!/! %i | clip<cr>
 elseif executable('xclip')
-		" yank current directory path into the clipboard
-		nnoremap yd :!echo -n %d | xclip -selection clipboard %i<cr>:echo expand('%"d') "is yanked to clipboard"<cr>
-		" yank current file path into the clipboard
-		nnoremap yf :!echo -n %c:p | xclip -selection clipboard %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
-		" yank current filename without path into the clipboard
-		nnoremap yn :!echo -n %c | xclip -selection clipboard %i<cr>:echo expand('%"c') "is yanked to clipboard"<cr>
-		" yank root of current file's name into the clipboard
-		nnoremap yr :!echo -n %c:r | xclip -selection clipboard %i<cr>:echo expand('%"c:r') "is yanked to clipboard"<cr>
+  " yank current directory path into the clipboard
+  nnoremap yd :!echo -n %d | xclip -selection clipboard %i<cr>:echo expand('%"d') "is yanked to clipboard"<cr>
+  " yank current file path into the clipboard
+  nnoremap yf :!echo -n %c:p | xclip -selection clipboard %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
+  " yank current filename without path into the clipboard
+  nnoremap yn :!echo -n %c | xclip -selection clipboard %i<cr>:echo expand('%"c') "is yanked to clipboard"<cr>
+  " yank root of current file's name into the clipboard
+  nnoremap yr :!echo -n %c:r | xclip -selection clipboard %i<cr>:echo expand('%"c:r') "is yanked to clipboard"<cr>
 elseif executable('xsel')
-		" yank current directory path into primary and selection clipboards
-		nnoremap yd :!echo -n %d | xsel --input --primary %i &&
-								\ echo -n %d | xsel --clipboard --input %i<cr>:echo expand('%"d') "is yanked to clipboard"<cr>
-		" yank current file path into primary and selection clipboards
-		nnoremap yf :!echo -n %c:p | xsel --input --primary %i &&
-								\ echo -n %c:p | xsel --clipboard --input %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
-		" yank current filename without path into primary and selection clipboards
-		nnoremap yn :!echo -n %c | xsel --input --primary %i &&
-								\ echo -n %c | xsel --clipboard --input %i<cr>:echo expand('%"c') "is yanked to clipboard"<cr>
-		" yank root of current file's name into primary and selection clipboards
-		nnoremap yr :!echo -n %c:r | xsel --input --primary %i &&
-								\ echo -n %c:r | xsel --clipboard --input %i<cr>:echo expand('%"c:r') "is yanked to clipboard"<cr>
+  " yank current directory path into primary and selection clipboards
+  nnoremap yd :!echo -n %d | xsel --input --primary %i &&
+						\ echo -n %d | xsel --clipboard --input %i<cr>:echo expand('%"d') "is yanked to clipboard"<cr>
+  " yank current file path into primary and selection clipboards
+  nnoremap yf :!echo -n %c:p | xsel --input --primary %i &&
+						\ echo -n %c:p | xsel --clipboard --input %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
+  " yank current filename without path into primary and selection clipboards
+  nnoremap yn :!echo -n %c | xsel --input --primary %i &&
+						\ echo -n %c | xsel --clipboard --input %i<cr>:echo expand('%"c') "is yanked to clipboard"<cr>
+  " yank root of current file's name into primary and selection clipboards
+  nnoremap yr :!echo -n %c:r | xsel --input --primary %i &&
+						\ echo -n %c:r | xsel --clipboard --input %i<cr>:echo expand('%"c:r') "is yanked to clipboard"<cr>
 endif
 
 " Mappings for faster renaming
@@ -494,8 +499,8 @@ nmap <space><space> tj
 nmap <C-q> :qa<cr>
 nmap Q :qa<cr>
 
-nnoremap <M-c> :FZFlocate<cr>
-nnoremap <M-f> :FZFfind<cr>
+nnoremap <M-f> :FZFlocate<cr>
+nnoremap <C-t> :FZFfind<cr>
 nnoremap <M-t> :FZFecho<cr>
 
 command! FZFfind : set noquickview

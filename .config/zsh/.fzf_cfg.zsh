@@ -8,7 +8,9 @@
 #---------------------------------------------------------------------------------
 if [[ $- == *i* ]]
 then
-  if [[ -d "/usr/share/fzf" ]] ; then
+  if [[ -d "/usr/share/fzf/shell" ]] ; then
+    source "/usr/share/fzf/shell/completion.zsh" 2> /dev/null
+  elif [[ -d "/usr/share/fzf" ]] ; then
     source "/usr/share/fzf/completion.zsh" 2> /dev/null
   elif [[ -d "${MY_FZF_PATH}/shell" ]] ; then
     source "${MY_FZF_PATH}/shell/completion.zsh" 2> /dev/null
@@ -17,7 +19,9 @@ fi
 
 # Key bindings
 #---------------------------------------------------------------------------------
-if [[ -d "/usr/share/fzf" ]] ; then
+if [[ -d "/usr/share/shell/fzf" ]] ; then
+  source "/usr/share/fzf/shell/key-bindings.zsh" 2> /dev/null
+elif [[ -d "/usr/share/fzf" ]] ; then
   source "/usr/share/fzf/key-bindings.zsh" 2> /dev/null
 elif [[ -d "${MY_FZF_PATH}/shell" ]] ; then
   source "${MY_FZF_PATH}/shell/key-bindings.zsh"
@@ -54,6 +58,7 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :100 {}' --bi
 export FZF_ALT_C_COMMAND=$FZF_FOLDER_COMMAND
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -100' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FOLDER_WINDOW[@]}"
 
+FZF_FD_COMMAND=( "${FZF_FILE_COMMAND[@]}" " | fzf -m " "${FZF_FILE_PREVIEW[@]}" )
 # CTRL-T + CTRL-T - Paste the selected file path(s) from $HOME into the command line
 #---------------------------------------------------------------------------------
 __sff__() {
@@ -103,9 +108,9 @@ __sdfw__() {
 }
 
 zle     -N   __sdfw__
-bindkey -M emacs '\ef' __sdfw__
-bindkey -M vicmd '\ef' __sdfw__
-bindkey -M viins '\ef' __sdfw__
+bindkey -M emacs '\et' __sdfw__
+bindkey -M vicmd '\et' __sdfw__
+bindkey -M viins '\et' __sdfw__
 # bindkey '\ef' __sdfw__
 
 # alt-F+alt-F - Paste the selected folder path(s) from $HOME into the command line
@@ -130,9 +135,9 @@ __sdhfw__() {
 }
 
 zle     -N   __sdhfw__
-bindkey -M emacs '\ef\ef' __sdhfw__
-bindkey -M vicmd '\ef\ef' __sdhfw__
-bindkey -M viins '\ef\ef' __sdhfw__
+bindkey -M emacs '\et\et' __sdhfw__
+bindkey -M vicmd '\et\et' __sdhfw__
+bindkey -M viins '\et\et' __sdhfw__
 # bindkey '\ef\ef' __sdhfw__
 
 # (ALT-c)+(Alt-c) - cd into the selected directory from anywhere
@@ -166,12 +171,10 @@ __cdf__() {
   local file
   local dir
   file=$(fzf-tmux +m ${FZF_FILE_PREVIEW[@]} ${FZF_FILE_WINDOW[@]} -q "$1") && dir=$(dirname "$file") && builtin cd "$dir"
-  local ret=$?
 }
-
-# zle     -N    cdf
-# bindkey '\ecf' cdf
-bindkey -s '\ec\ef' '__cdf__\n'
+# zle     -N    cdf __cdf__
+# bindkey '\ec\et' cdf
+bindkey -s '\ec\et' '__cdf__\n'
 
 # (Ctrl-t)+(f) fd1 - List contents of the current directory only (not recursive).
 #---------------------------------------------------------------------------------
@@ -200,9 +203,39 @@ bindkey -M vicmd '^T^f' __fd1w__
 bindkey -M viins '^T^f' __fd1w__
 # bindkey '^T^f' __fd1w__
 
+#---------------------------------------------------------------------------------
+__fzfmenu__(){
+  local cmd="${FZF_FILE_COMMAND} -td --max-depth=1"
+  eval $cmd | ~/.local/bin/fzfmenu
+}
+__fzf-menu__() {
+  LBUFFER="${LBUFFER}$(__fzfmenu__)"
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+
+zle     -N    __fzf-menu__
+bindkey -M emacs '^T^G' __fzf-menu__
+bindkey -M vicmd '^T^G' __fzf-menu__
+bindkey -M viins '^T^G' __fzf-menu__
+# bindkey '\efr' fzfnova
+
+#ROFI replacement
+#---------------------------------------------------------------------------------
+fzfnova(){
+  #xterm -T fzf-nova -geometry 90x25+350+200 -fs 16 -e ~/.config/fzf_nova/fzf-nova
+  alacritty -t fzf-menuNova --config-file=$HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf-nova
+}
+
+zle     -N    fzfnova
+bindkey -M emacs '^T^R' fzfnova
+bindkey -M vicmd '^T^R' fzfnova
+bindkey -M viins '^T^R' fzfnova
+# bindkey '\efr' fzfnova
+
 # Open files from current directory recursively with vim(nvim)
 #---------------------------------------------------------------------------------
-FZF_FD_COMMAND=( "${FZF_FILE_COMMAND[@]}" " | fzf -m " "${FZF_FILE_PREVIEW[@]}" )
 onv() {
   local files
 
@@ -216,11 +249,6 @@ onv() {
     echo $(echo $files[@] | awk 'BEGIN{ORS=" "};{print $0}')
   fi
 }
-fif() {
-  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-  rg --hidden --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
-}
-
 # Open files from $HOME directory recursively with vim(nvim)
 #---------------------------------------------------------------------------------
 anv() {
@@ -237,39 +265,21 @@ anv() {
   fi
   cd $filepath
 }
-
 #---------------------------------------------------------------------------------
-__fzfmenu__(){
-  # alacritty -t fzf-menuFn --config-file=$HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzfmenu
-  local cmd="${FZF_FILE_COMMAND} -td --max-depth=1"
-  eval $cmd | ~/.local/bin/fzfmenu -m
+fif() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --hidden --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
-__fzf-menu__() {
-  LBUFFER="${LBUFFER}$(__fzfmenu__)"
-  local ret=$?
-  zle reset-prompt
-  return $ret
-}
-
-
-zle     -N    __fzf-menu__
-bindkey -M emacs '^T^G' __fzf-menu__
-bindkey -M vicmd '^T^G' __fzf-menu__
-bindkey -M viins '^T^G' __fzf-menu__
-# bindkey '\efr' fzfnova
-
+# Use fpfr to generate the list for directory completion using fdfind
 #---------------------------------------------------------------------------------
-fzfnova(){
-  #xterm -T fzf-nova -geometry 90x25+350+200 -fs 16 -e ~/.config/fzf_nova/fzf-nova
-  alacritty -t fzf-menuNova --config-file=$HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf-nova
+fpfr() {
+  fd --hidden --type f --follow --exclude ".git" --exclude node_modules . "$1"
 }
-
-zle     -N    fzfnova
-bindkey -M emacs '\eft' fzfnova
-bindkey -M vicmd '\eft' fzfnova
-bindkey -M viins '\eft' fzfnova
-# bindkey '\efr' fzfnova
-
+# Use dpfr to generate the list for directory completion using fdfind
+#---------------------------------------------------------------------------------
+dpfr() {
+  fd --type d --hidden --follow --exclude ".git" --exclude node_modules . "$1"
+}
 # TMux sessoins create or select
 #---------------------------------------------------------------------------------
 fzts() {
@@ -282,5 +292,4 @@ fzts() {
 
 # bindkey -r '\C-g'
 # bindkey -s '\C-g' 'fzts\n'
-
 # End ---------------------------------------------------------------------------------------------

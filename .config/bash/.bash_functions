@@ -8,7 +8,7 @@ nvtime() {
 }
 
 mkcd() {
-  mkdir "$1" &&
+  mkdir -p "$1" &&
   cd "$1"
 }
 
@@ -173,6 +173,9 @@ unitls() {
     elif [[ "$1" == "u2" ]]; then
       systemctl --user list-units --state=running
       return 0
+    elif [[ "$1" == "find" ]]; then
+      find /etc/systemd -type l -exec test -f {} \; -print | awk -F'/' '{ printf ("%-40s | %s\n", $(NF-0), $(NF-1)) }' | sort -f
+      return 0
     fi
     if [[ -z "$@" ]] ; then
       printf "\nInvalid argument.\nUse 'unitls [1|2|u1|u2]'."
@@ -201,7 +204,7 @@ compressPDF(){
 packupdate(){
   if [ -x "$(command -v pacman)" ]
   then
-    sudo pacman -sy archlinux-keyring ; sudo pacman -su
+    sudo pacman -Sy archlinux-keyring && sudo pacman -Su
     return 0
   else
     echo "pacman command not found"
@@ -227,8 +230,11 @@ packF(){
   elif [[ -x "$(command -v pacman)" ]]
   then
     pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'
+  elif [[ -x "$(command -v dnf)" ]]
+  then
+    dnf list -q --installed | fzf --preview='p={}; p="${p%% *}"; dnf -q info "${p%.*}"' --layout=reverse --bind 'enter:execute(p={}; p="${p%% *}"; dnf -q info "${p%.*}" | less)'
   else
-    echo "apt or pacman not found"
+    echo "apt or pacman or dnf not found"
     return 1
   fi
 }
@@ -240,8 +246,11 @@ packN(){
   elif [[ -x "$(command -v pacman)" ]]
   then
     pacman -Qq | wc -l
+  elif [[ -x "$(command -v dnf)" ]]
+  then
+    dnf list -q --installed | wc -l
   else
-    echo "apt or pacman not found"
+    echo "apt or pacman or dnf not found"
     return 1
   fi
 }
@@ -347,10 +356,10 @@ updatemirrors(){
 	    echo "invalid number of arguments"
 	    return 1
 	  elif  [[ $# -eq 1 ]] ; then
-	    reflector --latest 10 --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist	    
+	    sudo reflector --latest 10 --protocol https --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist_reflector
 	    return 0
 	  else
-	    reflector --latest $2 --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist	    
+	    sudo reflector --latest $2 --protocol https --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist_reflector
 	    return 0
 	  fi
 	  # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n ${@} -

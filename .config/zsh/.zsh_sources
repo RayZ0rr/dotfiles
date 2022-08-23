@@ -84,7 +84,8 @@ export TMUXP_CONFIGDIR=$HOME/.config/tmux/tmuxp
 # fzf / Fuzzy Finder
 #--------------------------------------------------------
 
-export MY_FZF_PATH=$HOME/data_shared/Softwares/Source/fzf/gitclone
+export MY_FZF_PATH="$HOME/Softwares/Source/fzf"
+# export MY_FZF_PATH=$HOME/data_shared/Softwares/Source/fzf/gitclone
 
 #source /usr/share/bash-completion/completions/fzf
 #source /usr/share/doc/fzf/examples/key-bindings.bash

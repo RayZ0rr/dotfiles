@@ -7,7 +7,7 @@ configuration {
   /*  window-command: "wmctrl -i -R {window}";*/
   /*  window-match-fields: "all";*/
   /*  icon-theme: ;*/
-  display-combi:              "All";
+  display-combi:              "率";
   display-run:                "";
   display-ssh:                "";
   // display-drun: 					"";
@@ -31,7 +31,7 @@ configuration {
   /*  dpi: -1;*/
   /*  threads: 0;*/
   /*  scroll-method: 0;*/
-  /*  window-format: "{w}    {c}   {t}";*/
+  window-format: "{w}    {c}   {t}";
   click-to-exit:              true;
   /*  max-history-size: 25;*/
   combi-hide-mode-prefix:     true;
@@ -61,4 +61,4 @@ configuration {
   }
 }
 
-@theme "launcher"
+@theme "general"
