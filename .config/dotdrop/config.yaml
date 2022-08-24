@@ -3,7 +3,7 @@ dynvariables:
   USER_CONFIG_FULL: echo $HOME/.config/dotdrop
   DOTS_CONFIG: echo $DOTFDIR/.config/dotdrop
   DOTS_CONFIG_FULL: echo $HOME/$DOTFDIR/.config/dotdrop
-  IMPORT_PATH: '{{@@ DOTS_CONFIG_FULL @@}}'
+  IMPORT_PATH: echo /home/razorr/gFolder/RaZ0rr/dotfiles/.config/dotdrop
 config:
   dotpath: dotfiles
   workdir: ~/.config/dotdrop/symlinks_src

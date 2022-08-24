@@ -18,6 +18,7 @@ dotfiles:
     - d_config_nnn
     - d_config_picom
     - d_config_polybar
+    - d_config_eww
     - d_config_rofi
     - f_config_stalonetrayrc
     - d_config_starshipprompt

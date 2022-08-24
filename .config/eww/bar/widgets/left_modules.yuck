@@ -1,0 +1,49 @@
+;; -----------------------------------------------------
+;; VARIABLES
+;; -----------------------------------------------------
+
+(deflisten workspace "scripts/workspace")
+
+;; -----------------------------------------------------
+;; WIDGETS
+;; -----------------------------------------------------
+
+(defwidget workspaces []
+  (literal :content workspace)
+)
+
+(defwidget apps []
+  (eventbox
+    :onclick "rofi -show drun -theme desktop_apps &"
+    :class "module-apps" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+    (button :class "apps_icon" :onclick "rofi -show drun -theme desktop_apps &" "")
+  )
+)
+
+(defwidget left_modules []
+  (box :class "left_modules"
+    :orientation "h"
+    :space-evenly false
+    :halign "start"
+    (workspaces)
+    (apps)
+))
+
+;; -----------------------------------------------------
+;; WINDOWS
+;; -----------------------------------------------------
+
+(defwindow bar_left
+  :geometry (geometry
+     :x "1%"
+     :y "1px"
+     :width "10%"
+     :height "30px"
+     :anchor "top left"
+  )
+  :stacking "bg"
+  :reserve (struts :distance "40px" :side "top")
+  :wm-ignore "false"
+  :windowtype "dock"
+  (left_modules)
+)

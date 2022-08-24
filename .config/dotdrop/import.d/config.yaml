@@ -1,6 +1,6 @@
 config:
   import_variables:
-  - ../variables.yaml:optional
+  - ../variables.yaml
 dotfiles:
   d_config_alacritty:
     src: "{{@@ MY_DOTS_FULL @@}}/.config/alacritty"
@@ -54,6 +54,10 @@ dotfiles:
     src: "{{@@ MY_DOTS_FULL @@}}/.config/jgmenu"
     dst: ~/.config/jgmenu
     link: "{{@@ link_multi @@}}"
+  d_config_lazygit:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/lazygit"
+    dst: ~/.config/lazygit
+    link: "{{@@ link_multi @@}}"
   d_config_mpd:
     src: "{{@@ MY_DOTS_FULL @@}}/.config/mpd"
     dst: ~/.config/mpd
@@ -78,6 +82,10 @@ dotfiles:
     src: "{{@@ MY_DOTS_FULL @@}}/.config/polybar"
     dst: ~/.config/polybar
     link: "{{@@ link_multi @@}}"
+  d_config_eww:
+    src: "{{@@ MY_DOTS_FULL @@}}/.config/eww/bar"
+    dst: ~/.config/eww/bar
+    link: link_children
   d_config_rofi:
     src: "{{@@ MY_DOTS_FULL @@}}/.config/rofi"
     dst: ~/.config/rofi

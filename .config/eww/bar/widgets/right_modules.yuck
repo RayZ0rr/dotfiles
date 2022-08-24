@@ -1,0 +1,227 @@
+;; -----------------------------------------------------
+;; VARIABLES
+;; -----------------------------------------------------
+
+(defvar eww_bin "eww -c $HOME/.config/eww/bar")
+(defvar eww_scripts "$HOME/.config/eww/bar/scripts")
+
+(defpoll memory :interval "15s" "scripts/memory")
+(defpoll memory_used_mb :interval "2m" "scripts/mem-ad used")
+(defpoll memory_total_mb :interval "2m" "scripts/mem-ad total")
+(defpoll memory_free_mb :interval "2m" "scripts/mem-ad free")
+
+(defpoll battery :interval "15s" "./scripts/battery get")
+(defpoll battery_status :interval "1m" "./scripts/battery status")
+(defpoll battery_icon :interval "1m" "./scripts/battery icon")
+
+(defvar wifi_rev false)
+(defpoll WLAN_COLOR :interval "1m" "~/.config/eww/bar/scripts/wifi --COL")
+(defpoll WLAN_ESSID :interval "1m" "~/.config/eww/bar/scripts/wifi --ESSID")
+(defpoll WLAN_ICON :interval "1m" "~/.config/eww/bar/scripts/wifi --ICON")
+
+(defpoll SYSTRAY_COLOR :interval "1s" "bash ~/.config/eww/bar/scripts/systray.sh color")
+
+(defvar vol_reveal false)
+;; (defpoll volume_percent :interval "3s" "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll volume_percent :interval "3s" "pulsemixer --get-volume | awk '{print $1}'")
+(defpoll mic_percent :interval "3s" "amixer -D pulse sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll VOL_ICON :interval "1s" "~/.local/bin/pulseaudio-control get-icon")
+(defpoll VOL_MUTE :initial true :interval "1s" "~/.local/bin/pulseaudio-control get-mute")
+(deflisten VOL_TOOLTIP "~/.local/bin/pulseaudio-control --notifications --icons-volume \",墳,\" --icon-muted \"婢\" --sink-nicknames-from \"device.description\" --sink-nickname \"alsa_output.pci-0000_00_1b.0.analog-stereo:  Speakers\" --sink-nickname \"alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones\" listen")
+
+(defvar brightness_reveal false)
+;; (defpoll brightness_percent :interval "5s" "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
+(defpoll brightness_percent :interval "5s" "xbacklight -get")
+(defpoll BRIGHT_ICON :interval "1s" "bash $HOME/.config/eww/bar/scripts/brightness.sh icon")
+(defpoll BRIGHT_TOOLTIP :interval "1s" "bash $HOME/.config/eww/bar/scripts/brightness.sh list")
+
+(defvar time_rev false)
+(defpoll clock_hour :interval "1m" "date +\%H")
+(defpoll clock_minute :interval "20s" "date +\%M")
+(defpoll clock_date :interval "12h" "date '+[%a] %d/%m/%y'")
+(defpoll calendar_day :interval "12h" "date '+%d'")
+(defpoll calendar_year :interval "12h" "date '+%Y'")
+
+;; -----------------------------------------------------
+;; WIDGETS
+;; -----------------------------------------------------
+
+(defwidget sep []
+  (box :class "module-sep" :vexpand "true" :hexpand "false"
+    (label :class "module-sep" :text	"▎")))
+    ;; (label :class "separ" :text "|")))
+
+(defwidget wifi []
+  (eventbox
+    :onhover "${eww_bin} update wifi_rev=true"
+    :onhoverlost "${eww_bin} update wifi_rev=false"
+    :onclick "alacritty -t nmtui -e nmtui &"
+    (box :class "module-wifi"
+      :vexpand "false" :hexpand "false" :space-evenly "false"
+      (button :class "wifi_icon" :onclick "alacritty -t nmtui -e nmtui &" :wrap "false" :limit-width 12 :style "color: ${WLAN_COLOR};" WLAN_ICON)
+      (revealer
+	:transition "slideright"
+	:reveal wifi_rev
+	:duration "350ms"
+	(label :class "wifi_text" :text WLAN_ESSID :orientation "h")
+      )
+)))
+
+(defwidget battery []
+  (eventbox
+    :onhover ""
+    :onhoverlost ""
+    :onclick "${eww_scripts}/pop system"
+    (box :class "module-bat" :vexpand "false" :hexpand "false"
+      (circular-progress :value battery :class "bat_bar" :thickness 4
+	(button
+	  :class "bat_icon"
+	  :limit-width 2
+	  :tooltip "battery on ${battery}%"
+	  :show_truncated false
+	  :onclick "${eww_scripts}/pop system"
+	  :wrap false
+	  "")
+  )))
+)
+
+(defwidget memory []
+  (eventbox
+    :onhover ""
+    :onhoverlost ""
+    :onclick "${eww_scripts}/pop system"
+    (box :class "module-mem" :vexpand "false" :hexpand "false"
+      (circular-progress :value memory
+	:class "mem_bar"
+	:thickness 4
+	(button
+	  :class "mem_icon"
+	  :limit-width 2
+	  :tooltip "using ${memory}% ram"
+	  :onclick "${eww_scripts}/pop system"
+	  :show_truncated false
+	  :wrap false
+	  "")
+  )))
+)
+
+(defwidget clock_module []
+  (eventbox
+    :onhover "${eww_bin} update time_rev=true"
+    :onhoverlost "${eww_bin} update time_rev=false ; ${eww_bin} update"
+    (box :class "module-clock" :space-evenly "false" :orientation "h" :spacing "3"
+      (label :text clock_hour :class "clock_hour" )
+      (label :text ":" :class "clock_sep" )
+      ;; (label :text "" :class "clock_sep" )
+      (label :text clock_minute :class "clock_minute")
+      (revealer :transition "slideleft"
+	:reveal time_rev
+	:duration "350ms"
+	(button :class "clock_date"
+	   :onclick "${eww_scripts}/pop calendar" clock_date
+	)
+      )
+    )
+  )
+)
+
+(defwidget volume []
+  (eventbox
+    :onhover "${eww_bin} update vol_reveal=true"
+    :onhoverlost "${eww_bin} update vol_reveal=false"
+    :onscroll "~/.local/bin/pulseaudio-control {}"
+    :onclick "~/.local/bin/pulseaudio-control togmute"
+    :onmiddleclick "${eww_scripts}/pop audio"
+    :onrightclick "pavucontrol &"
+    (box :class "module-volume" :space-evenly "false" :orientation "h" :spacing "3"
+      (button :class {VOL_MUTE ? "volume_mute" : "volume_icon"}
+	:tooltip VOL_TOOLTIP
+	:onclick "~/.local/bin/pulseaudio-control togmute"
+	:onmiddleclick "${eww_scripts}/pop audio"
+	:onrightclick "pavucontrol &"
+	VOL_ICON)
+      (revealer
+	:transition "slideleft"
+	:reveal vol_reveal
+	:duration "350ms"
+	(scale
+	  :class {VOL_MUTE ? "volbar_mute" : "volbar"}
+	  :value volume_percent
+	  :orientation "h"
+	  :tooltip "${volume_percent}%"
+	  :tooltip VOL_TOOLTIP
+	  :max 100
+	  :min 0
+	  :onchange "~/.local/bin/pulseaudio-control set {}" )
+	  ;; :onchange "pulsemixer --set-volume {}" )
+))))
+
+(defwidget brightness []
+  (eventbox :onhover "${eww_bin} update brightness_reveal=true" :onhoverlost "${eww_bin} update brightness_reveal=false"
+    :onscroll "bash ${eww_scripts}/brightness.sh {}"
+    (box :class "module-bright" :space-evenly "false" :orientation "h" :spacing "3"
+      (label :text BRIGHT_ICON :class "bright_icon" :tooltip BRIGHT_TOOLTIP)
+      (revealer :transition "slideright"
+	:reveal brightness_reveal
+	:duration "350ms"
+	(scale    :class "bright_bar"
+	  :value brightness_percent
+	  :orientation "h"
+	  :tooltip BRIGHT_TOOLTIP
+	  :max 100
+	  :min 0
+	  :onchange "xbacklight -set {}" )
+))))
+
+(defwidget systray []
+  (eventbox
+    :onclick "bash ~/.config/eww/bar/scripts/systray.sh toggle"
+    (box
+      :class "module-tray" :vexpand "false" :hexpand "false"
+      (button :class "systray" :style "color: ${SYSTRAY_COLOR};" :onclick "bash ~/.config/eww/bar/scripts/systray.sh toggle" "")
+  ))
+)
+
+(defwidget power []
+  (eventbox
+    :onclick "bash ~/.config/rofi/scripts/rofi-power &"
+    :class "module-power" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+    (button :class "power_icon" :onclick "bash ~/.config/rofi/scripts/rofi-power &" "")
+  )
+)
+
+(defwidget right_modules []
+  (box :class "right_modules"
+    :orientation "h"
+    :space-evenly false
+    :halign "end"
+    (brightness)
+    (volume)
+    (wifi)
+    (sep)
+    (battery)
+    (memory)
+    (sep)
+    (systray)
+    (clock_module)
+    (power)
+))
+
+;; -----------------------------------------------------
+;; WINDOWS
+;; -----------------------------------------------------
+
+(defwindow bar_right
+  :geometry (geometry
+     :x "-1%"
+     :y "1px"
+     :width "18%"
+     :height "30px"
+     :anchor "top right"
+  )
+  :stacking "bg"
+  :reserve (struts :distance "40px" :side "top")
+  :wm-ignore "false"
+  :windowtype "dock"
+  (right_modules)
+)

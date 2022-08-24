@@ -1,7 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # A rofi powered menu to execute power related action.
 # Uses: amixer mpc poweroff reboot rofi rofi-prompt
+
+DIR="$HOME/.config/rofi/themes"
+
+rofi_command="rofi -theme $DIR/powermenu.rasi"
+uptime=$(uptime -p | sed -e 's/up //g')
 
 power_off=''
 reboot=''
@@ -9,28 +14,32 @@ lock=''
 suspend='鈴'
 log_out=''
 
-chosen=$(printf '%s;%s;%s;%s;%s\n' "$power_off" "$reboot" "$lock" "$suspend" \
-                                   "$log_out" \
-    | rofi -config '~/.config/rofi/pconfig.rasi' -theme-str '@import "power.rasi"' \
-           -dmenu \
-           -sep ';' \
-           -selected-row 2)
+# chosen=$(printf '%s;%s;%s;%s;%s\n' "$power_off" "$reboot" "$lock" "$suspend" \
+#                                    "$log_out" \
+#     | rofi -config '~/.config/rofi/pconfig.rasi' -theme-str '@import "power.rasi"' \
+#            -dmenu \
+#            -sep ';' \
+#            -selected-row 2)
+options="$power_off\n$reboot\n$lock\n$suspend\n$log_out"
+chosen=$(echo -e "$options" \
+    | $rofi_command -p "UPTIME - $uptime" -dmenu -selected-row 2)
 
 case "$chosen" in
     "$power_off")
-        # ~/.local/bin/rofi-prompt --query 'Shutdown?' && systemctl poweroff
-        ~/.config/rofi/scripts/rofi-prompt --query 'Shutdown?' && dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.PowerOff" boolean:true
+        ~/.config/rofi/scripts/rofi-prompt --query 'Shutdown?' && systemctl poweroff
+        # ~/.config/rofi/scripts/rofi-prompt --query 'Shutdown?' && dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.PowerOff" boolean:true
         ;;
 
     "$reboot")
-        # ~/.local/bin/rofi-prompt --query 'Reboot?' && reboot
-        ~/.config/rofi/scripts/rofi-prompt --query 'Reboot?' && dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Reboot" boolean:true
+        ~/.config/rofi/scripts/rofi-prompt --query 'Reboot?' && reboot
+        # ~/.config/rofi/scripts/rofi-prompt --query 'Reboot?' && dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Reboot" boolean:true
         ;;
 
     "$lock")
         # TODO Add your lockscreen command.
         # xdg-screensaver lock
-        betterlockscreen -l --blur 0.0
+        # betterlockscreen -l --blur 0.0
+	mylock
         ;;
 
     "$suspend")

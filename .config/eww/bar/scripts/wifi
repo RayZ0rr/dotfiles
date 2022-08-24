@@ -1,0 +1,37 @@
+#!/bin/bash
+
+wifi_id=""
+for dev in /sys/class/net/*; do
+    if [ -e "$dev"/wireless ]; then
+        wifi_id=${dev##*/};
+        break;
+    fi
+done
+status=$(nmcli g | grep -oE "disconnected")
+essid=$(nmcli c | grep ${wifi_id} | awk '{print ($1)}')
+# essid=$(nmcli -t -f name,device connection show --active | grep wlan0 | cut -d\: -f1)
+
+if [ $status ] ; then
+  # icon=""
+  icon="ﲁ"
+  text="discon"
+  col="#575268"
+
+else
+  # icon=""
+  icon=""
+  text="${essid}"
+  col="#fabd2f"
+  # col="#a1bdce"
+fi
+
+
+
+if [[ "$1" == "--COL" ]]; then
+  echo $col
+elif [[ "$1" == "--ESSID" ]]; then
+  echo $text
+elif [[ "$1" == "--ICON" ]]; then
+  echo $icon
+fi
+

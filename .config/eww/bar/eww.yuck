@@ -1,0 +1,6 @@
+
+(include "./widgets/left_modules.yuck")
+(include "./widgets/center_modules.yuck")
+(include "./widgets/right_modules.yuck")
+
+(include "./widgets/popups.yuck")

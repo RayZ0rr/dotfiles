@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# set background based on the selected image
+Background="$HOME/.local/src/lock.png"
+
+fg=BB6468
+# fg=b6beca
+wrong=e05f65
+highlight=4d5768
+date=BB6468
+# date=171B20
+verify=78dba9
+# fg=c0caf5
+# wrong=db4b4b
+# highlight=565f89
+# date=7aa2f7
+# verify=9ece6a
+
+slowfade () {
+    dis=$(echo -n "$DISPLAY" | tr -c '[:alnum:]' _)
+    ifc='com.github.chjj.compton'
+    obj='/com/github/chjj/compton'
+    if [[ "$1" == "start" ]]; then
+        dbus-send --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_in_step double:0.02
+        dbus-send --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_out_step double:0.02
+    else
+        dbus-send --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_in_step double:0.1
+        dbus-send --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_out_step double:0.1
+    fi
+}
+
+i3lock -n --force-clock -i "$Background" -e --indicator --radius=69 --ring-width=10 --inside-color="#4d576800" --ring-color=$fg --insidever-color="#4d576800" --ringver-color=$verify --insidewrong-color="#4d576833" --ringwrong-color=$wrong --line-uses-inside --keyhl-color=$verify --separator-color=$verify --bshl-color=$verify --time-str="%H:%M" --time-size=100 --date-str="%a, %d %b" --date-size=45 --verif-text="Verifying Password..." --wrong-text="Wrong Password!" --noinput-text="" --greeter-text="Type the password to Unlock" --ind-pos="w/2:h/4+417" --time-font="Metropolis:weight=150" --date-font="Metropolis" --verif-font="Metropolis:weight=200" --greeter-font="Metropolis" --wrong-font="Metropolis:weight=200" --verif-size=23 --greeter-size=23 --wrong-size=23 --time-pos="w/2:h-20" --date-pos="w/2:h-130" --greeter-pos="w/2:h-200" --wrong-pos="w/2:h-530" --verif-pos="w/2:h-550" --date-color=$date --time-color=$date --greeter-color=$highlight --wrong-color=$wrong --verif-color=$date --pointer=default --refresh-rate=0 --pass-media-keys --pass-volume-keys --no-modkey-text
+# slowfade start

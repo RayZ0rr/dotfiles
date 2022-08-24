@@ -1,9 +1,9 @@
 * {
   /* General */
   text-font:                            "Comfortaa Bold 14";
-  text-font-mono:                       "RobotoMono Nerd Font Mono 14";
-  icon-font:                            "RobotoMono Nerd Font Mono 60";
-  icon-font-small:                      "RobotoMono Nerd Font Mono 24";
+  text-font-mono:                       "Hack Nerd Font Mono 14";
+  icon-font:                            "Hack Nerd Font Mono 40";
+  icon-font-small:                      "Hack Nerd Font Mono 24";
   all-inputbar-margin:                  4px 4px;
   all-prompt-padding:                   16px 20px;
   all-entry-padding:                    18px 16px 16px 0px;

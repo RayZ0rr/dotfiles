@@ -1,0 +1,49 @@
+;; -----------------------------------------------------
+;; VARIABLES
+;; -----------------------------------------------------
+
+(defvar eww "eww -c $HOME/.config/eww/bar")
+(defvar eww_scripts "$HOME/.config/eww/bar/scripts")
+
+(defpoll WINDOW_TITLE :interval "1s" "xdotool getwindowfocus getwindowname | awk '{print $1,$2}'")
+(defpoll WINDOW_TOOLTIP :interval "5s" "xdotool getwindowfocus")
+
+;; -----------------------------------------------------
+;; WIDGETS
+;; -----------------------------------------------------
+
+(defwidget window_title []
+  (box :class "module-window" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+    (label :text WINDOW_TITLE :class "window_title" :tooltip WINDOW_TOOLTIP)
+    (box :class "linux" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+      (label :text " " :class "linux_icon" :tooltip "Arch Linux")
+    )
+  )
+)
+
+(defwidget center_modules []
+  (box :class "center_modules"
+    :orientation "h"
+    :space-evenly false
+    :halign "center"
+    (window_title)
+))
+
+;; -----------------------------------------------------
+;; WINDOWS
+;; -----------------------------------------------------
+
+(defwindow bar_center
+  :geometry (geometry
+     :x "0%"
+     :y "1px"
+     :width "10%"
+     :height "42px"
+     :anchor "top center"
+  )
+  :stacking "bg"
+  :reserve (struts :distance "40px" :side "top")
+  :wm-ignore "false"
+  :windowtype "dock"
+  (center_modules)
+)
