@@ -16,8 +16,8 @@
 
 (defvar wifi_rev false)
 (defpoll WLAN_COLOR :interval "1m" "~/.config/eww/bar/scripts/wifi --COL")
-(defpoll WLAN_ESSID :interval "1m" "~/.config/eww/bar/scripts/wifi --ESSID")
-(defpoll WLAN_ICON :interval "1m" "~/.config/eww/bar/scripts/wifi --ICON")
+(defpoll WLAN_ESSID :interval "10s" "~/.config/eww/bar/scripts/wifi --ESSID")
+(defpoll WLAN_ICON :interval "10s" "~/.config/eww/bar/scripts/wifi --ICON")
 
 (defpoll SYSTRAY_COLOR :interval "1s" "bash ~/.config/eww/bar/scripts/systray.sh color")
 

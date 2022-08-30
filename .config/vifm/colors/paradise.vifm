@@ -1,17 +1,16 @@
-" onedark color scheme for vifm
+" paradise color scheme for vifm
 
 " Reset all styles first
 highlight clear
 
-highlight Border	cterm=none	ctermfg=035	ctermbg=default
-
-
-
+" 256 Colors
+" ----------------------------------------
 highlight TabLine       cterm=none	ctermfg=240	ctermbg=default
 highlight TabLineSel	cterm=none	ctermfg=075	ctermbg=default
 highlight TopLine	cterm=none	ctermfg=174	ctermbg=default
 highlight TopLineSel	cterm=none	ctermfg=120	ctermbg=default
 
+highlight Border	cterm=none	ctermfg=035	ctermbg=default
 highlight Win		cterm=none	ctermfg=250	ctermbg=default
 highlight Directory	cterm=bold	ctermfg=004	ctermbg=default
 highlight CurrLine	cterm=bold,inverse	ctermfg=default	ctermbg=default
@@ -19,7 +18,6 @@ highlight OtherLine	cterm=bold	ctermfg=default	ctermbg=default
 highlight Selected	cterm=none	ctermfg=003	ctermbg=008
 
 highlight StatusLine	cterm=none	ctermfg=black	ctermbg=174
-" highlight StatusLine	gui=none	guifg=#B66467	guibg=#B66467
 highlight JobLine	cterm=bold	ctermfg=250	ctermbg=008
 highlight ErrorMsg	cterm=bold	ctermfg=001	ctermbg=default
 highlight WildMenu	cterm=bold	ctermfg=015	ctermbg=250
@@ -31,3 +29,16 @@ highlight BrokenLink	cterm=bold	ctermfg=001	ctermbg=default
 highlight Device	cterm=bold,standout	ctermfg=000	ctermbg=011
 highlight Fifo		cterm=none	ctermfg=003	ctermbg=default
 highlight Socket	cterm=bold	ctermfg=005	ctermbg=default
+
+" True Colors
+" ----------------------------------------
+highlight TabLine       gui=none	guifg=#928374	guibg=#151515
+highlight TabLineSel	gui=none	guifg=#8DA3B9	guibg=#151515
+highlight TopLine	gui=none	guifg=#8DA3B9	guibg=#151515
+highlight TopLineSel	gui=none	guifg=#8CC77D	guibg=#151515
+
+highlight Win		gui=none	guifg=default	guibg=#151515
+highlight Border	gui=none	guifg=#8DA3B9	guibg=#151515
+highlight Directory	gui=bold	guifg=#8DA3B9	guibg=default
+
+highlight StatusLine	gui=none	guifg=#151515	guibg=#B66467

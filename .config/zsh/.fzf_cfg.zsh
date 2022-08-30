@@ -12,19 +12,19 @@ then
     source "/usr/share/fzf/shell/completion.zsh" 2> /dev/null
   elif [[ -d "/usr/share/fzf" ]] ; then
     source "/usr/share/fzf/completion.zsh" 2> /dev/null
-  elif [[ -d "${MY_FZF_PATH}/shell" ]] ; then
-    source "${MY_FZF_PATH}/shell/completion.zsh" 2> /dev/null
+  elif [[ -d "${MY_FZF_PATH}" ]] ; then
+    source "${MY_FZF_PATH}/completion.zsh" 2> /dev/null
   fi
 fi
 
 # Key bindings
 #---------------------------------------------------------------------------------
-if [[ -d "/usr/share/shell/fzf" ]] ; then
+if [[ -d "/usr/share/fzf/shell" ]] ; then
   source "/usr/share/fzf/shell/key-bindings.zsh" 2> /dev/null
 elif [[ -d "/usr/share/fzf" ]] ; then
   source "/usr/share/fzf/key-bindings.zsh" 2> /dev/null
-elif [[ -d "${MY_FZF_PATH}/shell" ]] ; then
-  source "${MY_FZF_PATH}/shell/key-bindings.zsh"
+elif [[ -d "${MY_FZF_PATH}" ]] ; then
+  source "${MY_FZF_PATH}/key-bindings.zsh"
 fi
 
 #---------------------------------------------------------------------------------

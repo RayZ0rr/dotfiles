@@ -33,5 +33,7 @@ slowfade () {
     fi
 }
 
+dunstctl set-paused true
 i3lock -n --force-clock -i "$Background" -e --indicator --radius=69 --ring-width=10 --inside-color="#4d576800" --ring-color=$fg --insidever-color="#4d576800" --ringver-color=$verify --insidewrong-color="#4d576833" --ringwrong-color=$wrong --line-uses-inside --keyhl-color=$verify --separator-color=$verify --bshl-color=$verify --time-str="%H:%M" --time-size=100 --date-str="%a, %d %b" --date-size=45 --verif-text="Verifying Password..." --wrong-text="Wrong Password!" --noinput-text="" --greeter-text="Type the password to Unlock" --ind-pos="w/2:h/4+417" --time-font="Metropolis:weight=150" --date-font="Metropolis" --verif-font="Metropolis:weight=200" --greeter-font="Metropolis" --wrong-font="Metropolis:weight=200" --verif-size=23 --greeter-size=23 --wrong-size=23 --time-pos="w/2:h-20" --date-pos="w/2:h-130" --greeter-pos="w/2:h-200" --wrong-pos="w/2:h-530" --verif-pos="w/2:h-550" --date-color=$date --time-color=$date --greeter-color=$highlight --wrong-color=$wrong --verif-color=$date --pointer=default --refresh-rate=0 --pass-media-keys --pass-volume-keys --no-modkey-text
+dunstctl set-paused false
 # slowfade start

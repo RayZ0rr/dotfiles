@@ -1,6 +1,7 @@
 
 import:
- - ~/.config/alacritty/themes/gruvbox.yml
+ - ~/.config/alacritty/themes/paradise.yml
+ # - ~/.config/alacritty/themes/gruvbox.yml
  # - ~/.config/alacritty/themes/dracula.yml
 
 # Colors (Treehouse)

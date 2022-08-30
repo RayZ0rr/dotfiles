@@ -3,8 +3,10 @@
 .rpmdb/*/*
 .npm/*/*
 .cargo/*/*
+.rustup/*/*
 .steam/*/*
 .conda/*/*
+Softwares/*/*/*/*/*
 **/anaconda3/*/*
 .local/lib/python3.*/site-packages/*/*
 .local/share/Trash/*/*
@@ -13,8 +15,10 @@
 .local/share/vifm/Trash/*/*
 **/timeshift/*/*
 **/gFolder/RaZ0rr/github/dotfiles/*
-**/nvim/.undoDir/*
-**/nvim/.mkViewDir/*
-**/nvim/.sessionDir/*
+**/nvim/.UndoDir/*
+**/nvim/.ViewDir/*
+**/nvim/.SessionsDir/*
 **/nvim/swap/*
 **/TabSessionManager - Backup/*
+Softwares/Installed/HEP/*/*/*/*
+shared_data/tmp/*/*

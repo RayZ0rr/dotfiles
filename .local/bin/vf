@@ -1,10 +1,20 @@
 #!/bin/sh
 
+# vifm_cmd="TERM=tmux-direct vifm"
+vifm_cmd="vifm"
+
+# term_name=xterm-direct
+term_name=tmux-direct
+if [[ "$TERM" == "st-256color" ]] ; then
+  term_name="st-direct"
+fi
+export TERM=$term_name
+
 if [ -z "$(command -v vifm)" ]; then
 	printf "vifm isn't installed on your system!\n"
 	exit 1
 elif [ -z "$(command -v ueberzug)" ]; then
-	exec vifm "$@"
+	exec $vifm_cmd "$@"
 else
 	cleanup() {
 		exec 3>&-
@@ -16,6 +26,6 @@ else
 	ueberzug layer -s <"$FIFO_UEBERZUG" -p json &
 	exec 3>"$FIFO_UEBERZUG"
 	trap cleanup EXIT
-	vifm "$@" 3>&-
+	$vifm_cmd "$@" 3>&-
 	~/.config/vifm/scripts/vifmimg clear
 fi

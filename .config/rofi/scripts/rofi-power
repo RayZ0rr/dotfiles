@@ -39,7 +39,7 @@ case "$chosen" in
         # TODO Add your lockscreen command.
         # xdg-screensaver lock
         # betterlockscreen -l --blur 0.0
-	mylock
+	~/.local/bin/mylock
         ;;
 
     "$suspend")
