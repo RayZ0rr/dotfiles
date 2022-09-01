@@ -25,6 +25,10 @@ control + alt + s ; f
 control + alt + s ; x
   ~/.local/bin/dmkill
 
+#Clipboard manager
+control + alt + s ; y
+  copyq menu
+
 #tdrop
 control + alt + s ; t
   tdrop -y 40 alacritty -t tdrop
@@ -55,7 +59,7 @@ control + alt + button3
 
 # Rofi launcher bindings
 control + alt + r ; {d,a,c,r,w,f}
-  rofi {-show drun -theme desktop_apps,-theme all_modes -show combi -modi "combi#run#window#keys",-theme spotlight-dark -show bcalc -modi "bcalc:~/.config/rofi/scripts/rofi-bcalc" -no-show-match -no-sort,-show run -modi run -theme rounded-red-dark,-theme nord-twoLines -show window -modi window, -show filebrowser -modi filebrowser -theme file_manager}
+  rofi {-show drun -theme desktop_apps,-theme all_modes -show combi -modi "combi#run#window#keys",-theme spotlight-dark -show bcalc -modi "bcalc:~/.config/rofi/scripts/rofi-bcalc" -no-show-match -no-sort,-show run -modi run -theme Ace,-theme nord-twoLines -show window -modi window, -show filebrowser -modi filebrowser -theme file_manager}
 
 # clipmenu
 control + alt + r ; y

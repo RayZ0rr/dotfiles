@@ -27,3 +27,5 @@ picom --experimental-backends -b
 i3-msg "exec --no-startup-id nm-applet" &
 sxhkd &
 blueman-applet &
+
+copyq &

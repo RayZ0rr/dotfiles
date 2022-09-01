@@ -2,11 +2,14 @@
 HISTFILE=${ZDOTDIR}/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
+HISTORY_IGNORE="(ls|la|ll|cd|zd|pwd|exit|cd ..)"
 #setopt appendhistory beep nomatch notify
 setopt appendhistory
 setopt histignorealldups
+setopt histignorespace
 setopt share_history
-unsetopt autocd extendedglob
+setopt HIST_SAVE_NO_DUPS
+setopt autocd extendedglob
 bindkey -e
 zle_highlight+=(paste:none)
 # End of lines configured by zsh-newuser-install

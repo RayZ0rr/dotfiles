@@ -13,6 +13,8 @@ configuration {
   kb-accept-entry: "Return,KP_Enter";
   kb-mode-next: "Control+Right,Control+Tab,Tab";
   kb-mode-previous: "Control+Left,Control+ISO_Left_Tab,ISO_Left_Tab";
+  kb-element-next:            "";
+  kb-element-prev:            "";
   kb-toggle-case-sensitivity: "Control+i";
   kb-cancel: "Escape,Control+c,Control+q";
   me-accept-entry: "MousePrimary,MouseDPrimary";

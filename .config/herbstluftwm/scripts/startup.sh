@@ -29,3 +29,5 @@ picom --experimental-backends -b
 sxhkd &
 blueman-applet &
 nm-applet &
+
+copyq &

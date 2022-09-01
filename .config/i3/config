@@ -330,6 +330,7 @@ assign [class="mpv"] number 7
 for_window [class="VirtualBox Manager"] move to workspace number 6
 for_window [class="Virt-manager"] move to workspace number 6
 for_window [title="nmtui"] floating enable, move position center
+for_window [class="copyq"] floating enable, move position center
 for_window [class="steam" class="Steam"] floating enable
 for_window [title="tdrop"] floating enable
 for_window [title="Event Tester"] floating enable
