@@ -8,16 +8,21 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
-shopt -s histappend
+BASH_CONFIG_PATH="${HOME}/.config/bash"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
+HISTFILE=${BASH_CONFIG_PATH}/.bash_history
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=$HISTCONTROL:ignoreboth
+
+HISTIGNORE="ls:la:ll:cd:zd:pwd:exit:cd ..:nv:vim:nvim:gis:dgs:dgy"
+
+# append to the history file, don't overwrite it
+shopt -s histappend
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -111,7 +116,6 @@ fi
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, ~/.bash_sources instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-BASH_CONFIG_PATH="${HOME}/.config/bash"
 
 if [ -f ${BASH_CONFIG_PATH}/.bash_aliases ]; then
     . ${BASH_CONFIG_PATH}/.bash_aliases

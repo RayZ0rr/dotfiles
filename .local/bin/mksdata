@@ -3,7 +3,7 @@
 current_folder="$(dirname $(readlink -f $0))"
 
 printf "\n--------------------------\n"
-printf "Current directory is ${current_folder}"
+printf "Script directory is ${current_folder}"
 printf "\n--------------------------\n"
 
 printf "\n--------------------------\n"
@@ -20,9 +20,9 @@ Setup()
 {
   cd "$target"
   printf "\n--------------------------\n"
-  printf "Running in directory $PWD"
+  printf "Target directory $PWD"
   printf "\n--------------------------\n"
-  sudo chown -Rc $USER:sdata "${target}"
+  sudo chown -Rc root:sdata "${target}"
   printf "\n--------------------------\n"
   printf "Current Acl is:"
   printf "\n--------------------------\n"
@@ -30,8 +30,10 @@ Setup()
   printf "\n--------------------------\n"
   printf "Setting new acl"
   printf "\n--------------------------\n"
-  setfacl -R -d -m "g::rwX" "${target}"
-  chmod g+s "${target}"
+  # sudo chmod -R 770 "${target}"
+  sudo setfacl -R -d -m "g::rwX" "${target}"
+  sudo setfacl -R -d -m "u::rwX" "${target}"
+  sudo chmod g+s "${target}"
   printf "\n--------------------------\n"
   printf "New Acl is:"
   printf "\n--------------------------\n"

@@ -52,6 +52,8 @@ if [ -x "$(command -v qt5ct)" ]; then
   export QT_QPA_PLATFORMTHEME=qt5ct
 fi
 
+export CUDA_CACHE_PATH="$HOME"/.cache/nv
+
 # Wine Config
 export WINEPREFIX=~/GameZ/Wine
 
@@ -64,11 +66,19 @@ if [ -x "$(command -v zoxide)" ]; then
 fi
 
 #----------------------------------------------------
+# RUST language
+#----------------------------------------------------
+if [ -x "$(command -v cargo)" ]; then
+  export CARGO_HOME=${HOME}/.local/share/cargo
+  export RUSTUP_HOME=${HOME}/.local/share/rustup
+fi
+
+#----------------------------------------------------
 # GO language
 #----------------------------------------------------
 if [ -x "$(command -v go)" ]; then
   export GOPATH=${HOME}/go
-  export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin
+  export PATH=${PATH}:${GOPATH}/bin
 fi
 
 #--------------------------------------------------------

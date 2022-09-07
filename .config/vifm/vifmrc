@@ -132,12 +132,9 @@ fileviewer <video/*>
 " fileviewer {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
 "         \ env -u COLORTERM viu --width %pw --height %ph -s %c
 fileviewer <image/*>
-  \ imv %c
+  \ vifmimg draw %px %py %pw %ph %c
   \ %pc
   \ vifmimg clear
-  " \ vifmimg draw %px %py %pw %ph %c
-  " \ %pc
-  " \ vifmimg clear
 
 fileviewer <audio/*>
   \ vifmimg audio %px %py %pw %ph %c

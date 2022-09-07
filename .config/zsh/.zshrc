@@ -2,7 +2,7 @@
 HISTFILE=${ZDOTDIR}/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
-HISTORY_IGNORE="(ls|la|ll|cd|zd|pwd|exit|cd ..)"
+HISTORY_IGNORE="(ls|la|ll|cd|zd|pwd|exit|cd ..|nv|vim|nvim|gis|dgs|dgy)"
 #setopt appendhistory beep nomatch notify
 setopt appendhistory
 setopt histignorealldups
