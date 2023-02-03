@@ -337,13 +337,14 @@ updatemirrors(){
 	    echo "invalid number of arguments"
 	    return 1
 	  elif  [[ $# -eq 1 ]] ; then
-	    curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 -
+	    # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -
+	    curl -s "https://archlinux.org/mirrorlist/?country=DE&country=LU&country=BE&country=FR&country=CH&protocol=http&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -
 	    return 0
 	  else
-	    curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n $2 -
+	    # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n $2 -
+	    curl -s "https://archlinux.org/mirrorlist/?country=DE&country=LU&country=BE&country=FR&country=CH&protocol=http&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n $2 -
 	    return 0
 	  fi
-	  # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n ${@} -
 	else
 	  echo "rankmirrors command not found"
 	  return 1
@@ -356,13 +357,14 @@ updatemirrors(){
 	    echo "invalid number of arguments"
 	    return 1
 	  elif  [[ $# -eq 1 ]] ; then
-	    sudo reflector --latest 10 --protocol https --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist_reflector
+	    # sudo reflector --latest 10 --protocol https --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist_reflector
+	    sudo reflector --latest 10 --protocol https --sort rate --country 'Germany,Luxembourg,Belgium,France,Switzerland' --save /etc/pacman.d/mirrorlist_reflector
 	    return 0
 	  else
-	    sudo reflector --latest $2 --protocol https --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist_reflector
+	    # sudo reflector --latest $2 --protocol https --sort rate --country 'India,China,Singapore,Japan,' --save /etc/pacman.d/mirrorlist_reflector
+	    sudo reflector --latest $2 --protocol https --sort rate --country 'Germany,Luxembourg,Belgium,France,Switzerland' --save /etc/pacman.d/mirrorlist_reflector
 	    return 0
 	  fi
-	  # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n ${@} -
 	else
 	  echo "reflector command not found"
 	  return 1

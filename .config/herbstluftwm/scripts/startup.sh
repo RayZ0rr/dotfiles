@@ -14,7 +14,7 @@ feh --bg-fill $HOME/.local/src/wall.png &
 
 ~/.config/conky/Mine/branch/ConkybooterBranch &
 
-picom --experimental-backends -b
+picom --daemon
 
 ~/.local/src/battery_charge_notify.sh &
 
@@ -30,4 +30,4 @@ sxhkd &
 blueman-applet &
 nm-applet &
 
-copyq &
+copyq --start-server enable &

@@ -21,6 +21,13 @@ then
   fi
 fi
 
+if [[ -f ${BASH_CONFIG_PATH}/fzf-bash-completion.sh ]] ; then
+  source ${BASH_CONFIG_PATH}/fzf-bash-completion.sh
+  bind -x '"\t": fzf_bash_completion'
+  # _fzf_bash_completion_loading_msg() { echo "${PS1@P}${READLINE_LINE}" | tail -n1; }
+  FZF_COMPLETION_AUTO_COMMON_PREFIX=true
+  FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=true
+fi
 # Key bindings
 #---------------------------------------------------------------------------------
 if [[ -d "/usr/share/fzf/shell" ]] ; then

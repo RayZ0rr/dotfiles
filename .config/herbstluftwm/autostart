@@ -181,7 +181,8 @@ hc set frame_border_normal_color      '#565656'
 hc set frame_bg_normal_color	      '#00000000'
 hc set frame_bg_active_color	      '#00000000'
 hc set frame_border_width	      5
-hc set always_show_frame	      off
+hc set show_frame_decorations 'focused_if_multiple'
+# hc set always_show_frame	      off
 hc set frame_bg_transparent	      on
 hc set frame_transparent_width	      1
 hc set frame_gap		      10
@@ -197,7 +198,6 @@ hc attr theme.title_color	      '#ffffff'
 hc attr theme.normal.color	      '#32323200'
 # hc attr theme.normal.color '#323232dd'
 # hc attr theme.background_color '#00000000'
-hc attr theme.background_color '#141414'
 hc attr theme.urgent.color	      '#7811A1dd'
 hc attr theme.tab_color		      '#1F1F1Fdd'
 hc attr theme.active.tab_color	      '#2B4F0Add'
@@ -221,6 +221,7 @@ for state in active urgent normal ; do
         attr theme.${state}.outer_color C
 done
 hc attr theme.tiling.outer_width 1
+hc attr theme.background_color '#141414'
 
 # hc pad 0 5 5 5 5
 hc set window_gap		      5
@@ -234,23 +235,25 @@ hc set mouse_recenter_gap	      0
 hc unrule -F
 hc rule focus=on # normally focus new clients
 hc rule floatplacement=smart
-hc rule instance~hlwmScratch.*	     floating=on	      floatplacement=center # float all instances which contains 'hlwmScratch'
-hc rule instance~fzf-menu.*	     floating=on	      focus=on		    floatplacement=center   # float all instances which contains 'fzf-menu'
-hc rule class=firefox		     tag="${tag_names[8]}"    focus=on		    # move all xterms to tag 3
-hc rule class=firefox		     title=Library	      floating=on	    # Float History and Downloads windows of Firefox
-hc rule class="Tor Browser"	     tag="${tag_names[5]}"    focus=on		    floating=on # move all tor browser to tag 6
-hc rule class=obs		     tag="${tag_names[6]}"    floating=on	    floatplacement=center # float obs studio
+hc rule instance~hlwmScratch.*	     floating=on	      floatplacement=center	# float all instances which contains 'hlwmScratch'
+hc rule instance~fzf-menu.*	     floating=on	      floatplacement=center	# float all instances which contains 'fzf-menu'
+hc rule class=firefox		     tag="${tag_names[8]}"    # move firefox to to tag 9
+hc rule class=firefox		     title=Library	      floating=on		# Float History and Downloads windows of Firefox
+hc rule class="Tor Browser"	     tag="${tag_names[5]}"    floating=on		# move all tor browser to tag 6
+hc rule class=obs		     tag="${tag_names[6]}"    floating=on		floatplacement=center # float obs studio
+hc rule class=zoom		     tag="${tag_names[6]}"    floating=on		floatplacement=center # float obs studio
 hc rule class=mpv		     tag="${tag_names[6]}"    # move mpv player to tag 7
-hc rule class=Kodi		     tag="${tag_names[6]}"    focus=on		    # Kodi send to tag 7
-hc rule class="VirtualBox Manager"   tag="${tag_names[5]}"    focus=on		    # Virtulabox send to tag 6
-hc rule class="Virt-manager"	     tag="${tag_names[5]}"    focus=on		    # Virt-manager send to tag 6
-hc rule class=Steam		     tag="${tag_names[7]}"    floating=on	    floatplacement=center # float Steam
-hc rule title=alsamixer		     floating=on	      floatplacement=smart  # float Alsamixer volume control
-hc rule title=tdrop		     floating=on	      floatplacement=center focus=on 	# float tdrop dropdown terminal
-hc rule title=nmtui		     floating=on	      floatplacement=smart  focus=on	# float nmtui network manager
-hc rule class=copyq		     floating=on	      floatplacement=center  focus=on manage=on	# float copyq clipboard manager
-hc rule title="Event Tester"	     floating=on	      floatplacement=smart  # float xev
-hc rule class=Pavucontrol	     floating=on	      floatplacement=center # float pulse audio volume control
+hc rule class=Kodi		     tag="${tag_names[6]}"    # Kodi send to tag 7
+hc rule class="VirtualBox Manager"   tag="${tag_names[5]}"    # Virtulabox send to tag 6
+hc rule class="Virt-manager"	     tag="${tag_names[5]}"    # Virt-manager send to tag 6
+hc rule class=Steam		     tag="${tag_names[7]}"    floating=on		floatplacement=center # float Steam
+hc rule title=alsamixer		     floating=on	      floatplacement=smart	# float Alsamixer volume control
+hc rule title=tdrop		     floating=on	      floatplacement=center	# float tdrop dropdown terminal
+hc rule title=nmtui		     floating=on	      floatplacement=smart	# float nmtui network manager
+# hc rule class=copyq		     floating=on	      floatplacement=center	# float copyq clipboard manager
+hc rule title="Event Tester"	     floating=on	      floatplacement=smart	# float xev
+hc rule class=Pavucontrol	     floating=on	      floatplacement=center	# float pulse audio volume control
+hc rule class=KopiaUI		     floating=on	      floatplacement=center	# float kopia UI backup tool
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on floatplacement=center

@@ -17,6 +17,30 @@ then
   fi
 fi
 
+if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
+  source $ZDOTDIR/fzf-zsh-completion.sh
+  bindkey '^I' fzf_completion
+
+  zstyle ':completion:*' fzf-search-display true
+  # basic file preview for ls (you can replace with something more sophisticated than head)
+  zstyle ':completion::*:(ls|exa)::*' fzf-completion-opts -m --preview='eval head {+1}'
+  zstyle ':completion::*:(vim|nvim)::*' fzf-completion-opts -m --preview='eval head {+1}'
+  zstyle ':completion::*:(cd|zd)::*' fzf-completion-opts --preview='eval tree {+1}'
+
+  # preview when completing env vars (note: only works for exported variables)
+  # eval twice, first to unescape the string, second to expand the $variable
+  zstyle ':completion::*:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-completion-opts --preview='eval eval echo {1}'
+
+  # preview a `git status` when completing git add
+  zstyle ':completion::*:git::git,add,restore,*' fzf-completion-opts -m --preview='git -c color.status=always status --short'
+
+  # if other subcommand to git is given, show a git diff or git log
+  # zstyle ':completion::*:git::*,[a-z]*' fzf-completion-opts -m --preview='
+  # eval set -- {+1}
+  # for arg in "$@"; do
+  #     { git diff --color=always -- "$arg" | git log --color=always "$arg" } 2>/dev/null
+  # done'
+fi
 # Key bindings
 #---------------------------------------------------------------------------------
 if [[ -d "/usr/share/fzf/shell" ]] ; then

@@ -69,19 +69,28 @@ if [ -x "$(command -v zoxide)" ]; then
 fi
 
 #----------------------------------------------------
-# RUST language
-#----------------------------------------------------
-if [ -x "$(command -v cargo)" ]; then
-  export CARGO_HOME=${HOME}/.local/share/cargo
-  export RUSTUP_HOME=${HOME}/.local/share/rustup
-fi
-
-#----------------------------------------------------
 # GO language
 #----------------------------------------------------
 if [ -x "$(command -v go)" ]; then
+  if [ -d "${HOME}/.local/share/go/bin" ]; then
+    mkdir -p "${HOME}/.local/share/go/bin"
+  fi
   export GOPATH=${HOME}/.local/share/go
   export PATH=${PATH}:${GOPATH}/bin
+fi
+
+#----------------------------------------------------
+# RUST language
+#----------------------------------------------------
+if [ -x "$(command -v cargo)" ]; then
+  if [ -d "${HOME}/.local/share/cargo" ]; then
+    mkdir -p "${HOME}/.local/share/cargo"
+  fi
+  if [ -d "${HOME}/.local/share/rustup" ]; then
+    mkdir -p "${HOME}/.local/share/rustup"
+  fi
+  export CARGO_HOME=${HOME}/.local/share/cargo
+  export RUSTUP_HOME=${HOME}/.local/share/rustup
 fi
 
 #----------------------------------------------------
@@ -95,22 +104,7 @@ export TMUXP_CONFIGDIR=$HOME/.config/tmux/tmuxp
 #--------------------------------------------------------
 
 export MY_FZF_PATH="$HOME/Softwares/Source/fzf"
-# export MY_FZF_PATH=$HOME/data_shared/Softwares/Source/fzf/gitclone
-
-#source /usr/share/bash-completion/completions/fzf
-#source /usr/share/doc/fzf/examples/key-bindings.bash
-#if [ -f ~/.fzf_config ]; then
-#    source ~/.fzf_config
-#fi
 [ -f $ZDOTDIR/.fzf_cfg.zsh ] && source $ZDOTDIR/.fzf_cfg.zsh
-if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
-  source $ZDOTDIR/fzf-zsh-completion.sh
-  bindkey '^I' fzf_completion
-  # only for git
-  zstyle ':completion:*:*:git:*' fzf-search-display true
-  # or for everything
-  zstyle ':completion:*' fzf-search-display true
-fi
 
 #----------------------------------------------------
 #Starship config file

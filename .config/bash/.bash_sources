@@ -66,19 +66,28 @@ if [ -x "$(command -v zoxide)" ]; then
 fi
 
 #----------------------------------------------------
-# RUST language
-#----------------------------------------------------
-if [ -x "$(command -v cargo)" ]; then
-  export CARGO_HOME=${HOME}/.local/share/cargo
-  export RUSTUP_HOME=${HOME}/.local/share/rustup
-fi
-
-#----------------------------------------------------
 # GO language
 #----------------------------------------------------
 if [ -x "$(command -v go)" ]; then
-  export GOPATH=${HOME}/go
+  if ! [[ -d "${HOME}/.local/share/go/bin" ]]; then
+    mkdir -p "${HOME}/.local/share/go/bin"
+  fi
+  export GOPATH=${HOME}/.local/share/go
   export PATH=${PATH}:${GOPATH}/bin
+fi
+
+#----------------------------------------------------
+# RUST language
+#----------------------------------------------------
+if [ -x "$(command -v cargo)" ]; then
+  if ! [[ -d "${HOME}/.local/share/cargo" ]]; then
+    mkdir -p "${HOME}/.local/share/cargo"
+  fi
+  if ! [[ -d "${HOME}/.local/share/rustup" ]]; then
+    mkdir -p "${HOME}/.local/share/rustup"
+  fi
+  export CARGO_HOME=${HOME}/.local/share/cargo
+  export RUSTUP_HOME=${HOME}/.local/share/rustup
 fi
 
 #--------------------------------------------------------
@@ -96,19 +105,10 @@ export SINGULARITY_CACHEDIR="$HOME/.local/cache/singularity"
 #--------------------------------------------------------
 #	fzf / Fuzzy Finder
 #--------------------------------------------------------
-#source /usr/share/bash-completion/completions/fzf
-#source /usr/share/doc/fzf/examples/key-bindings.bash
-#[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export MY_FZF_PATH="$HOME/Softwares/Source/fzf"
-
 if [ -f ${BASH_CONFIG_PATH}/.fzf_cfg.bash ]; then
   source ${BASH_CONFIG_PATH}/.fzf_cfg.bash
-fi
-if [[ -f ${BASH_CONFIG_PATH}/fzf-bash-completion.sh ]] ; then
-  source ${BASH_CONFIG_PATH}/fzf-bash-completion.sh
-  bind -x '"\t": fzf_bash_completion'
-  # _fzf_bash_completion_loading_msg() { echo "${PS1@P}${READLINE_LINE}" | tail -n1; }
 fi
 
 #----------------------------------------------------

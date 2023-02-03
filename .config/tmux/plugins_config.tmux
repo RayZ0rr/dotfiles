@@ -16,29 +16,15 @@ bind-key "C-t" run-shell -b "$HOME/.config/tmux/plugins/tmux-fzf/scripts/session
 set -g @resurrect-dir '$HOME/.config/tmux/resurrect'
 set -g @resurrect-capture-pane-contents 'on'
 set -g @resurrect-processes '"nv->nv +SLoad"'
+
 ###########################
-# Prefix highlight plugin
+# Mode indicator plugin
 ###########################
-
-set -g @prefix_highlight_fg '#ff0000' # default is 'colour231'
-set -g @prefix_highlight_bg 'black'  # default is 'colour04'
-
-set -g @prefix_highlight_show_copy_mode 'on'
-set -g @prefix_highlight_copy_mode_attr 'fg=colour11,bg=black,bold' # default is 'fg=default,bg=yellow'
-set -g @prefix_highlight_show_sync_mode 'on'
-set -g @prefix_highlight_sync_mode_attr 'fg=#0000ff,bg=black' # default is 'fg=default,bg=yellow'
-
-set -g @prefix_highlight_prefix_prompt 'Prefix'
-set -g @prefix_highlight_copy_prompt 'Copy'
-set -g @prefix_highlight_sync_prompt 'Sync'
-
-# set -g @prefix_highlight_output_prefix '< '
-# set -g @prefix_highlight_output_suffix ' >'
-
-# set -g @prefix_highlight_empty_prompt '        '          # default is '' (empty char)
-set -g @prefix_highlight_empty_attr 'fg=colour10,bg=colour235' # default is 'fg=default,bg=default'
-
-set -g @prefix_highlight_empty_has_affixes 'on' # default is 'off'
-set -g @prefix_highlight_empty_prompt 'Tmux'
-# set -g @prefix_highlight_output_prefix '< '
-# set -g @prefix_highlight_output_suffix ' >'
+set -g @mode_indicator_prefix_prompt " WAIT "
+set -g @mode_indicator_prefix_mode_style "fg=#2e323b,bg=#61afef,bold"
+set -g @mode_indicator_copy_prompt " COPY "
+set -g @mode_indicator_copy_mode_style "fg=#2e323b,bg=#98c379,bold"
+set -g @mode_indicator_sync_prompt " SYNC "
+set -g @mode_indicator_sync_mode_style "fg=#2e323b,bg=#e06c75,bold"
+set -g @mode_indicator_empty_prompt " TMUX "
+set -g @mode_indicator_empty_mode_style "fg=#c678dd,bold"

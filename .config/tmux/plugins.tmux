@@ -6,10 +6,10 @@
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'sainnhe/tmux-fzf'
-set -g @plugin 'tmux-plugins/tmux-sensible'
+# set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-logging'
-set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
+set -g @plugin 'MunifTanjim/tmux-mode-indicator'
 
 #Auto install in new system
 if "test ! -d ~/.config/tmux/plugins/tpm" \

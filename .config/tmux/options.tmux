@@ -46,6 +46,9 @@ set -g pane-base-index 1
 #Don't rename windows automatically
 set-option -g allow-rename off
 
+# Use titles in tabs
+set -g set-titles on
+
 # re-number windows when one is closed
 set -g renumber-windows on
 
