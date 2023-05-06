@@ -20,33 +20,37 @@ tag_10="﩯"
 
 #---------------------------------------------------------------
 
-if [ -x "$(command -v alacritty)" ]
+Terminal="wezterm start"
+
+if [ -x "$(command -v ${Terminal})" ]
 then
 
   herbstclient load "${tag_names[0]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
   # spawn two terminals (alacritty and default terminal in two windows) in tag 1
   RULES=( tag="${tag_names[0]}" index=0 ) # left-hand frame
-  spawn_with_rules alacritty --class AL1
+  spawn_with_rules ${Terminal} --class Term1
   sleep 1
-  xdotool type --window $(xdotool search --classname Al1) $'la\n'
+  xdotool type --window $(xdotool search --classname Term1) $'la\n'
+  xdotool key --window $(xdotool search --classname Term1) KP_Enter
 
   RULES=( tag="${tag_names[0]}" index=1 )  # right-hand frame
-  spawn_with_rules alacritty --class Al2
+  spawn_with_rules ${Terminal} --class Term2
   sleep 1
-  xdotool type --window $(xdotool search --classname Al2) $'neofetch\n'
+  xdotool type --window $(xdotool search --classname Term2) $'neofetch\n'
+  xdotool key --window $(xdotool search --classname Term2) KP_Enter
 
   herbstclient load "${tag_names[1]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
   # spawn two terminals (alacritty and default terminal in two windows) in tag 1
   RULES=( tag="${tag_names[1]}" index=0 ) # left-hand frame
-  spawn_with_rules alacritty --class AL3
+  spawn_with_rules ${Terminal} --class Term3
   sleep 1
 
   RULES=( tag="${tag_names[1]}" index=1 )  # right-hand frame
-  spawn_with_rules alacritty --class Al4
+  spawn_with_rules ${Terminal} --class Term4
   sleep 1
 
 else
-  echo "Alacritty not installed"
+  echo "${Terminal} not installed"
 fi
 
 #---------------------------------------------------------------
@@ -56,19 +60,19 @@ then
 
   # spawn an vifm in tag 4
   RULES=( tag="${tag_names[3]}" )
-  spawn_with_rules st -n VifmAl
+  spawn_with_rules st -n VifmTerm
   sleep 1
   herbstclient use "${tag_names[3]}"
-  xdotool type --window $(xdotool search --classname VifmAl) $'vf\n'
+  xdotool type --window $(xdotool search --classname VifmTerm) $'vf\n'
 
 #---------------------------------------------------------------
 
   # spawn an bottom (htop alternative) in tag 5
   RULES=( tag="${tag_names[4]}" )
-  spawn_with_rules st -n BottomAl
+  spawn_with_rules st -n BottomTerm
   sleep 1
   herbstclient use "${tag_names[4]}"
-  xdotool type --window $(xdotool search --classname BottomAl) $'btm\n'
+  xdotool type --window $(xdotool search --classname BottomTerm) $'btm\n'
   # spawn_with_rules xdotool key Return
 
 #---------------------------------------------------------------

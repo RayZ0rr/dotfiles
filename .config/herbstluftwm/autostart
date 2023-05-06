@@ -37,7 +37,7 @@ hc keybind $Mod-q	      spawn copyq toggle
 hc keybind $Mod-Shift-r	      reload
 hc keybind $Mod-r	      remove
 hc keybind $Mod-Shift-x	      close_or_remove
-hc keybind $Mod-Return	      spawn "${TERMINAL:-alacritty}" # use your $TERMINAL or alacritty as fallback
+hc keybind $Mod-Return	      spawn "${TERMINAL:-wezterm}" # use your $TERMINAL or alacritty as fallback
 hc keybind $Mod-t	      spawn st # Open st terminal
 # hc keybind $Mod-w spawn wezterm # use your $TERMINAL with xterm as fallback
 
@@ -254,6 +254,7 @@ hc rule title=nmtui		     floating=on	      floatplacement=smart	# float nmtui n
 hc rule title="Event Tester"	     floating=on	      floatplacement=smart	# float xev
 hc rule class=Pavucontrol	     floating=on	      floatplacement=center	# float pulse audio volume control
 hc rule class=KopiaUI		     floating=on	      floatplacement=center	# float kopia UI backup tool
+hc rule class=ROOT		     floating=on	      floatplacement=center	# float CERN ROOT GUI
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on floatplacement=center

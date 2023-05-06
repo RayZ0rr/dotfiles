@@ -110,41 +110,39 @@ fileviewer */,.*/ tree %c -L 1 --dirsfirst
 fileviewer ../ tree %c -L 1 --dirsfirst
 
 fileviewer *.pdf
-  \ vifmimg pdf %px %py %pw %ph %c
-  \ %pc
-  \ vifmimg clear
+        \ vifmimg pdf %px %py %pw %ph %c
+        \ %pc
+        \ vifmimg clear
 
 fileviewer *.djvu
-  \ vifmimg djvu %px %py %pw %ph %c
-  \ %pc
-  \ vifmimg clear
+    \ vifmimg djvu %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
 fileviewer *.epub
-  \ vifmimg epub %px %py %pw %ph %c
-  \ %pc
-  \ vifmimg clear
+    \ vifmimg epub %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
 fileviewer <video/*>
-  \ vifmimg video %px %py %pw %ph %c
-  \ %pc
-  \ vifmimg clear
+    \ vifmimg video %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
-" fileviewer {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
-"         \ env -u COLORTERM viu --width %pw --height %ph -s %c
 fileviewer <image/*>
-  \ vifmimg draw %px %py %pw %ph %c
-  \ %pc
-  \ vifmimg clear
+    \ vifmimg draw %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
 fileviewer <audio/*>
-  \ vifmimg audio %px %py %pw %ph %c
-  \ %pc
-  \ vifmimg clear
+    \ vifmimg audio %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
 fileviewer <font/*>
-  \ vifmimg font %px %py %pw %ph %c
-  \ %pc
-  \ vifmimg clear
+    \ vifmimg font %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
 fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
 

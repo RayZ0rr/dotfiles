@@ -44,6 +44,7 @@ key_bindings:
   - { key: PageDown,  mods: None,          action: ScrollPageDown, mode: ~Alt  }
   - { key: Home,      mods: Shift,         action: ScrollToTop,    mode: ~Alt  }
   - { key: End,       mods: Shift,         action: ScrollToBottom, mode: ~Alt  }
+  - { key: I,       mods: Control,         chars: "\x1b[73;5u" }
 # Key bindings
 #
 # Key bindings are specified as a list of objects. For example, this is the

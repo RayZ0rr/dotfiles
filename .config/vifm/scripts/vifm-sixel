@@ -52,7 +52,7 @@ case "$action" in
   "pdf")
     [ ! -f "${PCACHE}.jpg" ] && \
     pdftoppm -jpeg -f 1 -singlefile "$image_file" "$PCACHE"
-    image "${PCACHE}.jpg" "$width" "$height"
+    image "${PCACHE}.jpg" "$width" "$height" 2>/dev/null
     ;;
   "audio")
     [ ! -f "${PCACHE}.jpg" ] && \

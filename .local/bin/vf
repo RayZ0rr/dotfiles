@@ -5,9 +5,11 @@ vifm_cmd="vifm"
 
 # term_name=xterm-direct
 term_name=tmux-direct
+
 if [[ "$TERM" == "st-256color" ]] ; then
   term_name="st-direct"
 fi
+
 export TERM=$term_name
 
 if [ -z "$(command -v vifm)" ]; then

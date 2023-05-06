@@ -4,17 +4,21 @@ follow = mouse
 shrink = no
 padding = 20
 horizontal_padding = 20
+# Padding between text and icon.
+text_icon_padding = 0
 
 width = 300
 height = 100
 offset = 20x60
 origin = top-right
 scale = 0
+# Maximum number of notification (0 means no limit)
+notification_limit = 20
 
-frame_width = 2
 separator_height = 4
-frame_color = "#161320"
 separator_color = "#161320"
+frame_width = 2
+frame_color = "#161320"
 
 progress_bar = true
 progress_bar_height = 10
@@ -30,14 +34,33 @@ font = JetBrains Mono Medium 10
 markup = full
 format = "<b>%s</b>\n%b"
 alignment = left
+# Vertical alignment of message text and icon.
+# Possible values are "top", "center" and "bottom".
+vertical_alignment = center
 show_age_threshold = 60
+# Specify where to make an ellipsis in long lines.
+# Possible values are "start", "middle" and "end".
+ellipsize = middle
 word_wrap = yes
 ignore_newline = no
 stack_duplicates = true
-hide_duplicate_count = no
+hide_duplicate_count = false
 show_indicators = yes
+
+### Icons ###
+
+# Recursive icon lookup. You can set a single theme, instead of having to
+# define all lookup paths.
+enable_recursive_icon_lookup = true
+# Set icon theme (only used for recursive icon lookup)
+# You can also set multiple icon themes, with the leftmost one being used first.
+icon_theme = "Adwaita, breeze"
 icon_position = left
+min_icon_size = 32
 max_icon_size = 48
+# Paths to default icons (only neccesary when not using recursive icon lookup)
+icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/:/usr/share/icons/Papirus/16x16/panel/
+
 sticky_history = yes
 history_length = 20
 dmenu = /usr/bin/dmenu -p dunst:
@@ -47,9 +70,6 @@ title = Dunst
 class = Dunst
 corner_radius = 15
 
-
-# Paths to default icons.
-icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/:/usr/share/icons/Papirus/16x16/panel/
 
 ### mouse
 
@@ -68,7 +88,7 @@ icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x1
 # will be executed in sequence.
 mouse_left_click = do_action, close_current
 mouse_middle_click = context
-mouse_right_click = close_current
+mouse_right_click = close_all
 
 [urgency_low]
   background = "#1a1b26"
