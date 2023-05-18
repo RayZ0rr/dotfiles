@@ -3,26 +3,22 @@
 ;; -----------------------------------------------------
 
 (defvar eww "eww -c $HOME/.config/eww/bar")
-(defvar eww_scripts "$HOME/.config/eww/bar/scripts")
+(defvar eww_scripts_dir "$HOME/.config/eww/bar/scripts")
 
-(defpoll memory :interval "15s" "scripts/memory")
-(defpoll memory_used_mb :interval "2m" "scripts/mem-ad used")
-(defpoll memory_total_mb :interval "2m" "scripts/mem-ad total")
-(defpoll memory_free_mb :interval "2m" "scripts/mem-ad free")
+(defpoll memory_popup :interval "15s" "scripts/memory")
+(defpoll memory_used_mb_popup :interval "2m" "scripts/mem-ad used")
+(defpoll memory_total_mb_popup :interval "2m" "scripts/mem-ad total")
+(defpoll memory_free_mb_popup :interval "2m" "scripts/mem-ad free")
 
 (defvar music_reveal false)
 
-(defpoll battery :interval "15s" "./scripts/battery get")
-(defpoll battery_status :interval "1m" "./scripts/battery status")
-(defpoll battery_icon :interval "1m" "./scripts/battery icon")
+(defpoll battery_popup :interval "15s" "./scripts/battery get")
+(defpoll battery_status_popup :interval "1m" "./scripts/battery status")
+(defpoll battery_icon_popup :interval "1m" "./scripts/battery icon")
 
-(defvar vol_reveal false)
-;; (defpoll volume_percent :interval "3s" "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
-(defpoll volume_percent :interval "3s" "pulsemixer --get-volume | awk '{print $1}'")
-(defpoll mic_percent :interval "3s" "amixer -D pulse sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
-(defpoll VOL_ICON :interval "1s" "~/.local/bin/pulseaudio-control get-icon")
-(defpoll VOL_MUTE :initial true :interval "1s" "~/.local/bin/pulseaudio-control get-mute")
-(deflisten VOL_TOOLTIP "~/.local/bin/pulseaudio-control --notifications --icons-volume \",墳,\" --icon-muted \"婢\" --sink-nicknames-from \"device.description\" --sink-nickname \"alsa_output.pci-0000_00_1b.0.analog-stereo:  Speakers\" --sink-nickname \"alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones\" listen")
+;; (defpoll volume_percent_popup :interval "3s" "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll volume_percent_popup :interval "3s" "pulsemixer --get-volume | awk '{print $1}'")
+(defpoll mic_percent_popup :interval "3s" "amixer -D pulse sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 
 (defpoll song :interval "2s"  "~/.config/eww/bar/scripts/music_info --song")
 (defpoll song_artist :interval "2s"  "~/.config/eww/bar/scripts/music_info --artist")
@@ -30,12 +26,8 @@
 (defpoll song_status :interval "2s"  "~/.config/eww/bar/scripts/music_info --status")
 (defpoll cover_art :interval "2s"  "~/.config/eww/bar/scripts/music_info --cover")
 
-(defvar time_rev false)
-(defpoll clock_hour :interval "1m" "date +\%H")
-(defpoll clock_minute :interval "20s" "date +\%M")
-(defpoll clock_date :interval "12h" "date '+[%a] %d/%m/%y'")
-(defpoll calendar_day :interval "12h" "date '+%d'")
-(defpoll calendar_year :interval "12h" "date '+%Y'")
+(defpoll calendar_day_popup :interval "12h" "date '+%d'")
+(defpoll calendar_year_popup :interval "12h" "date '+%Y'")
 
 ;; -----------------------------------------------------
 ;; WIDGETS
@@ -43,15 +35,15 @@
 
 (defwidget system []
   (eventbox
-    :onclick "${eww_scripts}/pop system"
-    :onmiddleclick "${eww_scripts}/pop system"
-    :onrightclick "${eww_scripts}/pop system"
+    :onclick "${eww_scripts_dir}/pop system"
+    :onmiddleclick "${eww_scripts_dir}/pop system"
+    :onrightclick "${eww_scripts_dir}/pop system"
   (box :class "sys_win" :orientation "v" :space-evenly "false" :hexpand "false" :vexpand "false" :spacing 0
     (box :class "sys_bat_box" :orientation "h" :space-evenly "false"
-      (circular-progress :value battery
+      (circular-progress :value battery_popup
 	:class "sys_bat"
 	:thickness 9
-	(label :text battery_icon
+	(label :text battery_icon_popup
 	  :class "sys_icon_bat"
 	  :limit-width 2
 	  :show_truncated false
@@ -63,13 +55,13 @@
 	  :limit-width 9
 	  :show_truncated false
 	  :wrap false)
-	(label :text "${battery}%"
+	(label :text "${battery_popup}%"
 	  :halign "start"
 	  :class "sys_text_bat_sub"
 	  :limit-width 22
 	  :show_truncated false
 	  :wrap false)
-	(label :text "${battery_status}"
+	(label :text "${battery_status_popup}"
 	  :halign "start"
 	  :class "sys_text_bat_sub"
 	  :limit-width 22
@@ -78,7 +70,7 @@
     )
     (label :text "" :class "sys_sep" :halign "center")
     (box :class "sys_mem_box" :orientation "h" :space-evenly "false" :halign "start"
-      (circular-progress :value memory
+      (circular-progress :value memory_popup
 	:class "sys_mem"
 	:thickness 9
 	(label :text ""
@@ -94,13 +86,13 @@
 	  :limit-width 9
 	  :show_truncated false
 	  :wrap false)
-	(label :text "${memory_used_mb} | ${memory_total_mb}mb "
+	(label :text "${memory_used_mb_popup} | ${memory_total_mb_popup}mb "
 	  :halign "start"
 	  :class "sys_text_mem_sub"
 	  :limit-width 22
 	  :show_truncated false
 	  :wrap false)
-	(label :text "${memory_free_mb}mb free"
+	(label :text "${memory_free_mb_popup}mb free"
 	  :halign "start"
 	  :class "sys_text_mem_sub"
 	  :limit-width 22
@@ -115,29 +107,29 @@
   (box :class "cal" :orientation "v"
     (box :class "cal-in"
       (calendar :class "cal"
-	:day calendar_day
-	:year calendar_year)
+	:day calendar_day_popup
+	:year calendar_year_popup)
     )
   )
 )
 
 (defwidget audio []
   (eventbox
-    :onclick "${eww_scripts}/pop audio"
-    :onmiddleclick "${eww_scripts}/pop audio"
-    :onrightclick "${eww_scripts}/pop audio"
+    :onclick "${eww_scripts_dir}/pop audio"
+    :onmiddleclick "${eww_scripts_dir}/pop audio"
+    :onrightclick "${eww_scripts_dir}/pop audio"
   (box :class "audio-box" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
     (box :halign "v" :space-evenly "false" :hexpand "false" :vexpand "false"
       (box :class "speaker_icon" :orientation "v")
       (box :orientation "v" :halign "center" :vexpand "false" :hexpand "false"
 	(label :class "speaker_text" :text "speaker" :valign "center" :halign "left" )
 	(box :class "speaker_bar" :halign "center" :vexpand "false" :hexpand "false"
-	  (scale  :value volume_percent
+	  (scale  :value volume_percent_popup
 	    :space-evenly "false"
 	    :orientation "h"
 	    :onchange "~/.local/bin/pulseaudio-control set {}"
 	    ;; :onchange "pulsemixer --set-volume {}"
-	    :tooltip "volume on ${volume_percent}%"
+	    :tooltip "volume on ${volume_percent_popup}%"
 	    :max 100
 	    :min 0)
 	)
@@ -149,10 +141,10 @@
       (box :orientation "v" :halign "center" :vexpand "false" :hexpand "false"
 	(label :class "mic_text" :text "mic" :valign "center" :halign "left" )
 	(box :class "mic_bar" :halign "center" :vexpand "false" :hexpand "false"
-	  (scale  :value mic_percent
+	  (scale  :value mic_percent_popup
 	    :space-evenly "false"
 	    :orientation "h"
-	    :tooltip "mic on ${mic_percent}%"
+	    :tooltip "mic on ${mic_percent_popup}%"
 	    :onchange "amixer -D pulse sset Capture {}%"
 	    :max 100
 	    :min 0)

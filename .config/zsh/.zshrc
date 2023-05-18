@@ -1,4 +1,3 @@
-# Lines configured by zsh-newuser-install
 HISTFILE=${ZDOTDIR}/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
@@ -12,37 +11,22 @@ setopt HIST_SAVE_NO_DUPS
 setopt autocd extendedglob
 bindkey -e
 zle_highlight+=(paste:none)
-# End of lines configured by zsh-newuser-install
 
-# The following lines were added by compinstall
-zstyle :compinstall filename '$HOME/.config/zsh/.zshrc'
+# Download Znap, if it's not there yet.
+[[ -r ${ZDOTDIR}/znap/znap.zsh ]] ||
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git ${ZDOTDIR}/znap
+source ${ZDOTDIR}/znap/znap.zsh  # Start Znap
 
-# autoload -Uz compinit
-# compinit
-# End of lines added by compinstall
-
-# Clone zcomet if necessary
-if [[ ! -f ${HOME}/.config/zcomet/bin/zcomet.zsh ]]; then
-  command git clone https://github.com/agkozak/zcomet.git ${HOME}/.config/zcomet/bin
-fi
-
-source ${HOME}/.config/zcomet/bin/zcomet.zsh
-
-zstyle ':zcomet:*' home-dir ~/.config/zcomet
-# zstyle ':zcomet:*' repos-dir ~/.config/zcomet/repos
-# zstyle ':zcomet:*' snippets-dir ~/.config/zcomet/snippets
+zstyle ':znap:*:*' git-maintenance off
 
 # Load some plugins
 # zcomet load ohmyzsh plugins/gitfast
-zcomet load zsh-users/zsh-autosuggestions
-zcomet load zsh-users/zsh-completions
-zcomet load zsh-users/zsh-syntax-highlighting
-
-# Run compinit and compile its cache
-zcomet compinit
-
-# Only main highlight by default
-# ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-completions
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+# znap source zsh-users/zsh-syntax-highlighting
+znap source zdharma-continuum/fast-syntax-highlighting
 
 [ -f $ZDOTDIR/.zsh_sources ] && source $ZDOTDIR/.zsh_sources
 

@@ -68,19 +68,50 @@ FZF_FOLDER_PREVIEW=(--preview 'tree -C {} | head -100' --bind 'ctrl-z:ignore' --
 FZF_FOLDER_WINDOW=(--preview-window 'down,50%,~1')
 
 export FZF_DEFAULT_COMMAND=$FZF_RG_COMMAND
-export FZF_DEFAULT_OPTS='--height=80% --layout=reverse --border'
+export FZF_DEFAULT_OPTS='--height=80% --layout=reverse --border --cycle'
 
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
---color=dark
---color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
---color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7
-'
+_gen_fzf_default_opts() {
+local color00='#2E3440'
+local color01='#3B4252'
+local color02='#434C5E'
+local color03='#4C566A'
+local color04='#D8DEE9'
+local color05='#E5E9F0'
+local cream='#a89984'
+local black='#202328'
+local grey='#bbc2cf'
+local white='#ECEFF4'
+local teal='#8FBCBB'
+local red='#BF616A'
+local dark_red='#ec5f67'
+local orange='#D08770'
+local yellow='#EBCB8B'
+local green='#A3BE8C'
+local cyan='#88C0D0'
+local blue='#81A1C1'
+local blue2='#5E81AC'
+local pink='#B48EAD'
+local rose='#ff87d7'
+local violet='#af87ff'
+local purple='#6e0ced'
+
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS
+  --color=dark,bg+:-1,bg:-1,spinner:$cyan,hl:$red,hl+:$purple
+  --color=fg:$white,fg+:$black,bg+:$green,info:$blue
+  --color=prompt:$cream,marker:$green,pointer:$dark_red
+  --color=header:$yellow,border:$orange,gutter:-1
+  --bind=ctrl-d:preview-page-down
+  --bind=ctrl-u:preview-page-up
+"
+}
+
+_gen_fzf_default_opts
 
 export FZF_CTRL_T_COMMAND=$FZF_FILE_COMMAND
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :100 {}' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FILE_WINDOW[@]}"
+export FZF_CTRL_T_OPTS="--header 'Choose Files' --color header:italic --preview 'bat --color=always --line-range :100 {}' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FILE_WINDOW[@]}"
 
 export FZF_ALT_C_COMMAND=$FZF_FOLDER_COMMAND
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -100' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FOLDER_WINDOW[@]}"
+export FZF_ALT_C_OPTS="--header 'cd Dir' --color header:italic --preview 'tree -C {} | head -100' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FOLDER_WINDOW[@]}"
 
 FZF_FD_COMMAND=( "${FZF_FILE_COMMAND[@]}" " | fzf -m " "${FZF_FILE_PREVIEW[@]}" )
 # CTRL-T + CTRL-T - Paste the selected file path(s) from $HOME into the command line
@@ -89,7 +120,7 @@ __sff__() {
   local cmd="${FZF_FILE_COMMAND} $HOME"
   setopt localoptions pipefail no_aliases 2> /dev/null
   local item
-  eval "$cmd" | fzf-tmux -m "${FZF_FILE_PREVIEW[@]}" ${FZF_FILE_WINDOW[@]} "$@" | while read item; do
+  eval "$cmd" | fzf-tmux -m "${FZF_FILE_PREVIEW[@]}" ${FZF_FILE_WINDOW[@]} --header 'Choose Files from Home' --color header:italic "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?
@@ -116,7 +147,7 @@ __sdf__() {
   local cmd="${FZF_FOLDER_COMMAND}"
   setopt localoptions pipefail no_aliases 2> /dev/null
   local item
-  eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} "$@" | while read item; do
+  eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} --header 'Choose Dir' --color header:italic "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?
@@ -143,7 +174,7 @@ __sdhf__() {
   local cmd="${FZF_FOLDER_COMMAND} $HOME"
   setopt localoptions pipefail no_aliases 2> /dev/null
   local item
-  eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} "$@" | while read item; do
+  eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} --header 'Choose Dir from Home' --color header:italic "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?
@@ -169,7 +200,7 @@ bindkey -M viins '\et\et' __sdhfw__
 __cda__() {
   local cmd="${FZF_FOLDER_COMMAND} $HOME"
   setopt localoptions pipefail no_aliases 2> /dev/null
-  local dir="$(eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]})"
+  local dir="$(eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} --header 'cd from Home' --color header:italic)"
   if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
@@ -194,7 +225,7 @@ bindkey -M viins '\ec\ec' __cda__
 __cdf__() {
   local file
   local dir
-  file=$(fzf-tmux +m ${FZF_FILE_PREVIEW[@]} ${FZF_FILE_WINDOW[@]} -q "$1") && dir=$(dirname "$file") && builtin cd "$dir"
+  file=$(fzf-tmux +m ${FZF_FILE_PREVIEW[@]} ${FZF_FILE_WINDOW[@]} --header 'Choose file to cd to its pwd' --color header:italic -q "$1") && dir=$(dirname "$file") && builtin cd "$dir"
 }
 # zle     -N    cdf __cdf__
 # bindkey '\ec\et' cdf
@@ -206,7 +237,7 @@ __fd1__() {
   local cmd="${FZF_FILE_COMMAND} -td --max-depth=1"
   setopt localoptions pipefail no_aliases 2> /dev/null
   local item
-  eval "$cmd" | fzf-tmux -m "$@" | while read item; do
+  eval "$cmd" | fzf-tmux -m --header 'PWD content' --color header:italic "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?
@@ -264,7 +295,7 @@ onv() {
   local files
 
   # files=(${(f)"${FZF_FD_COMMAND[@]}"})
-  files=(${(f)"$(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf -m ${FZF_FILE_WINDOW[@]} --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)')"})
+  files=(${(f)"$(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf -m ${FZF_FILE_WINDOW[@]} --header 'Choose Files for Vim' --color header:italic --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)')"})
   # files=("$(fdfind --type f --color=never --hidden --follow | fzf -m ${FZF_FILE_WINDOW[@]} --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)' --height=80% --layout=reverse)")
 
   if [[ -n $files ]]
@@ -280,7 +311,7 @@ anv() {
   cd
   local files
 
-  files=(${(f)"$(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf -m ${FZF_FILE_WINDOW[@]} --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)')"})
+  files=(${(f)"$(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf -m ${FZF_FILE_WINDOW[@]} --header 'Choose Files for Vim from Home' --color header:italic --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)')"})
 
   if [[ -n $files ]]
   then

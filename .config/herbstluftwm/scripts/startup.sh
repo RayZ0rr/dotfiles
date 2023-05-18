@@ -30,4 +30,4 @@ sxhkd &
 blueman-applet &
 nm-applet &
 
-copyq --start-server enable &
+copyq &

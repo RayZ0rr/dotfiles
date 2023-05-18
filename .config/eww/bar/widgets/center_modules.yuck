@@ -2,9 +2,6 @@
 ;; VARIABLES
 ;; -----------------------------------------------------
 
-(defvar eww "eww -c $HOME/.config/eww/bar")
-(defvar eww_scripts "$HOME/.config/eww/bar/scripts")
-
 (defpoll WINDOW_TITLE :interval "1s" "xdotool getwindowfocus getwindowname | awk '{print $1,$2}'")
 (defpoll WINDOW_TOOLTIP :interval "5s" "xdotool getwindowfocus")
 
