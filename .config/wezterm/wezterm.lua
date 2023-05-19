@@ -9,9 +9,10 @@ return {
   -- You can specify some parameters to influence the font selection;
   -- for example, this selects a Bold, Italic font variant.
   -- font = wezterm.font("JetBrains Mono", {weight="Bold", italic=true}),
-  color_scheme = "Classic Dark (base16)",
+  -- color_scheme = "Classic Dark (base16)",
   -- color_scheme = "Pnevma",
   -- color_scheme = "Dracula (Official)",
+  color_scheme = "Paradise",
   default_prog = {"zsh"},
   window_decorations = "NONE",
   window_background_opacity = 0.9,
