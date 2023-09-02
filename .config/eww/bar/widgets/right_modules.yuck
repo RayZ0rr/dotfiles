@@ -38,8 +38,8 @@
 (defvar time_rev false)
 (defpoll clock_hour :interval "1m" "date +\%H")
 (defpoll clock_minute :interval "20s" "date +\%M")
-(defpoll clock_date :interval "12h" "date '+[%a] %d/%m/%y'")
-(defpoll calendar_day :interval "12h" "date '+%d'")
+(defpoll clock_date :interval "1h" "date '+[%a] %d/%m/%y'")
+(defpoll calendar_day :interval "30m" "date '+%d'")
 (defpoll calendar_year :interval "12h" "date '+%Y'")
 
 ;; -----------------------------------------------------

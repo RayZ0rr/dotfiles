@@ -5,10 +5,6 @@ export PATH=$PATH:$HOME/.local/bin
 #----------------------------------------------------
 # NEOVIM
 #----------------------------------------------------
-# export EDITOR="$HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage"
-# man pages as neovim
-# export MANPAGER="$HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage +Man!"
-# export PATH="$PATH:$HOME/Softwares/Installed/Neovim/bin"
 if [[ -x "$(command -v nvim)" ]]; then
   export EDITOR='nvim'
   export MANPAGER="nvim -c Man!"
@@ -55,7 +51,7 @@ fi
 export CUDA_CACHE_PATH="$HOME"/.cache/nv
 
 # Wine Config
-export WINEPREFIX=~/GameZ/Wine
+export WINEPREFIX="$HOME/GameZ/Wine"
 
 #----------------------------------------------------
 # zoxide - jumper
@@ -91,64 +87,38 @@ if [ -x "$(command -v cargo)" ]; then
 fi
 
 #--------------------------------------------------------
-#Tmux
-#Tmuxp default path
+#       Tmux
 #--------------------------------------------------------
+#Tmuxp default path
 export TMUXP_CONFIGDIR=$HOME/.config/tmux/tmuxp
+#tmux extra config
+if [ -f ~/.config/tmux/extra/.tmux_extra ]; then
+  source "$HOME/.config/tmux/extra/.tmux_extra"
+fi
 
 #--------------------------------------------------------
-#Singularity
+#       Singularity
 #--------------------------------------------------------
 export SINGULARITY_TMPDIR="$HOME/tmp/singularity"
 export SINGULARITY_CACHEDIR="$HOME/.local/cache/singularity"
 
 #--------------------------------------------------------
-#	fzf / Fuzzy Finder
+#       fzf / Fuzzy Finder
 #--------------------------------------------------------
-
 export MY_FZF_PATH="$HOME/Softwares/Source/fzf"
 if [ -f ${BASH_CONFIG_PATH}/.fzf_cfg.bash ]; then
   source ${BASH_CONFIG_PATH}/.fzf_cfg.bash
 fi
 
 #----------------------------------------------------
-#	Starship config file
+#       Starship config file
 #----------------------------------------------------
-export STARSHIP_CONFIG=~/.config/starshipPrompt/starship.toml
+export STARSHIP_CONFIG="$HOME/.config/starshipPrompt/starship.toml"
 
 #--------------------------------------------------------
-#	Tmux extra configurations
+#       Vifm terminal file manager
 #--------------------------------------------------------
-#tmux extra config
-if [ -f ~/.config/tmux/extra/.tmux_extra ]; then
-  source ~/.config/tmux/extra/.tmux_extra
-fi
-
-#--------------------------------------------------------
-#	vifm terminal file manager
-#--------------------------------------------------------
-#vifm config
+#vifm extra config
 if [ -f ~/.config/vifm/vifm_extra ]; then
-  source ~/.config/vifm/vifm_extra
+  source "$HOME/.config/vifm/vifm_extra"
 fi
-
-#--------------------------------------------------------
-#	nnn Terminal File manager
-#--------------------------------------------------------
-#nnn config
-if [ -x "$(command -v nnn)" ]; then
-  if [ -f ~/.nnn_config ]; then
-    source ~/.nnn_config
-  fi
-fi
-
-#--------------------------------------------------------
-#	dotbare bare git repo manager
-#--------------------------------------------------------
-#dotbare config
-if [ -x "$(command -v dotbare)" ]; then
-  if [ -f ~/.dotbare_config ]; then
-    source ~/.dotbare_config
-  fi
-fi
-

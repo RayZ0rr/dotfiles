@@ -32,7 +32,7 @@ if -b '[ "$SSH_CLIENT" ]' '         \
     bind -r M-n next-window;        \
     ' '                             \
     set -g prefix C-b;              \
-    bind    C-b resize-pane -Z;     \
+    bind    C-x resize-pane -Z;     \
     bind -r C-p previous-window;    \
     bind -r C-n next-window;        \
     '
@@ -44,10 +44,10 @@ bind -r btab select-pane -t :.-
 bind X confirm-before kill-session
 
 # Set bind key to reload configuration file
-bind R source-file ~/.tmux.conf \; display "Tmux config Reloaded!"
+bind R source-file ~/.config/tmux/tmux.conf \; display "Tmux config Reloaded!"
 
 #Open tmux config
-bind C-c send-keys "$EDITOR ~/.tmux.conf ~/.config/tmux/keybindings.tmux ~/.config/tmux/plugins.tmux ~/.config/tmux/options.tmux ~/.config/tmux/colors.tmux" Enter
+bind C-c send-keys "$EDITOR ~/.config/tmux/tmux.conf ~/.config/tmux/keybindings.tmux ~/.config/tmux/plugins.tmux ~/.config/tmux/options.tmux ~/.config/tmux/style.tmux" Enter
 
 #Log all the text on current pane to vim buffer, which is not saved
 #bind lv capture-pane -S - \; save-buffer ~/.x \; delete-buffer \; new-window 'vim "set buftype=nofile" +"!rm ~/.x"
@@ -60,7 +60,7 @@ bind-key -Tmy-keys c new-window 'zsh'
 bind-key -Tmy-keys x send-keys "echo my binding\n"
 bind-key -Tmy-keys f command-prompt -p 'save history to filename:' -I '~/.config/tmux/history/' 'capture-pane -e -S- ; save-buffer %1 ; delete-buffer'
 bind-key -Tmy-keys v capture-pane -e -S- \; save-buffer ~/tmuxtempfilelog \; delete-buffer \; new-window '$EDITOR "set buftype=nofile" +"!rm ~/tmuxtempfilelog" ~/tmuxtempfilelog +'
-bind-key C-m switch-client -Tmy-keys
+bind C-m switch-client -Tmy-keys
 # bind-key C-l switch-client -Tmy-keys-log-type
 #bind-key -Troot C-q switch-client -Tmy-keys-log
 

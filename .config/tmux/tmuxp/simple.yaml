@@ -1,26 +1,23 @@
-session_name: SimpleZ
+session_name: Simple
 start_directory: '~'
-shell_command_before:
-  - zsh
-  - clear
 windows:
-  - window_name: ZSH1
+  - window_name: win1
     start_directory: '$PWD'
     focus: true
     panes:
       - pane
-  - window_name: ZSH2
+  - window_name: win2
     start_directory: '$PWD'
     panes:
       - blank
-  - window_name: ZSH3
+  - window_name: win3
     panes:
       - shell_command:
         - ''
-  - window_name: ZSH4
+  - window_name: win4
     panes:
       - shell_command: ''
-  - window_name: ZSH5
+  - window_name: win5
     panes:
       - null
   - window_name: Extra

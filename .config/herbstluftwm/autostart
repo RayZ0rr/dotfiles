@@ -33,7 +33,6 @@ Altkey=Mod1    # Use alt as the main modifier
 Mod=Mod4   # Use the super key as the main modifier
 
 hc keybind $Mod-Shift-q	      quit
-hc keybind $Mod-q	      spawn copyq toggle
 hc keybind $Mod-Shift-r	      reload
 hc keybind $Mod-r	      remove
 hc keybind $Mod-Shift-x	      close_or_remove
@@ -250,7 +249,8 @@ hc rule class=Steam		     tag="${tag_names[7]}"    floating=on		floatplacement=c
 hc rule title=alsamixer		     floating=on	      floatplacement=smart	# float Alsamixer volume control
 hc rule title=tdrop		     floating=on	      floatplacement=center	# float tdrop dropdown terminal
 hc rule title=nmtui		     floating=on	      floatplacement=smart	# float nmtui network manager
-# hc rule class=copyq		     floating=on	      floatplacement=center	# float copyq clipboard manager
+hc rule class=copyq		     floating=on	      floatplacement=off	# float copyq clipboard manager
+# hc rule instance=copyq		     floating=on	      floatplacement=off	# float copyq clipboard manager
 hc rule title="Event Tester"	     floating=on	      floatplacement=smart	# float xev
 hc rule class=Pavucontrol	     floating=on	      floatplacement=center	# float pulse audio volume control
 hc rule class=KopiaUI		     floating=on	      floatplacement=center	# float kopia UI backup tool

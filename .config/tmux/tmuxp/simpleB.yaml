@@ -1,5 +1,8 @@
-session_name: simpleB
+session_name: SimpleB
 start_directory: '~'
+shell_command_before:
+  - bash
+  - clear
 windows:
   - window_name: Bash1
     start_directory: '$PWD'

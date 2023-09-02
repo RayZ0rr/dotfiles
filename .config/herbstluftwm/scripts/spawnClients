@@ -31,13 +31,13 @@ then
   spawn_with_rules ${Terminal} --class Term1
   sleep 1
   xdotool type --window $(xdotool search --classname Term1) $'la\n'
-  xdotool key --window $(xdotool search --classname Term1) KP_Enter
+  # xdotool key --window $(xdotool search --classname Term1) KP_Enter
 
   RULES=( tag="${tag_names[0]}" index=1 )  # right-hand frame
   spawn_with_rules ${Terminal} --class Term2
   sleep 1
   xdotool type --window $(xdotool search --classname Term2) $'neofetch\n'
-  xdotool key --window $(xdotool search --classname Term2) KP_Enter
+  # xdotool key --window $(xdotool search --classname Term2) KP_Enter
 
   herbstclient load "${tag_names[1]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
   # spawn two terminals (alacritty and default terminal in two windows) in tag 1

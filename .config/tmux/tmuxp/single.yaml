@@ -1,9 +1,7 @@
-session_name: SingleB
-shell_command_before:
-  - bash
-  - clear
+session_name: Single
+# start_directory: '~'
 windows:
-  - window_name: Bash1
+  - window_name: win1
     start_directory: '$PWD'
     focus: true
     options:

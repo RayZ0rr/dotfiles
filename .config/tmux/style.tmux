@@ -63,16 +63,19 @@ set-option -g status-left-style none
 set-option -g status-left-length "80"
 set-option -g status-right-style none
 set-option -g status-right-length "80"
-set -g window-status-separator      ""
-set -g window-status-format         "#[bg=colour235,nobold]#[fg=colour10]  #I#[fg=colour235]#[bg=colour10] #[fg=colour235]#[bg=colour10]#W #[bg=colour235]#[fg=colour10]#{@left_separator}"
-set -g window-status-current-format "#[fg=colour30]#[bg=colour235]  #I#[fg=colour235]#[bg=colour30] #[fg=colour235]#[bg=colour30]#W#[fg=colour30]#[bg=colour235]#{@left_separator}"
 
-set -g @left_separator      ""
-# set -g @left_alt_separator  ""
-set -g @left_alt_separator  ""
-set -g @right_separator     ""
-set -g @right_alt_separator ""
-# set -g @right_alt_separator ""
+set -g window-status-separator      ""
+set -g window-status-format         "#[bg=colour235,nobold]#[fg=colour10]  #I #[fg=colour235]#[bg=colour10] #[fg=colour235]#[bg=colour10]#W "
+set -g window-status-current-format "#[fg=$color_blue]#[bg=colour235]  #I #[fg=colour235]#[bg=$color_blue] #[fg=colour235]#[bg=$color_blue]#W "
+# set -g window-status-format         "#[bg=colour235,nobold]#[fg=colour10]  #I#[fg=colour235]#[bg=colour10] #[fg=colour235]#[bg=colour10]#W #[bg=colour235]#[fg=colour10]#{@left_separator}"
+# set -g window-status-current-format "#[fg=colour30]#[bg=colour235]  #I#[fg=colour235]#[bg=colour30] #[fg=colour235]#[bg=colour30]#W#[fg=colour30]#[bg=colour235]#{@left_separator}"
+
+set -g @left_arrow      ""
+set -g @left_alt_arrow  ""
+set -g @left_triangle  ""
+set -g @right_arrow     ""
+set -g @right_alt_arrow ""
+set -g @right_triangle  ""
 
 # set color of active pane
 set -g pane-border-style fg=colour240,bg=colour0
@@ -81,11 +84,14 @@ set -g pane-active-border-style fg=green,bg=black
 # Status basr sections
 # set -g status-left        "#[fg=colour235,nobold]#[bg=colour208]  #{pane_current_command}#[fg=colour208]#[bg=colour205]#{?client_prefix,#[bg=#ff0000],}"
 # set -ga status-left        "#[fg=colour235]#[bg=colour205]#{?client_prefix,#[bg=#ff0000]#[fg=white],}  #S#[fg=colour205]#[bg=colour235]#{?client_prefix,#[fg=#ff0000],}#{@left_separator}"
-set -g status-left   "#[fg=colour239,bold,bg=colour003]  #{pane_current_command}#[fg=colour003,bold,bg=colour239]#{?client_prefix,#[bg=#ff0000],} "
-set -ga status-left  "#[fg=colour003]#[bg=colour239]#{?client_prefix,#[bg=#ff0000]#[fg=white],}  #S#[fg=colour239,bg=colour235]#{?client_prefix,#[fg=#ff0000],}#{@left_separator}"
+set -g status-left   "#[fg=color239,bold,bg=$color_violet]  #{pane_current_command}#[fg=$color_violet,bold,bg=$color_yellow]#{?client_prefix,#[bg=#ff0000],}#{@left_arrow}"
+set -ga status-left  "#[fg=colour239]#[bg=$color_yellow]#{?client_prefix,#[bg=#ff0000]#[fg=white],}  #S "
 
-set -g  status-right "#{tmux_mode_indicator}#{?client_prefix,#[bg=colour000],#[bg=colour235]}#[fg=$color_cream]#{@left_alt_separator} #[fg=colour235,bg=$color_cream]#{?client_prefix, #(whoami), %H:%M}"
-set -ga status-right "#[fg=$color_oceanblue,bg=$color_cream]#{@left_alt_separator} #[fg=colour235,bg=$color_oceanblue]#{?client_prefix, #h ,%a %d/%m}"
+set -g  status-right "#{tmux_mode_indicator}"
+# set -g  status-right "#{tmux_mode_indicator}#[fg=colour235,bg=$color_cream]#{?client_prefix,  #(whoami) ,  %H:%M }"
+# set -ga status-right "#[fg=$color_oceanblue,bg=$color_cream]#{@right_arrow}#[fg=colour235,bg=$color_oceanblue]#{?client_prefix,  #h , %a %d/%m }"
+# set -g  status-right "#{tmux_mode_indicator}#{?client_prefix,#[bg=colour000],#[bg=colour235]}#[fg=$color_cream]#{@left_alt_separator} #[fg=colour235,bg=$color_cream]#{?client_prefix, #(whoami), %H:%M}"
+# set -ga status-right "#[fg=$color_oceanblue,bg=$color_cream]#{@left_alt_separator} #[fg=colour235,bg=$color_oceanblue]#{?client_prefix, #h ,%a %d/%m}"
 # set-option -g status-right "#[bg=colour000,fg=colour000, bold, nounderscore, noitalics] #[bg=colour007,fg=colour239, bold] %d-%m-%Y #[bg=colour000,fg=colour000, bold, nounderscore, noitalics] #[bg=colour007,fg=colour239, bold] %H:%M #[bg=colour000,fg=colour000,nobold,noitalics,nounderscore] #[bg=colour004,fg=colour239, bold] #h "
 
 # set -g status-right-length 50

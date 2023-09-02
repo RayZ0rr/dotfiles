@@ -5,11 +5,19 @@
 
 # use 256 xterm for pretty colors. This enables same colors from iTerm2 within tmux.
 # This is recommended in neovim :healthcheck
-set -g default-terminal "tmux-256color"
-# set -ga terminal-overrides ",xterm-256color:Tc"
+# set -g default-terminal "tmux-256color"
+set -g default-terminal "xterm-256color"
+set-option -sa terminal-features ",xterm-256color:RGB"
+
+# set -g default-command "/usr/bin/zsh"
+set -g default-shell "/usr/bin/zsh"
+
+set-option -sg escape-time 10
+set-option -g focus-events on
+# set-option -sa terminal-features ',XXX:RGB'
 
 # Undercurl
-set -g default-terminal "${TERM}"
+# set -g default-terminal "${TERM}"
 set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
 set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
 

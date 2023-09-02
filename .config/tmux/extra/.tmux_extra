@@ -1,10 +1,9 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 
 tmxlocal () {
     # Use -d to allow the rest of the function to run
     tmux new-session -d -s Local -n test1
-		tmux send-keys
+    tmux send-keys
     tmux new-window -n test2
     # -d to prevent current window from changing
     tmux new-window -n test3
@@ -12,7 +11,7 @@ tmxlocal () {
     tmux new-window -n extra
     # -d to detach any other client (which there shouldn't be,
     # since you just created the session).
-    tmux attach-session -d -t TEST:test1
+    tmux attach-session -d -t Local:test1
     # tmux select-window -t test1
 }
 

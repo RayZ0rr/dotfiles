@@ -7,10 +7,6 @@ typeset -U PATH
 #----------------------------------------------------
 # NEOVIM
 #----------------------------------------------------
-# export EDITOR="$HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage"
-# man pages as neovim
-# export MANPAGER="$HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage +Man!"
-# export PATH="$PATH:$HOME/Softwares/Installed/Neovim/bin"
 # if (( $+commands[nvim] )) ; then
 if [[ -x "$(command -v nvim)" ]]; then
   export EDITOR='nvim'
@@ -58,21 +54,21 @@ fi
 export CUDA_CACHE_PATH="$HOME"/.cache/nv
 
 # Wine Config
-export WINEPREFIX=~/GameZ/Wine
+export WINEPREFIX="$HOME/GameZ/Wine"
 
 #----------------------------------------------------
 # zoxide - jumper
 #----------------------------------------------------
 export _ZO_DATA_DIR="$HOME/.config/zoxide"
-if [ -x "$(command -v zoxide)" ]; then
+if [[ -x "$(command -v zoxide)" ]]; then
   eval "$(zoxide init --cmd zd zsh)"
 fi
 
 #----------------------------------------------------
 # GO language
 #----------------------------------------------------
-if [ -x "$(command -v go)" ]; then
-  if [ -d "${HOME}/.local/share/go/bin" ]; then
+if [[ -x "$(command -v go)" ]]; then
+  if ! [[ -d "${HOME}/.local/share/go/bin" ]]; then
     mkdir -p "${HOME}/.local/share/go/bin"
   fi
   export GOPATH=${HOME}/.local/share/go
@@ -82,64 +78,50 @@ fi
 #----------------------------------------------------
 # RUST language
 #----------------------------------------------------
-if [ -x "$(command -v cargo)" ]; then
-  if [ -d "${HOME}/.local/share/cargo" ]; then
+if [[ -x "$(command -v cargo)" ]]; then
+  if ! [[ -d "${HOME}/.local/share/cargo" ]]; then
     mkdir -p "${HOME}/.local/share/cargo"
   fi
-  if [ -d "${HOME}/.local/share/rustup" ]; then
+  if ! [[ -d "${HOME}/.local/share/rustup" ]]; then
     mkdir -p "${HOME}/.local/share/rustup"
   fi
   export CARGO_HOME=${HOME}/.local/share/cargo
   export RUSTUP_HOME=${HOME}/.local/share/rustup
 fi
 
-#----------------------------------------------------
-#Tmux
+#--------------------------------------------------------
+#       Tmux
+#--------------------------------------------------------
 #Tmuxp default path
-#----------------------------------------------------
 export TMUXP_CONFIGDIR=$HOME/.config/tmux/tmuxp
-
-#--------------------------------------------------------
-# fzf / Fuzzy Finder
-#--------------------------------------------------------
-
-export MY_FZF_PATH="$HOME/Softwares/Source/fzf"
-[ -f $ZDOTDIR/.fzf_cfg.zsh ] && source $ZDOTDIR/.fzf_cfg.zsh
-
-#----------------------------------------------------
-#Starship config file
-#----------------------------------------------------
-export STARSHIP_CONFIG=~/.config/starshipPrompt/starship.toml
-
-################## tmux extra configurations #######################
 #tmux extra config
-if [ -f ~/.config/tmux/extra/.tmux_extra ]; then
-  source ~/.config/tmux/extra/.tmux_extra
-fi
-
-################# vifm terminal file manager ######################
-#vifm config
-if [ -f ~/.config/vifm/vifm_extra ]; then
-  source ~/.config/vifm/vifm_extra
+if [[ -f ~/.config/tmux/extra/.tmux_extra ]]; then
+  source "$HOME/.config/tmux/extra/.tmux_extra"
 fi
 
 #--------------------------------------------------------
-# nnn Terminal File manager
+#       Singularity
 #--------------------------------------------------------
-#nnn config
-if [ -x "$(command -v nnn)" ]; then
-  if [ -f ~/.nnn_config ]; then
-    source ~/.nnn_config
-  fi
-fi
+export SINGULARITY_TMPDIR="$HOME/tmp/singularity"
+export SINGULARITY_CACHEDIR="$HOME/.local/cache/singularity"
 
 #--------------------------------------------------------
-# dotbare bare git repo manager
+#       fzf / Fuzzy Finder
 #--------------------------------------------------------
-#dotbare config
-#if [ -x "$(command -v dotbare)" ]; then
-if (( $+commands[dotbare] )) ; then
-  if [ -f ~/.dotbare_config ]; then
-    source ~/.dotbare_config
-  fi
+export MY_FZF_PATH="$HOME/Softwares/Source/fzf"
+if [[ -f $ZDOTDIR/.fzf_cfg.zsh ]]; then
+  source $ZDOTDIR/.fzf_cfg.zsh
+fi
+
+#----------------------------------------------------
+#       Starship config file
+#----------------------------------------------------
+export STARSHIP_CONFIG="$HOME/.config/starshipPrompt/starship.toml"
+
+#--------------------------------------------------------
+#       Vifm terminal file manager
+#--------------------------------------------------------
+#vifm extra config
+if [[ -f ~/.config/vifm/vifm_extra ]]; then
+  source "$HOME/.config/vifm/vifm_extra"
 fi

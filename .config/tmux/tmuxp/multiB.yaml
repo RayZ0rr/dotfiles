@@ -1,5 +1,8 @@
-session_name: LocalB
+session_name: MultiB
 start_directory: '~'
+shell_command_before:
+  - bash
+  - clear
 windows:
   - window_name: BashSh1
     focus: true

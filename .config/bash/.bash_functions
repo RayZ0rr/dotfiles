@@ -173,6 +173,9 @@ unitls() {
     elif [[ "$1" == "u2" ]]; then
       systemctl --user list-units --state=running
       return 0
+    elif [[ "$1" == "timer" ]]; then
+      systemctl list-timers --all
+      return 0
     elif [[ "$1" == "find" ]]; then
       find /etc/systemd -type l -exec test -f {} \; -print | awk -F'/' '{ printf ("%-40s | %s\n", $(NF-0), $(NF-1)) }' | sort -f
       return 0
