@@ -7,10 +7,10 @@ alias l='ls -CF'
 
 # exa aliases
 # if command -v exa > /dev/null 2>&1 ; then
-if command -v exa &> /dev/null ; then
-  alias ls='exa --icons'
-  alias la='exa -al --icons'
-  alias ll='exa -l --icons'
+if command -v eza &> /dev/null ; then
+  alias ls='eza --icons'
+  alias la='eza -al --icons'
+  alias ll='eza -l --icons'
 fi
 
 # dotdrop aliases
