@@ -9,16 +9,8 @@ alias l='ls -CF'
 # if command -v exa > /dev/null 2>&1 ; then
 if command -v eza &> /dev/null ; then
   alias ls='eza --icons'
-  alias la='eza -al --icons'
-  alias ll='eza -l --icons'
-fi
-
-# dotdrop aliases
-if command -v dotdrop &> /dev/null ; then
-  distroName=$(cat /etc/os-release | grep  ^NAME | awk 'BEGIN{FS="="}{print $2}' | awk '{print $1}' | sed 's/"//')
-  alias dots="dotdrop --cfg $HOME/${GITFDIR}/config.yaml --profile $distroName"
-  alias dotsc="dotdrop --cfg $HOME/${GITFDIR}/config.yaml"
-  alias dotsp="dotdrop --cfg $HOME/${GITFDIR}/config.yaml --profile"
+  alias la='eza -a --icons'
+  alias ll='eza -la --icons'
 fi
 
 alias ncdu="ncdu --color=dark"
@@ -34,7 +26,7 @@ alias tmxl='tmuxp load localB'
 ! [[ -f ~/.local/bin/vf ]] && alias vf=vifm
 
 # xclip shortcuts
-xcopy="xclip -sel clip"
+alias xcopy="xclip -sel clip"
 xpaste() {
 	xclip -out -selection clipboard;echo
 }
@@ -48,11 +40,11 @@ alias ncp="cat ${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection} | tr
 #----------------------------------------------------
 #NeoVim
 #----------------------------------------------------
-alias wgnvn='wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -P $HOME/Softwares/Installed/Terminal/nvim/nightly && rm $HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage && chmod +x $HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage.1 && mv $HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage.1 $HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage'
+alias wgnvn='wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -P $HOME/Softwares/Installed/Terminal/Neovim/Nightly && rm $HOME/Softwares/Installed/Terminal/Neovim/Nightly/nvim.appimage && chmod +x $HOME/Softwares/Installed/Terminal/Neovim/Nightly/nvim.appimage.1 && mv $HOME/Softwares/Installed/Terminal/Neovim/Nightly/nvim.appimage.1 $HOME/Softwares/Installed/Terminal/Neovim/Nightly/nvim.appimage'
 
 alias nv=nvim
 #alias nv="$HOME/Softwares/nvim/nvim.appimage"
-# alias nv="$HOME/Softwares/Installed/Terminal/nvim/nightly/nvim.appimage"
+# alias nv="$HOME/Softwares/Installed/Terminal/Neovim/Nightly/nvim.appimage"
 
 alias lbw="$HOME/Softwares/Installed/LibreWolf/LibreWolf-88.0-1.x86_64.AppImage"
 

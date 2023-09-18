@@ -1,4 +1,5 @@
 .cache/*/*
+**/.cache/clangd/*/*
 .mozilla/*/*
 .rpmdb/*/*
 .npm/*/*
