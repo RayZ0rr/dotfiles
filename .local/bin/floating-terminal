@@ -1,15 +1,19 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+class_name="Fzf-Menu"
+if [[ "$1" == "class" ]]; then
+    class_name="$2"
+fi
 
 # This is the terminal program that term-dmenu runs. Some examples:
-# alacritty --class fzf-menuFT -e "$@"
-# kitty --class fzf-menuFT "$@"
-# These examples give the window the "fzf-menuFT" class so you can make your window
-# manager float anything with class "fzf-menuFT"
+# alacritty --class $class_name -e "$@"
+# kitty --class $class_name "$@"
+# These examples give the window the "$class_name" class so you can make your window
+# manager float anything with class "$class_name"
 
 # I use havoc (https://github.com/ii8/havoc) for my launchers because it starts up
 # super quickly and is Wayland-native.
-
-if [ -z "$FLOATING_TERMINAL" ]; then
+if [[ -z "$FLOATING_TERMINAL" ]]; then
   # find_alt() prints the first parameter recognized by `command -v`
   find_alt() {
     for i; do
@@ -20,9 +24,16 @@ if [ -z "$FLOATING_TERMINAL" ]; then
     done
     return 1
   }
-  FLOATING_TERMINAL=$(find_alt 'foot -a fzf-menuFT' havoc 'alacritty --class=fzf-menuFT' 'kitty --class=fzf-menuFT' 'konsole' 'gnome-terminal' 'termite' 'st -c fzf-menuFT' 'xterm')
+  FLOATING_TERMINAL=$(find_alt "foot -a $class_name" "havoc" "alacritty --class=$class_name -e" "kitty --class=$class_name" "konsole" "gnome-terminal" "termite" "st -c $class_name" "xterm" "wezterm start --class=$class_name")
 fi
 
-$FLOATING_TERMINAL "$@"
+# echo $FLOATING_TERMINAL
+# echo $args
+# $FLOATING_TERMINAL $args
+if [[ "$1" == "class" ]]; then
+    $FLOATING_TERMINAL "${@:3}"
+else
+    $FLOATING_TERMINAL "${@}"
+fi
 
-# vi:ft=sh
+# vim:ft=sh

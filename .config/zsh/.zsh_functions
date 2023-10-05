@@ -345,11 +345,11 @@ updatemirrors(){
 	    return 1
 	  elif  [[ $# -eq 1 ]] ; then
 	    # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -
-	    curl -s "https://archlinux.org/mirrorlist/?country=DE&country=LU&country=BE&country=FR&country=CH&protocol=http&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -
+	    curl -s "https://archlinux.org/mirrorlist/?country=DE&country=LU&country=BE&country=FR&country=CH&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -
 	    return 0
 	  else
 	    # curl -s "https://archlinux.org/mirrorlist/?country=IN&country=CN&country=SG&country=JP&country=all&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n $2 -
-	    curl -s "https://archlinux.org/mirrorlist/?country=DE&country=LU&country=BE&country=FR&country=CH&protocol=http&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n $2 -
+	    curl -s "https://archlinux.org/mirrorlist/?country=DE&country=LU&country=BE&country=FR&country=CH&protocol=https&ip_version=4&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n $2 -
 	    return 0
 	  fi
 	else

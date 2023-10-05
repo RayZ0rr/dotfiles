@@ -41,17 +41,21 @@ control + alt + s ; a
   # alacritty --class="fzf-menuSwayL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/sway-launcher-desktop
 
 # run apps launcher
-control + alt + s ; r
+control + alt + s ; e
   dmenu_path | ~/.local/bin/fzflaunch | bash
+  # alacritty --class="fzf-menuL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzflaunch
+
+control + alt + s ; r
+  dmenu_path | ~/.local/bin/fzfmenu | bash
   # alacritty --class="fzf-menuL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzflaunch
 
 #Launch fzf_dots
 control + alt + s ; d ; o
-  alacritty --class="fzf-menuDots" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf_dots
+  alacritty --class="Fzf-MenuDots" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf_dots
 
 #Launch fzf_docs
 control + alt + s ; d ; u
-  alacritty --class="fzf-menuDocs" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf_docs
+  alacritty --class="Fzf-MenuDocs" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzf_docs
 
 #jgmenu
 control + alt + button3

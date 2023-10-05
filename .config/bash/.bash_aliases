@@ -22,9 +22,6 @@ alias srcB='source ~/.bashrc'
 #Tmux session (tmuxp)
 alias tmxl='tmuxp load localB'
 
-#vifm
-! [[ -f ~/.local/bin/vf ]] && alias vf=vifm
-
 # xclip shortcuts
 alias xcopy="xclip -sel clip"
 xpaste() {

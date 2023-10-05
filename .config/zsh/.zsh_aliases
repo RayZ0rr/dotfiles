@@ -22,11 +22,6 @@ alias srcZ='exec zsh'
 #Tmux session (tmuxp)
 alias tmxl='tmuxp load localZ'
 
-#----------------------------------------------------
-#vifm
-#----------------------------------------------------
-! [[ -f ~/.local/bin/vf ]] && alias vf=vifm
-
 # xclip shortcuts
 alias xcopy="xclip -sel clip"
 xpaste() {

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -d "$HOME/.cache/vifm" ] || mkdir -p "$HOME/.cache/vifm"
 
@@ -8,8 +8,8 @@ action="$1"
 # $3 panel height
 panel_width=$2
 panel_height=$3
-cell_width=6
-cell_height=14
+cell_width=10
+cell_height=8
 width=$((panel_width*cell_width))
 height=$((panel_height*cell_height))
 # $4 image path
@@ -29,6 +29,9 @@ image() {
     montage "$1" -background "$background" -geometry "${2}x${3}" sixel:-
   }
 
+if [ -n "$STY" ]; then
+    popt=-P
+fi
 
 case "$action" in
   "clear")
@@ -37,17 +40,19 @@ case "$action" in
   "draw")
     [ ! -f "${PCACHE}.jpg" ] && convert "$image_file"'[0]' "${PCACHE}.jpg"
     # FILE="$PWD/$image_file"
-    image "${PCACHE}.jpg" "$width" "$height"
+    image "${PCACHE}.jpg" "$width" "$height" 2>/dev/null
+    # img2sixel $popt --width=$width --height=$height "${PCACHE}.jpg"
+    # img2sixel $popt --width=$width --height=$height "${4}"
     ;;
   "video")
     [ ! -f "${PCACHE}.jpg" ] && \
     ffmpegthumbnailer -i "$4" -o "${PCACHE}.jpg" -s 0 -q 5
-    image "${PCACHE}.jpg" "$width" "$height"
+    image "${PCACHE}.jpg" "$width" "$height" 2>/dev/null
     ;;
   "epub")
     [ ! -f "${PCACHE}.jpg" ] && \
     epub-thumbnailer "$image_file" "$PCACHE" 1024
-    image "${PCACHE}.jpg" "$width" "$height"
+    image "${PCACHE}.jpg" "$width" "$height" 2>/dev/null
     ;;
   "pdf")
     [ ! -f "${PCACHE}.jpg" ] && \
@@ -62,7 +67,7 @@ case "$action" in
   "font")
     [ ! -f "${PCACHE}.jpg" ] && \
     fontpreview -i "$image_file" -o "${PCACHE}.jpg"
-    image "${PCACHE}.jpg" "$width" "$height"
+    image "${PCACHE}.jpg" "$width" "$height" 2>/dev/null
     ;;
   *)
 esac

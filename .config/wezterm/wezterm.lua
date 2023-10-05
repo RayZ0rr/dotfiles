@@ -32,12 +32,17 @@ return {
   -- a single tab in the window
   hide_tab_bar_if_only_one_tab = true,
   -- timeout_milliseconds defaults to 1000 and can be omitted
-  leader = { key = 'd', mods = 'ALT', timeout_milliseconds = 1000 },
+  leader = { key = 'w', mods = 'ALT', timeout_milliseconds = 1000 },
   keys = {
     {
       key = '|',
       mods = 'LEADER|SHIFT',
       action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
     },
+    -- {
+    --   key = '_',
+    --   mods = 'CTRL',
+    --   action = wezterm.action.DisableDefaultAssignment,
+    -- },
   },
 }

@@ -23,11 +23,24 @@ chmod 600 $input $output
 # sadly we can't use "$@" here directly because we are inside sh -c "..." call
 # already.
 # you can also set window dimensions via -g '=COLSxROWS', see man st.
-st -c fzf-menuL -n fzf-menuL -e sh -c "cat $input | fzf $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | tee $output" & disown
+# list=$(cat $input)
+# if [[ -z $list ]] ; then
+#     exit 1
+# fi
+~/.local/bin/floating-terminal class Fzf-MenuRun sh -c "cat $input | fzf -m $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | tee $output" & disown
 # alacritty --class="fzf-menuL" --config-file $HOME/.config/alacritty/scratchpad.yml -e sh -c "cat $input | fzf -m $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | awk 'BEGIN {ORS=\" \"} {print}' | tee $output" & disown
 
 # handle ctrl+c outside child terminal window
 trap "kill $! 2>/dev/null; rm -f $input $output" EXIT
 
+# list=$(cat)
+# if [[ -z $list ]] ; then
+#     exit 1
+# fi
+
 cat > $input
 cat $output
+# selection="$(cat $output)"
+# if [[ -n $selection ]] ; then
+#     xdg-open "$selection" &
+# fi

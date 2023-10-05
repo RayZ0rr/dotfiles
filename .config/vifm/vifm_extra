@@ -6,12 +6,9 @@ if [ -n "$INSIDE_VIFM" ]; then
     unset INSIDE_VIFM
 fi
 
-vfcd()
-{
-    local dst="$(command vifm --choose-dir - "$@")"
-    if [ -z "$dst" ]; then
-        echo 'Directory picking cancelled/failed'
-        return 1
-    fi
-    cd "$dst"
-}
+VIFM_VF_PATH="$HOME/.local/bin/vfcd"
+if [[ -f "${VIFM_VF_PATH}" ]] ; then
+    alias vf="source ${VIFM_VF_PATH}"
+else
+    alias vf=vifm
+fi

@@ -4,6 +4,14 @@ export FZF_DEFAULT_OPTS="--height=100% --layout=reverse --border --no-sort --pro
 
 # FZF_DEFAULT_OPTS='--height=100% --layout=reverse --border' fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1
 # alacritty --class="term-dmenu" -e "fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1"
-exec alacritty --class="fzf-menu" --config-file=$HOME/.config/alacritty/scratchpad.yml -e bash -c "fzf-tmux -m $* < /proc/$$/fd/0 | awk 'BEGIN {ORS=\" \"} {print}' > /proc/$$/fd/1"
+
+# exec alacritty --class="fzf-menu" --config-file=$HOME/.config/alacritty/scratchpad.yml -e bash -c "fzf-tmux -m $* < /proc/$$/fd/0 | awk 'BEGIN {ORS=\" \"} {print}' > /proc/$$/fd/1"
+exec ~/.local/bin/floating-terminal bash -c "fzf-tmux -m $* < /proc/$$/fd/0 | awk '{print}' > /proc/$$/fd/1"
+
+# selection=$(exec alacritty --class="fzf-menu" --config-file=$HOME/.config/alacritty/scratchpad.yml -e bash -c "fzf-tmux -m $* < /proc/$$/fd/0 | awk 'BEGIN {ORS=\" \"} {print}' > /proc/$$/fd/1")
+# echo "selection: $selection"
+# if [[ -n $selection ]] ; then
+#     xdg-open "$selection" &
+# fi
 # exec alacritty --class="fzf-menu" --config-file=$HOME/.config/alacritty/scratchpad.yml -e bash -c "fzf-tmux -m $* < /proc/$$/fd/0 > /proc/$$/fd/1"
 # exec xterm -name 'floating xterm' -e dash -c "fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1"

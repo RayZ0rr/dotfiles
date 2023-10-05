@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+if ! [[ -x "$(command -v j4-dmenu-desktop)" ]]; then
+    echo "Error: j4-dmenu-desktop not found"
+    exit 1
+fi
+
+# set your preferred dmenu-like program in the environment variable $DMENU_PROGRAM
+# examples: "dmenu", "rofi -dmenu", "term-dmenu", or just "fzf" to run in your current terminal
+# [[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='term-dmenu --no-extended --print-query'
+# [[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='term-dmenu'
+# [[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='fzfmenu'
+[[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='fzflaunch'
+
+# launcher for .desktop files; used with app-runner script
+# shellcheck disable=SC2154
+if [[ -n "$TERMINAL" ]]; then
+	j4-dmenu-desktop --term="$TERMINAL" --dmenu="$DMENU_PROGRAM"
+else
+	j4-dmenu-desktop --dmenu="$DMENU_PROGRAM"
+fi
+
+# vi:ft=sh

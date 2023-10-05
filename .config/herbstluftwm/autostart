@@ -235,7 +235,7 @@ hc unrule -F
 hc rule focus=on # normally focus new clients
 hc rule floatplacement=smart
 hc rule instance~hlwmScratch.*	     floating=on	      floatplacement=center	# float all instances which contains 'hlwmScratch'
-hc rule instance~fzf-menu.*	     floating=on	      floatplacement=center	# float all instances which contains 'fzf-menu'
+hc rule instance~Fzf-Menu.*	     floating=on	      floatplacement=center	# float all instances which contains 'Fzf-Menu'
 hc rule class=firefox		     tag="${tag_names[8]}"    # move firefox to to tag 9
 hc rule class=firefox		     title=Library	      floating=on		# Float History and Downloads windows of Firefox
 hc rule class="Tor Browser"	     tag="${tag_names[5]}"    floating=on		# move all tor browser to tag 6
