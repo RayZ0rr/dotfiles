@@ -21,4 +21,4 @@ vfcd()
     cd "$dst"
 }
 
-vfcd
+vfcd "$@"
