@@ -49,8 +49,8 @@ export GITFDIR=gFolder/RaZ0rr
 export DOTFDIR=gFolder/RaZ0rr/dotfiles
 
 # Qt5 applications theme configuration
-if (( $+commands[qt5ct] )) ; then
-  export QT_QPA_PLATFORMTHEME=qt5ct
+if (( $+commands[qt6ct] )) ; then
+  export QT_QPA_PLATFORMTHEME=qt6ct
 fi
 
 export CUDA_CACHE_PATH="$HOME"/.cache/nv

@@ -80,7 +80,7 @@ setw -g monitor-activity on
 # set -s escape-time 0
 
 # increase scrollback buffer size
-# set -g history-limit 50000
+set -g history-limit 5000
 
 # tmux messages are displayed for 4 seconds
 # set -g display-time 4000

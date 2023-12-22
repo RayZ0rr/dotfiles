@@ -251,6 +251,8 @@ hc rule title=tdrop		     floating=on	      floatplacement=center	# float tdrop 
 hc rule title=nmtui		     floating=on	      floatplacement=smart	# float nmtui network manager
 hc rule class=copyq		     floating=on	      floatplacement=off	# float copyq clipboard manager
 # hc rule instance=copyq		     floating=on	      floatplacement=off	# float copyq clipboard manager
+hc rule class="Syncthing GTK"        floating=on	      floatplacement=off	# float Syncthing GTK app
+hc rule instance="Syncthing GTK"     floating=on	      floatplacement=off	# float Syncthing GTK app
 hc rule title="Event Tester"	     floating=on	      floatplacement=smart	# float xev
 hc rule class=Pavucontrol	     floating=on	      floatplacement=center	# float pulse audio volume control
 hc rule class=KopiaUI		     floating=on	      floatplacement=center	# float kopia UI backup tool

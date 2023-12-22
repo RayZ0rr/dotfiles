@@ -8,11 +8,11 @@
 #---------------------------------------------------------------------------------
 if [[ $- == *i* ]]
 then
-  if [[ -d "/usr/share/fzf/shell" ]] ; then
+  if [[ -f "/usr/share/fzf/shell/completion.zsh" ]] ; then
     source "/usr/share/fzf/shell/completion.zsh" 2> /dev/null
-  elif [[ -d "/usr/share/fzf" ]] ; then
+  elif [[ -f "/usr/share/fzf/completion.zsh" ]] ; then
     source "/usr/share/fzf/completion.zsh" 2> /dev/null
-  elif [[ -d "${MY_FZF_PATH}" ]] ; then
+  elif [[ -f "${MY_FZF_PATH}/completion.zsh" ]] ; then
     source "${MY_FZF_PATH}/completion.zsh" 2> /dev/null
   fi
 fi
@@ -43,11 +43,11 @@ if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
 fi
 # Key bindings
 #---------------------------------------------------------------------------------
-if [[ -d "/usr/share/fzf/shell" ]] ; then
+if [[ -f "/usr/share/fzf/shell/key-bindings.zsh" ]] ; then
   source "/usr/share/fzf/shell/key-bindings.zsh" 2> /dev/null
-elif [[ -d "/usr/share/fzf" ]] ; then
+elif [[ -f "/usr/share/fzf/key-bindings.zsh" ]] ; then
   source "/usr/share/fzf/key-bindings.zsh" 2> /dev/null
-elif [[ -d "${MY_FZF_PATH}" ]] ; then
+elif [[ -f "${MY_FZF_PATH}/key-bindings.zsh" ]] ; then
   source "${MY_FZF_PATH}/key-bindings.zsh"
 fi
 

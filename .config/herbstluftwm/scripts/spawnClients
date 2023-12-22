@@ -20,101 +20,111 @@ tag_10="﩯"
 
 #---------------------------------------------------------------
 
-Terminal="wezterm start"
+Terminal1="wezterm start"
 
-if [ -x "$(command -v ${Terminal})" ]
+if [[ -x "$(command -v ${Terminal1})" ]]
 then
 
-  herbstclient load "${tag_names[0]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
-  # spawn two terminals (alacritty and default terminal in two windows) in tag 1
-  RULES=( tag="${tag_names[0]}" index=0 ) # left-hand frame
-  spawn_with_rules ${Terminal} --class Term1
-  sleep 1
-  xdotool type --window $(xdotool search --classname Term1) $'la\n'
-  # xdotool key --window $(xdotool search --classname Term1) KP_Enter
+    herbstclient load "${tag_names[0]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
+    # spawn two terminals (alacritty and default terminal in two windows) in tag 1
+    RULES=( tag="${tag_names[0]}" index=0 ) # left-hand frame
+    spawn_with_rules ${Terminal1} --class Term1
+    sleep 1
+    xdotool type --window $(xdotool search --classname Term1) $'la\n'
+    # xdotool key --window $(xdotool search --classname Term1) KP_Enter
 
-  RULES=( tag="${tag_names[0]}" index=1 )  # right-hand frame
-  spawn_with_rules ${Terminal} --class Term2
-  sleep 1
-  xdotool type --window $(xdotool search --classname Term2) $'neofetch\n'
-  # xdotool key --window $(xdotool search --classname Term2) KP_Enter
+    #---------------------------------------------------------------
 
-  herbstclient load "${tag_names[1]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
-  # spawn two terminals (alacritty and default terminal in two windows) in tag 1
-  RULES=( tag="${tag_names[1]}" index=0 ) # left-hand frame
-  spawn_with_rules ${Terminal} --class Term3
-  sleep 1
+    RULES=( tag="${tag_names[0]}" index=1 )  # right-hand frame
+    spawn_with_rules ${Terminal1} --class Term2
+    sleep 1
+    xdotool type --window $(xdotool search --classname Term2) $'neofetch\n'
+    # xdotool key --window $(xdotool search --classname Term2) KP_Enter
 
-  RULES=( tag="${tag_names[1]}" index=1 )  # right-hand frame
-  spawn_with_rules ${Terminal} --class Term4
-  sleep 1
+    #---------------------------------------------------------------
+
+    herbstclient load "${tag_names[1]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
+    # spawn two terminals (alacritty and default terminal in two windows) in tag 1
+    RULES=( tag="${tag_names[1]}" index=0 ) # left-hand frame
+    spawn_with_rules ${Terminal1} --class Term3
+    sleep 1
+
+    #---------------------------------------------------------------
+
+    RULES=( tag="${tag_names[1]}" index=1 )  # right-hand frame
+    spawn_with_rules ${Terminal1} --class Term4
+    sleep 1
+
+    #---------------------------------------------------------------
+
+    # spawn an vifm in tag 4
+    RULES=( tag="${tag_names[3]}" )
+    spawn_with_rules ${Terminal1} --class VifmTerm
+    sleep 1
+    herbstclient use "${tag_names[3]}"
+    xdotool type --window $(xdotool search --classname VifmTerm) $'vf\n'
+
+#---------------------------------------------------------------
 
 else
-  echo "${Terminal} not installed"
+    echo "${Terminal1} not installed"
 fi
 
 #---------------------------------------------------------------
 
-if [ -x "$(command -v st)" ]
+Terminal2="st"
+
+if [[ -x "$(command -v ${Terminal2})" ]]
 then
 
-  # spawn an vifm in tag 4
-  RULES=( tag="${tag_names[3]}" )
-  spawn_with_rules st -n VifmTerm
-  sleep 1
-  herbstclient use "${tag_names[3]}"
-  xdotool type --window $(xdotool search --classname VifmTerm) $'vf\n'
+    # spawn an bottom (htop alternative) in tag 5
+    RULES=( tag="${tag_names[4]}" )
+    spawn_with_rules ${Terminal2} -n BottomTerm
+    sleep 1
+    herbstclient use "${tag_names[4]}"
+    xdotool type --window $(xdotool search --classname BottomTerm) $'btm\n'
+    # spawn_with_rules xdotool key Return
 
-#---------------------------------------------------------------
+    #---------------------------------------------------------------
 
-  # spawn an bottom (htop alternative) in tag 5
-  RULES=( tag="${tag_names[4]}" )
-  spawn_with_rules st -n BottomTerm
-  sleep 1
-  herbstclient use "${tag_names[4]}"
-  xdotool type --window $(xdotool search --classname BottomTerm) $'btm\n'
-  # spawn_with_rules xdotool key Return
+    herbstclient load "${tag_10}" "$(cat ~/.config/herbstluftwm/layouts/6win_2bigCenter)"
+    RULES=( tag="${tag_10}" index=000 )  # Top left terminal
+    spawn_with_rules ${Terminal2} -n "${Terminal2}Nothing1" &
 
-#---------------------------------------------------------------
+    #---------------------------------------------------------------
 
-  herbstclient load "${tag_10}" "$(cat ~/.config/herbstluftwm/layouts/6win_2bigCenter)"
-  RULES=( tag="${tag_10}" index=000 )  # Top left terminal
-  spawn_with_rules st -n stNothing1 &
+    RULES=( tag="${tag_10}" index=001 )  # Top center htop
+    spawn_with_rules ${Terminal2} -n "${Terminal2}Htop" -e htop &
 
-#---------------------------------------------------------------
+    #---------------------------------------------------------------
 
-  RULES=( tag="${tag_10}" index=001 )  # Top center htop
-  spawn_with_rules st -n stHtop -e htop &
+    RULES=( tag="${tag_10}" index=010 )  # Top right terminal
+    spawn_with_rules ${Terminal2} -n "${Terminal2}Pokemon" &
+    sleep 1
+    xdotool type --window $(xdotool search --classname "${Terminal2}Pokemon") $'pokemon-colorscripts -r\n'
+    # spawn_with_rules ${Terminal2} -n "${Terminal2}Nothing2" &
 
-#---------------------------------------------------------------
+    #---------------------------------------------------------------
 
-  RULES=( tag="${tag_10}" index=010 )  # Top right terminal
-  spawn_with_rules st -n stPokemon &
-  sleep 1
-  xdotool type --window $(xdotool search --classname stPokemon) $'pokemon-colorscripts -r\n'
-  # spawn_with_rules st -n stNothing2 &
+    RULES=( tag="${tag_10}" index=100 )  # Bottom left terminal
+    spawn_with_rules ${Terminal2} -n "${Terminal2}Cmatrix" -e cmatrix &
 
-#---------------------------------------------------------------
+    #---------------------------------------------------------------
 
-  RULES=( tag="${tag_10}" index=100 )  # Bottom left terminal
-  spawn_with_rules st -n stCmatrix -e cmatrix &
+    RULES=( tag="${tag_10}" index=101 )  # Bottom center terminal
+    spawn_with_rules ${Terminal2} -n "${Terminal2}Aqua" -e asciiquarium  &
 
-#---------------------------------------------------------------
+    #---------------------------------------------------------------
 
-  RULES=( tag="${tag_10}" index=101 )  # Bottom center terminal
-  spawn_with_rules st -n stAqua -e asciiquarium  &
+    RULES=( tag="${tag_10}" index=111 )  # Bottom right terminal
+    spawn_with_rules ${Terminal2} -n "${Terminal2}Pipes" -e ~/.local/bin/pipes &
 
-#---------------------------------------------------------------
+    #---------------------------------------------------------------
 
-  RULES=( tag="${tag_10}" index=111 )  # Bottom right terminal
-  spawn_with_rules st -n stPipes -e ~/.local/bin/pipes &
-
-#---------------------------------------------------------------
-
-  herbstclient use_index 0
+    herbstclient use_index 0
 
 else
-  echo "st (suckless/simple terminal) not installed"
-  exit 1
+    echo "${Terminal2} not installed"
+    exit 1
 fi
 

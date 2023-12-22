@@ -11,7 +11,7 @@ TMUX_FZF_PANE_FORMAT="[#{window_name}] #{pane_current_command}  [#{pane_width}x#
 
 set -g @logging-path '$HOME/.config/tmux/logs'
 bind-key "C-w" run-shell -b "$HOME/.config/tmux/plugins/tmux-fzf/scripts/window.sh switch"
-bind-key "C-t" run-shell -b "$HOME/.config/tmux/plugins/tmux-fzf/scripts/session.sh attach"
+bind-key "C-e" run-shell -b "$HOME/.config/tmux/plugins/tmux-fzf/scripts/session.sh attach"
 
 set -g @resurrect-dir '$HOME/.config/tmux/resurrect'
 set -g @resurrect-capture-pane-contents 'on'

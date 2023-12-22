@@ -84,6 +84,13 @@ control + alt + k
 # pactl set-sink-mute @DEFAULT_SINK@ toggle
 XF86AudioMute
   ~/.local/bin/pulseaudio-control togmute
+
+XF86MonBrightnessUp
+    brightnessctl set 20+
+
+XF86MonBrightnessDown
+    brightnessctl set 20-
+
 # pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # set directly keycode (here control + f with my keyboard)
