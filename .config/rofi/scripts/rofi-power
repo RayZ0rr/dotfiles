@@ -31,7 +31,7 @@ case "$chosen" in
         ;;
 
     "$reboot")
-        ~/.config/rofi/scripts/rofi-prompt --query 'Reboot?' && reboot
+        ~/.config/rofi/scripts/rofi-prompt --query 'Reboot?' && systemctl reboot
         # ~/.config/rofi/scripts/rofi-prompt --query 'Reboot?' && dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Reboot" boolean:true
         ;;
 

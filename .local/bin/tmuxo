@@ -4,7 +4,7 @@
 # From https://www.reddit.com/r/bash/comments/15sxh1r/comment/jwhpypp/?utm_source=share&utm_medium=web2x&context=3
 
 header="Sessions:"
-sessions=$(tmux list-sessions -F "#S" 2>/dev/null) \
+sessions=$(tmux list-window -a -F "#S:#I" 2>/dev/null) \
     || header="No active sessions!"
 
 fzf_opts=(
@@ -17,11 +17,20 @@ fzf_opts=(
 
 mapfile -t selections <<<"$(fzf "${fzf_opts[@]}" <<<"$sessions")"
 query=${selections[0]}
+query_first="$(echo ${selections[0]} | cut -f 1 -d ' ')"
 session=${selections[1]}
 
 [[ -z "$query" && -z "$session" ]] && exit
 
-if [[ -z "$session" ]]; then
+if [[ "$query_first" == "new" ]]; then
+    session="$(echo ${selections[0]} | cut -f 2 -d ' ')"
+    if [[ -z "$session" ]]; then
+        printf "[Error] : new used without specifying session name\n"
+        exit
+    fi
+    printf "Creating new tmux session named [$session]\n"
+    tmux new-session -d -s "$session"
+elif [[ -z "$session" ]]; then
     printf "Creating new tmux session named [$query]\n"
     tmux new-session -d -s "$query" && session="$query"
 fi

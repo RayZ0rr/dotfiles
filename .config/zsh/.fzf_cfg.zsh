@@ -23,7 +23,7 @@ if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
 
   zstyle ':completion:*' fzf-search-display true
   # basic file preview for ls (you can replace with something more sophisticated than head)
-  zstyle ':completion::*:(ls|exa)::*' fzf-completion-opts -m --preview='eval head {+1}'
+  zstyle ':completion::*:(ls|eza)::*' fzf-completion-opts -m --preview='eval head {+1}'
   zstyle ':completion::*:(vim|nvim)::*' fzf-completion-opts -m --preview='eval head {+1}'
   zstyle ':completion::*:(cd|zd)::*' fzf-completion-opts --preview='eval tree {+1}'
 

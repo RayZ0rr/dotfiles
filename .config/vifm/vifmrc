@@ -227,12 +227,14 @@ filextype {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
           \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
           \*.as[fx]},
          \<video/*>
+        \ {View using smplayer}
+        \ smplayer %f,
+        \ {View using MPV}
+        \ mpv --really-quiet %f,
         \ {View using ffplay}
         \ ffplay -fs -autoexit %f,
         \ {View using Dragon}
         \ dragon %f:p,
-        \ {View using mplayer}
-        \ mplayer %f,
 
 " Web
 filextype {*.html,*.htm},<text/html>
@@ -428,10 +430,14 @@ vnoremap w :view<cr>gv
 "                    \| <cr>gv
 
 " Open file in nvim
-nnoremap oo :!$EDITOR %f<cr>
+" nnoremap oo :!$EDITOR %f<cr>
+nnoremap oo :!${TERMINAL:-alacritty} -e $EDITOR %f &<cr>
 
 " Open with default file manager (here pcmanfm)
 nnoremap OO :!pcmanfm %f &<cr>
+
+" Open with mpv
+nnoremap om :!mpv %f &<cr>
 
 " Open file in the background using its default program
 nnoremap gb :!xdg-open %f &<cr>
@@ -476,7 +482,7 @@ nnoremap cc cw<c-u>
 nnoremap A cw
 
 " Open console in current directory
-nnoremap ,t :!${TERMINAL:-alacritty} &<cr>
+nnoremap ,tr :!${TERMINAL:-alacritty} &<cr>
 
 " Open editor to edit vifmrc and apply settings after returning to vifm
 " nnoremap ,c :write | edit $MYVIFMRC | restart full<cr>
