@@ -101,7 +101,7 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--force", action="store_true", help="Force overwrite existing targets with same name")
     parser.add_argument("-S", "--skip", action="store_true", help="Skip if target with same name already exists")
     parser.add_argument("-p", "--parents", action="store_true", help="Create missing parent directories")
-    parser.add_argument("-H", "--hardlinks", action="store_true", help="Create hard links instead of soft links")
+    parser.add_argument("-H", "--hardlink", action="store_true", help="Create hard links instead of soft links")
     parser.add_argument("-F", "--follow", action="store_true", help="Resolve to the linked location when using a symlink as source")
     args = parser.parse_args()
 

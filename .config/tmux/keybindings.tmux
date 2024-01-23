@@ -42,7 +42,8 @@ bind X confirm-before kill-session
 bind R source-file ~/.config/tmux/tmux.conf \; display "Tmux config Reloaded!"
 
 #Open tmux config
-bind C-c send-keys "$EDITOR ~/.config/tmux/tmux.conf ~/.config/tmux/keybindings.tmux ~/.config/tmux/plugins.tmux ~/.config/tmux/options.tmux ~/.config/tmux/style.tmux" Enter
+bind C-c send-keys "$EDITOR $HOME/.config/tmux/tmux.conf $HOME/.config/tmux/keybindings.tmux $HOME/.config/tmux/plugins.tmux $HOME/.config/tmux/options.tmux $HOME/.config/tmux/style.tmux" Enter
+bind C new-window -c "#{pane_current_path}"
 
 #Log all the text on current pane to vim buffer, which is not saved
 #bind lv capture-pane -S - \; save-buffer ~/.x \; delete-buffer \; new-window 'vim "set buftype=nofile" +"!rm ~/.x"

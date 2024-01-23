@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+LOG_ROOT_DIR=""
+LOG_ROOT_DIR_KOPIA=""
+LOG_ROOT_DIR_RESTIC=""
+
+declare -a LOG_FILES=( "${LOG_ROOT_DIR_KOPIA}/kopia_main.log" "${LOG_ROOT_DIR_KOPIA}/kopia_extra.log" "${LOG_ROOT_DIR_RESTIC}/restic_main.log" "${LOG_ROOT_DIR_RESTIC}/restic_extra.log" )
+declare -a LOG_VIEW_COUNT=( "40" "40" "190" "310" )
+
+for idx in ${!LOG_FILES[@]}
+do
+    printf -- "\n--------------------------------------------\n"
+    printf -- "Viewing log file :\n${LOG_FILES[$idx]}"
+    printf -- "\n--------------------------------------------\n"
+    tail -n "${LOG_VIEW_COUNT[$idx]}" "${LOG_FILES[$idx]}"
+done
