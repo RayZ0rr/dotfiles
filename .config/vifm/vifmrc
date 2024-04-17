@@ -374,7 +374,7 @@ filetype * xdg-open
 "extract better
 command! extf :execute '!%%n extractfiles' &fusehome expand('%%D') expand('%%f:p')
 
-nnoremap <a-e> :extf<CR>
+nnoremap <a-x> :extf<CR>
 
 " Compare files with diff
 command! cmpinternal compare-cmd %a %S
@@ -386,7 +386,7 @@ command! cmp : if expand('%%c') == expand('%%f')
       \ |     cmpinternal %f
       \ | endif
 
-nnoremap <a-c> :cmp<CR>
+nnoremap <a-e> :cmp<CR>
 
 nnoremap drd :!dragon-drop %f<cr>
 nnoremap drs :!dragon-drop --keep %d<cr>
@@ -399,6 +399,9 @@ nnoremap _ <C-w>5>
 
 " Start shell in current directory
 nnoremap s :shell<cr>
+
+" Start shell in current directory
+nnoremap ,s :!zsh<cr>
 
 " Display sorting dialog
 nnoremap S :sort<cr>
@@ -532,9 +535,9 @@ command! FzfGoto : set noquickview
                   \|     execute system('[ -f "$FZF_PICK" ] && echo goto || echo cd') fnameescape($FZF_PICK)
                   \| endif
 
-nnoremap <M-t> :FzfGoto<cr>
+nnoremap <a-c> :FzfGoto<cr>
 nnoremap <C-t> :FzfGotoParent<cr>
-nnoremap <M-f> :FzfEcho<cr>
+nnoremap <a-t> :FzfEcho<cr>
 
 " NERD font devicons
 source $HOME/.config/vifm/icons/favicons.vifm

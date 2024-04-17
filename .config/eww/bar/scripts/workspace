@@ -4,10 +4,10 @@
 # If MONITOR environment variable is not set this will default to monitor 0
 # Check https://github.com/polybar/polybar/issues/763
 MON_IDX="0"
-mapfile -t MONITOR_LIST < <(polybar --list-monitors | cut -d":" -f1)
-for (( i=0; i<$((${#MONITOR_LIST[@]})); i++ )); do
-  [[ ${MONITOR_LIST[${i}]} == "$MONITOR" ]] && MON_IDX="$i"
-done;
+# mapfile -t MONITOR_LIST < <(polybar --list-monitors | cut -d":" -f1)
+# for (( i=0; i<$((${#MONITOR_LIST[@]})); i++ )); do
+#   [[ ${MONITOR_LIST[${i}]} == "$MONITOR" ]] && MON_IDX="$i"
+# done;
 
 herbstclient --idle "tag_*" 2>/dev/null | {
 

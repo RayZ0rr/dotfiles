@@ -4,16 +4,17 @@
 
 (defpoll WINDOW_TITLE :interval "1s" "xdotool getwindowfocus getwindowname | awk '{print $1,$2}'")
 (defpoll WINDOW_TOOLTIP :interval "5s" "xdotool getwindowfocus")
+(defvar distro_name "lsb_release")
 
 ;; -----------------------------------------------------
 ;; WIDGETS
 ;; -----------------------------------------------------
 
 (defwidget window_title []
-  (box :class "module-window" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+  (box :class "module-window" :orientation "h" :space-evenly false
     (label :text WINDOW_TITLE :class "window_title" :tooltip WINDOW_TOOLTIP)
-    (box :class "linux" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
-      (label :text " " :class "linux_icon" :tooltip "Arch Linux")
+    (box :class "linux" :orientation "h" :space-evenly false
+      (label :text " " :class "linux_icon" :tooltip distro_name)
     )
   )
 )
@@ -27,15 +28,15 @@
 ))
 
 ;; -----------------------------------------------------
-;; WINDOWS
+;; BAR
 ;; -----------------------------------------------------
 
 (defwindow bar_center
   :geometry (geometry
-     :x "0%"
+     :x "-1%"
      :y "1px"
      :width "10%"
-     :height "42px"
+     :height "30px"
      :anchor "top center"
   )
   :stacking "bg"

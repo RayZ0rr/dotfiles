@@ -91,10 +91,24 @@ gitacp() {
 
 # rsync alternatives for cp and mv
 cpr() {
-  rsync --archive -hh --partial --progress --info=stats1,progress2 --modify-window=1 "$@"
+  rsync --archive -r -hh --partial --progress --info=stats1,progress2 --modify-window=1 "$@"
 }
 mvr() {
-  rsync --archive -hh --partial --progress --info=stats1,progress2 --modify-window=1 --remove-source-files "$@"
+  rsync --archive -r -hh --partial --progress --info=stats1,progress2 --modify-window=1 --remove-source-files "$@"
+}
+
+mybtrfs() {
+    case "${@}" in
+        "balance")
+            btrfs balance start -dusage=50 -dlimit=2 -musage=50 -mlimit=4 /
+            return 0 ;;
+        "scrub")
+            btrfs scrub start -B -d -c 2 -n 4 /
+            return 0 ;;
+        *)
+            printf "\nAccepts only 2 arguments.\n1. Run mybtrfs [balance|scrub]\n"
+            return 1
+    esac
 }
 
 mygpgkey() {

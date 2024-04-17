@@ -15,8 +15,8 @@ spawn_with_rules() {(
 
 #---------------------------------------------------------------
 
-tag_names=("1-" "2-" "3-﬑" "4-" "5-" "6-" "7-" "8-" "9-")
-tag_10="﩯"
+tag_names=("1-" "2-" "3-󰹕" "4-" "5-" "6-󰋩" "7-" "8-" "9-󰖟")
+tag_10="󰟪"
 
 #---------------------------------------------------------------
 
@@ -43,17 +43,26 @@ then
 
     #---------------------------------------------------------------
 
-    herbstclient load "${tag_names[1]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
-    # spawn two terminals (alacritty and default terminal in two windows) in tag 1
-    RULES=( tag="${tag_names[1]}" index=0 ) # left-hand frame
+    herbstclient load "${tag_names[1]}"
+    # spawn one terminal in tag 1
+    RULES=( tag="${tag_names[1]}" )
     spawn_with_rules ${Terminal1} --class Term3
     sleep 1
-
-    #---------------------------------------------------------------
-
-    RULES=( tag="${tag_names[1]}" index=1 )  # right-hand frame
-    spawn_with_rules ${Terminal1} --class Term4
+    # herbstclient use "${tag_names[1]}"
+    xdotool type --window $(xdotool search --classname Term3) $'tmux new -s General\n'
     sleep 1
+
+    # herbstclient load "${tag_names[1]}" '(split horizontal:0.5:0 (clients max:1) (clients max:1))'
+    # # spawn two terminals (alacritty and default terminal in two windows) in tag 1
+    # RULES=( tag="${tag_names[1]}" index=0 ) # left-hand frame
+    # spawn_with_rules ${Terminal1} --class Term3
+    # sleep 1
+
+    # #---------------------------------------------------------------
+
+    # RULES=( tag="${tag_names[1]}" index=1 )  # right-hand frame
+    # spawn_with_rules ${Terminal1} --class Term4
+    # sleep 1
 
     #---------------------------------------------------------------
 
@@ -63,6 +72,7 @@ then
     sleep 1
     herbstclient use "${tag_names[3]}"
     xdotool type --window $(xdotool search --classname VifmTerm) $'vf\n'
+    sleep 1
 
 #---------------------------------------------------------------
 

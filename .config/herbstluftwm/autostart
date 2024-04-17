@@ -37,7 +37,6 @@ hc keybind $Mod-Shift-r	      reload
 hc keybind $Mod-r	      remove
 hc keybind $Mod-Shift-x	      close_or_remove
 hc keybind $Mod-Return	      spawn "${TERMINAL:-wezterm}" # use your $TERMINAL or alacritty as fallback
-hc keybind $Mod-t	      spawn st # Open st terminal
 # hc keybind $Mod-w spawn wezterm # use your $TERMINAL with xterm as fallback
 
 # basic movement in tiling and floating mode
@@ -84,7 +83,7 @@ hc keybind $Mod-Control-Right   resize right +$resizestep
 
 # tags
 # tag_names=( {1..9} )
-tag_names=("1-" "2-" "3-﬑" "4-" "5-" "6-" "7-" "8-" "9-")
+tag_names=("1-" "2-" "3-󰹕" "4-" "5-" "6-󰋩" "7-" "8-" "9-󰖟")
 tag_keys=( {1..9} 0 )
 
 hc rename default "${tag_names[0]}" || true
@@ -97,9 +96,9 @@ for i in "${!tag_names[@]}" ; do
   fi
 done
 
-hc add "﩯"
-hc keybind "$Mod-0" use_index "10"
-hc keybind "$Mod-Shift-0" move_index "10"
+hc add "󰟪"
+hc keybind $Mod-0 use "󰟪"
+hc keybind $Mod-Shift-0 move "󰟪"
 
 # Save and load layout(s)
 hc keybind $Mod-period spawn	${HLWM_SCRIPTS}/layout_manager.sh   "save"
@@ -112,6 +111,10 @@ hc keybind $Mod-Shift-a		use_index -1 --skip-visible
 # cycle through only non-empty tags
 hc keybind $Mod-s spawn		${HLWM_SCRIPTS}/hlwm-tagswitch next
 hc keybind $Mod-a spawn		${HLWM_SCRIPTS}/hlwm-tagswitch prev
+
+hc keybind $Mod-p spawn		${HLWM_SCRIPTS}/projector.sh "connect"
+hc keybind $Mod-Control-p spawn		${HLWM_SCRIPTS}/projector.sh "disconnect"
+hc keybind $Mod-Shift-p         shift_to_monitor "Projector"
 
 # focus
 hc keybind $Mod-Shift-e		cycle_all +1
@@ -130,7 +133,7 @@ hc keybind $Mod-b		set_attr clients.focus.decorated toggle
 hc keybind $Mod-m		set_attr clients.focus.minimized true
 hc keybind $Mod-n		jumpto last-minimized
 hc keybind $Mod-Shift-m		spawn ${HLWM_SCRIPTS}/maximize.sh
-hc keybind $Mod-p		pseudotile toggle
+hc keybind $Mod-t		pseudotile toggle
 # restore all minimized windows of the focused tag
 hc keybind $Mod-Ctrl-m		foreach CLIENT clients. \
      sprintf MINATT "%c.minimized" CLIENT \

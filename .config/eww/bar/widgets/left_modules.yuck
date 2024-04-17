@@ -2,35 +2,35 @@
 ;; VARIABLES
 ;; -----------------------------------------------------
 
-(deflisten workspace "scripts/workspace")
+(deflisten workspace "$HOME/.config/eww/bar/scripts/workspace")
 
 ;; -----------------------------------------------------
 ;; WIDGETS
 ;; -----------------------------------------------------
 
 (defwidget workspaces []
-  (literal :content workspace)
+  (literal :content workspace :class "workspace" :height 32 :width 32)
 )
 
 (defwidget apps []
   (eventbox
     :onclick "rofi -show drun -theme desktop_apps &"
-    :class "module-apps" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
-    (button :class "apps_icon" :onclick "rofi -show drun -theme desktop_apps &" "")
+    :class "module-apps" :height 32 :width 32
+    (button :class "apps_icon" :onclick "rofi -show drun -theme desktop_apps &" "󰀻")
   )
 )
 
 (defwidget left_modules []
   (box :class "left_modules"
-    :orientation "h"
     :space-evenly false
+    :orientation "h"
     :halign "start"
     (workspaces)
     (apps)
 ))
 
 ;; -----------------------------------------------------
-;; WINDOWS
+;; BAR
 ;; -----------------------------------------------------
 
 (defwindow bar_left

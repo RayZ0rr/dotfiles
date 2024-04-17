@@ -54,12 +54,12 @@ show_indicators = yes
 enable_recursive_icon_lookup = true
 # Set icon theme (only used for recursive icon lookup)
 # You can also set multiple icon themes, with the leftmost one being used first.
-icon_theme = "Adwaita, breeze"
+icon_theme = "Papirus, Adwaita, breeze"
 icon_position = left
 min_icon_size = 32
 max_icon_size = 48
 # Paths to default icons (only neccesary when not using recursive icon lookup)
-icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/:/usr/share/icons/Papirus/16x16/panel/
+# icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/:/usr/share/icons/Papirus/16x16/panel/
 
 sticky_history = yes
 history_length = 20

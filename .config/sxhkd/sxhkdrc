@@ -1,6 +1,6 @@
 # terminal emulator
 control + alt + Return
-  alacritty
+  wezterm
 
 control + alt + t
   st

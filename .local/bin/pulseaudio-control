@@ -26,37 +26,28 @@ export LC_ALL=C  # Some calls depend on English outputs of pactl
 END_COLOR="%{F-}"  # For Polybar colors
 
 
-# Saves the currently default sink into a variable named `curSink`. It will
-# return an error code when pulseaudio isn't running.
-function getCurSink() {
+# Saves the currently default sink into a variable named `sinkNumber`.
+# Saves the name of the sink passed by parameter into a variable named `sinkName`.
+# It will return an error code when pulseaudio isn't running.
+function updateInfo() {
     if ! pactl info &>/dev/null; then return 1; fi
-    local curSinkName
 
-    curSinkName=$(pactl info | awk '/Default Sink: / {print $3}')
-    curSink=$(pactl list sinks | grep -B 4 -E "Name: $curSinkName\$" | sed -nE 's/^Sink #([0-9]+)$/\1/p')
+    sinkName=$(pactl get-default-sink)
+    sinkNumber=$(pactl list sinks | grep -B 4 -E "Name: $sinkName\$" | sed -nE 's/^Sink #([0-9]+)$/\1/p')
+    portName=$(pactl list sinks | grep -e 'Sink #' -e 'Active Port: ' | sed -n "/^Sink #$sinkNumber\$/,+1p" | awk '/Active Port: / {print $3}')
 }
-
 
 # Saves the sink passed by parameter's volume into a variable named `VOL_LEVEL`.
 function getCurVol() {
-    VOL_LEVEL=$(pactl list sinks | grep -A 15 -E "^Sink #$1\$" | grep 'Volume:' | grep -E -v 'Base Volume:' | awk -F : '{print $3; exit}' | grep -o -P '.{0,3}%' | sed 's/.$//' | tr -d ' ')
+    VOL_LEVEL=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '\d+(?=%)' | head -n 1)
+    # VOL_LEVEL="$(pactl get-sink-volume @DEFAULT_SINK@ | awk 'NR==1{print $5}')"
 }
-
-
-# Saves the name of the sink passed by parameter into a variable named
-# `sinkName`.
-function getSinkName() {
-    sinkName=$(pactl list sinks short | awk -v sink="$1" '{ if ($1 == sink) {print $2} }')
-    portName=$(pactl list sinks | grep -e 'Sink #' -e 'Active Port: ' | sed -n "/^Sink #$1\$/,+1p" | awk '/Active Port: / {print $3}')
-}
-
 
 # Saves the name to be displayed for the sink passed by parameter into a
 # variable called `SINK_NICKNAME`.
 # If a mapping for the sink name exists, that is used. Otherwise, the string
 # "Sink #<index>" is used.
 function getNickname() {
-    getSinkName "$1"
     unset SINK_NICKNAME
 
     if [ -n "$sinkName" ] && [ -n "$portName" ] && [ -n "${SINK_NICKNAMES[$sinkName/$portName]}" ]; then
@@ -111,7 +102,7 @@ function getNicknameFromProp() {
 # Saves the status of the sink passed by parameter into a variable named
 # `IS_MUTED`.
 function getIsMuted() {
-    IS_MUTED=$(pactl list sinks | grep -E "^Sink #$1\$" -A 15 | awk '/Mute: / {print $2}')
+    IS_MUTED=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '/Mute: / {print $2}')
 }
 
 
@@ -124,23 +115,23 @@ function getSinkInputs() {
 
 function volUp() {
     # Obtaining the current volume from pulseaudio into $VOL_LEVEL.
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
-    getCurVol "$curSink"
+    getCurVol
     local maxLimit=$((VOLUME_MAX - VOLUME_STEP))
 
     # Checking the volume upper bounds so that if VOLUME_MAX was 100% and the
     # increase percentage was 3%, a 99% volume would top at 100% instead
     # of 102%. If the volume is above the maximum limit, nothing is done.
     if [ "$VOL_LEVEL" -le "$VOLUME_MAX" ] && [ "$VOL_LEVEL" -ge "$maxLimit" ]; then
-        pactl set-sink-volume "$curSink" "$VOLUME_MAX%"
+        pactl set-sink-volume @DEFAULT_SINK@ "$VOLUME_MAX%"
     elif [ "$VOL_LEVEL" -lt "$maxLimit" ]; then
-        pactl set-sink-volume "$curSink" "+$VOLUME_STEP%"
+        pactl set-sink-volume @DEFAULT_SINK@ "+$VOLUME_STEP%"
     fi
 
-    if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
+    if [ $OSD = "yes" ]; then showOSD "$sinkNumber"; fi
     if [ $AUTOSYNC = "yes" ]; then volSync; fi
 }
 
@@ -148,24 +139,24 @@ function volUp() {
 function volDown() {
     # Pactl already handles the volume lower bounds so that negative values
     # are ignored.
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
-    pactl set-sink-volume "$curSink" "-$VOLUME_STEP%"
+    pactl set-sink-volume @DEFAULT_SINK@ "-$VOLUME_STEP%"
 
-    if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
+    if [ $OSD = "yes" ]; then showOSD "$sinkNumber"; fi
     if [ $AUTOSYNC = "yes" ]; then volSync; fi
 }
 
 
 function volSync() {
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
-    getSinkInputs "$curSink"
-    getCurVol "$curSink"
+    getSinkInputs "$sinkNumber"
+    getCurVol
 
     # Every output found in the active sink has their volume set to the
     # current one. This will only be called if $AUTOSYNC is `yes`.
@@ -176,61 +167,81 @@ function volSync() {
 
 function GetIcon() {
     # Switch to mute/unmute the volume with pactl.
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
-    getIsMuted "$curSink"
+    getIsMuted
     if [ "$IS_MUTED" = "yes" ]; then
-	echo "婢"
+        echo ""
     else
-	echo "墳"
+        echo "󰕾"
     fi
-    if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
+    if [ $OSD = "yes" ]; then showOSD "$sinkNumber"; fi
+}
+function GetDescription() {
+    # Switch to mute/unmute the volume with pactl.
+    if ! updateInfo; then
+        echo "PulseAudio not running"
+        return 1
+    fi
+    getIsMuted
+    getCurVol
+    local description
+    if [[ -x "$(command -v jq)" ]]; then
+        description="$(pactl -f json list sinks | jq '.[].description')"
+    else
+        description="$(pactl list sinks | grep "Description" |  cut -d ':' -f 2)"
+    fi
+    if [ "$IS_MUTED" = "yes" ]; then
+        echo " ${VOL_LEVEL}% ${description}"
+    else
+        echo "󰕾 ${VOL_LEVEL}% ${description}"
+    fi
 }
 
 function GetMute() {
     # Switch to mute/unmute the volume with pactl.
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
-    getIsMuted "$curSink"
+    getIsMuted
     if [ "$IS_MUTED" == "yes" ] ; then
-      echo true
+        echo true
     else
-      echo false
-      # echo $IS_MUTED
+        echo false
+        # echo $IS_MUTED
     fi
-    if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
+    if [ $OSD = "yes" ]; then showOSD "$sinkNumber"; fi
 }
 
 function volMute() {
     # Switch to mute/unmute the volume with pactl.
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
     if [ "$1" = "toggle" ]; then
-        getIsMuted "$curSink"
+        getIsMuted
         if [ "$IS_MUTED" = "yes" ]; then
-            pactl set-sink-mute "$curSink" "no"
+            pactl set-sink-mute @DEFAULT_SINK@ "no"
         else
-            pactl set-sink-mute "$curSink" "yes"
+            pactl set-sink-mute @DEFAULT_SINK@ "yes"
         fi
     elif [ "$1" = "mute" ]; then
-        pactl set-sink-mute "$curSink" "yes"
+        pactl set-sink-mute @DEFAULT_SINK@ "yes"
     elif [ "$1" = "unmute" ]; then
-        pactl set-sink-mute "$curSink" "no"
+        pactl set-sink-mute @DEFAULT_SINK@ "no"
     fi
 
-    if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
+    if [ $OSD = "yes" ]; then showOSD "$sinkNumber"; fi
 }
 
 function nextSink() {
     # The final sinks list, removing the blacklisted ones from the list of
     # currently available sinks.
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
@@ -262,11 +273,11 @@ function nextSink() {
     # If the current sink is greater or equal than last one, pick the first
     # sink in the list. Otherwise just pick the next sink avaliable.
     local newSink
-    if [ "$curSink" -ge "${sinks[-1]}" ]; then
+    if [ "$sinkNumber" -ge "${sinks[-1]}" ]; then
         newSink=${sinks[0]}
     else
         for sink in "${sinks[@]}"; do
-            if [ "$curSink" -lt "$sink" ]; then
+            if [ "$sinkNumber" -lt "$sink" ]; then
                 newSink=$sink
                 break
             fi
@@ -301,12 +312,12 @@ function nextSink() {
 # sink passed by parameter, or the currently active one by default.
 function showOSD() {
     if [ -z "$1" ]; then
-        curSink="$1"
+        sinkNumber="$1"
     else
-        getCurSink
+        updateInfo
     fi
-    getCurVol "$curSink"
-    getIsMuted "$curSink"
+    getCurVol
+    getIsMuted
     qdbus org.kde.kded /modules/kosd showVolume "$VOL_LEVEL" "$IS_MUTED"
 }
 
@@ -339,12 +350,12 @@ function listen() {
 
 
 function output() {
-    if ! getCurSink; then
+    if ! updateInfo; then
         echo "PulseAudio not running"
         return 1
     fi
-    getCurVol "$curSink"
-    getIsMuted "$curSink"
+    getCurVol
+    getIsMuted
 
     # Fixed volume icons over max volume
     local iconsLen=${#ICONS_VOLUME[@]}
@@ -360,7 +371,7 @@ function output() {
         VOL_ICON=""
     fi
 
-    getNickname "$curSink"
+    getNickname "$sinkNumber"
 
     # Showing the formatted message
     if [ "$IS_MUTED" = "yes" ]; then
@@ -376,84 +387,84 @@ function output() {
 
 function usage() {
     echo "\
-Usage: $0 [OPTION...] ACTION
+        Usage: $0 [OPTION...] ACTION
 
-Options:
-  --autosync | --no-autosync
-        Whether to maintain same volume for all programs.
-        Default: \"$AUTOSYNC\"
-  --color-muted <rrggbb>
-        Color in which to format when muted.
-        Default: \"${COLOR_MUTED:4:-1}\"
-  --notifications | --no-notifications
-        Whether to show notifications when changing sinks.
-        Default: \"$NOTIFICATIONS\"
-  --osd | --no-osd
-        Whether to display KDE's OSD message.
-        Default: \"$OSD\"
-  --icon-muted <icon>
-        Icon to use when muted.
-        Default: none
-  --icon-sink <icon>
-        Icon to use for sink.
-        Default: none
-  --format <string>
-        Use a format string to control the output.
-        Remember to pass this argument wrapped in single quotes (\`'\`) instead
-        of double quotes (\`\"\`) to avoid your shell from evaluating the
-        variables early.
-        Available variables:
-        * \$VOL_ICON
-        * \$VOL_LEVEL
-        * \$ICON_SINK
-        * \$SINK_NICKNAME
-        * \$IS_MUTED (yes/no)
-        Default: '$FORMAT'
-  --icons-volume <icon>[,<icon>...]
-        Icons for volume, from lower to higher.
-        Default: none
-  --volume-max <int>
-        Maximum volume to which to allow increasing.
-        Default: \"$VOLUME_MAX\"
-  --volume-step <int>
-        Step size when inc/decrementing volume.
-        Default: \"$VOLUME_STEP\"
-  --sink-blacklist <name>[,<name>...]
-        Sinks to ignore when switching. You can use globs. Don't forget to
-        quote the string when using globs, to avoid unwanted shell glob
-        extension.
-        Default: none
-  --sink-nicknames-from <prop>
-        pactl property to use for sink names, unless overriden by
-        --sink-nickname. Its possible values are listed under the 'Properties'
-        key in the output of \`pactl list sinks\`
-        Default: none
-  --sink-nickname <name>:<nick>
-        Nickname to assign to given sink name, taking priority over
-        --sink-nicknames-from. May be given multiple times, and 'name' is
-        exactly as listed in the output of \`pactl list sinks short | cut -f2\`.
-        Note that you can also specify a port name for the sink with
-        \`<name>/<port>\`.
-        It is also possible to use glob matching to match sink and port names.
-        Exact matches are prioritized. Don't forget to quote the string when
-        using globs, to avoid unwanted shell glob extension.
-        Default: none
+    Options:
+    --autosync | --no-autosync
+    Whether to maintain same volume for all programs.
+    Default: \"$AUTOSYNC\"
+    --color-muted <rrggbb>
+    Color in which to format when muted.
+    Default: \"${COLOR_MUTED:4:-1}\"
+    --notifications | --no-notifications
+    Whether to show notifications when changing sinks.
+    Default: \"$NOTIFICATIONS\"
+    --osd | --no-osd
+    Whether to display KDE's OSD message.
+    Default: \"$OSD\"
+    --icon-muted <icon>
+    Icon to use when muted.
+    Default: none
+    --icon-sink <icon>
+    Icon to use for sink.
+    Default: none
+    --format <string>
+    Use a format string to control the output.
+    Remember to pass this argument wrapped in single quotes (\`'\`) instead
+    of double quotes (\`\"\`) to avoid your shell from evaluating the
+    variables early.
+    Available variables:
+    * \$VOL_ICON
+    * \$VOL_LEVEL
+    * \$ICON_SINK
+    * \$SINK_NICKNAME
+    * \$IS_MUTED (yes/no)
+    Default: '$FORMAT'
+    --icons-volume <icon>[,<icon>...]
+    Icons for volume, from lower to higher.
+    Default: none
+    --volume-max <int>
+    Maximum volume to which to allow increasing.
+    Default: \"$VOLUME_MAX\"
+    --volume-step <int>
+    Step size when inc/decrementing volume.
+    Default: \"$VOLUME_STEP\"
+    --sink-blacklist <name>[,<name>...]
+    Sinks to ignore when switching. You can use globs. Don't forget to
+    quote the string when using globs, to avoid unwanted shell glob
+    extension.
+    Default: none
+    --sink-nicknames-from <prop>
+    pactl property to use for sink names, unless overriden by
+    --sink-nickname. Its possible values are listed under the 'Properties'
+    key in the output of \`pactl list sinks\`
+    Default: none
+    --sink-nickname <name>:<nick>
+    Nickname to assign to given sink name, taking priority over
+    --sink-nicknames-from. May be given multiple times, and 'name' is
+    exactly as listed in the output of \`pactl list sinks short | cut -f2\`.
+    Note that you can also specify a port name for the sink with
+    \`<name>/<port>\`.
+    It is also possible to use glob matching to match sink and port names.
+    Exact matches are prioritized. Don't forget to quote the string when
+    using globs, to avoid unwanted shell glob extension.
+    Default: none
 
-Actions:
-  help              display this message and exit
-  output            print the PulseAudio status once
-  listen            listen for changes in PulseAudio to automatically update
-                    this script's output
-  up, down          increase or decrease the default sink's volume
-  mute, unmute      mute or unmute the default sink's audio
-  togmute           switch between muted and unmuted
-  next-sink         switch to the next available sink
-  sync              synchronize all the output streams volume to be the same as
-                    the current sink's volume
+    Actions:
+    help              display this message and exit
+    output            print the PulseAudio status once
+    listen            listen for changes in PulseAudio to automatically update
+    this script's output
+    up, down          increase or decrease the default sink's volume
+    mute, unmute      mute or unmute the default sink's audio
+    togmute           switch between muted and unmuted
+    next-sink         switch to the next available sink
+    sync              synchronize all the output streams volume to be the same as
+    the current sink's volume
 
-Author:
+    Author:
     Mario Ortiz Manero
-More info on GitHub:
+    More info on GitHub:
     https://github.com/marioortizmanero/polybar-pulseaudio-control"
 }
 
@@ -524,9 +535,9 @@ while [[ "$1" = --* ]]; do
         --format)
             FORMAT="$val"
             ;;
-        # Undocumented because the `help` action already exists, but makes the
-        # help message more accessible.
-        --help)
+            # Undocumented because the `help` action already exists, but makes the
+            # help message more accessible.
+            --help)
             usage
             exit 0
             ;;
@@ -539,13 +550,14 @@ done
 
 function SetVol()
 {
-  local val=$(echo $1 | cut -f1 -d'.')
-  pulsemixer --set-volume $val
+    local val=$(echo $1 | cut -f1 -d'.')
+    pactl set-sink-volume @DEFAULT_SINK@ "$val%"
 }
 
 
-function send_notification {
+function sendNotification {
     CURVOL=`pactl list sinks | grep -i volume | head -1 | awk '{print $5}' | sed -e 's/%//'`
+    ICON_DIR="/usr/share/icons/Papirus/16x16/panel/"
     if [ $CURVOL -gt 75 ]; then
         ICON=audio-volume-high
     elif [ $CURVOL -gt 35 ]; then
@@ -561,43 +573,53 @@ function send_notification {
     bar=$(seq -s "─" $((${CURVOL} / 5)) | sed 's/[0-9]//g')
     # Send the notification
     # dunstify -i "$ICON" -u normal "$CURVOL"
-    dunstify -i $ICON -r 2593 -u normal "[ $CURVOL ]     $bar"
+    # dunstify -i $ICON -r 2593 -u normal "[ $CURVOL ]     $bar"
+    notify-send -i $ICON_DIR$ICON.svg -r 2593 -u normal "[ $CURVOL ]     $bar"
 }
 
 case "$1" in
+    vol)
+        getCurVol
+        echo "$VOL_LEVEL"
+        ;;
     set)
         SetVol $2
-	send_notification
+        sendNotification
         ;;
     up)
         volUp
-	send_notification
+        sendNotification
         ;;
     down)
         volDown
-	send_notification
+        sendNotification
         ;;
     togmute)
         volMute toggle
-	send_notification
-	# if [[ "$IS_MUTED" == "yes" ]] ; then
-	#     dunstify -i audio-volume-muted -u normal "Mute"
-	# else
-	#   send_notification
-	# fi
+        sendNotification
+        # if [[ "$IS_MUTED" == "yes" ]] ; then
+        #     dunstify -i audio-volume-muted -u normal "Mute"
+        # else
+        #   sendNotification
+        # fi
         ;;
     mute)
         volMute mute
+        sendNotification
         ;;
     unmute)
         volMute unmute
+        sendNotification
+        ;;
+    get-description)
+        GetDescription
         ;;
     get-icon)
-	GetIcon
-	;;
+        GetIcon
+        ;;
     get-mute)
-	GetMute
-	;;
+        GetMute
+        ;;
     sync)
         volSync
         ;;

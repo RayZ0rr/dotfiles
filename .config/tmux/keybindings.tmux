@@ -75,8 +75,8 @@ bind -r K resize-pane -U 2   # 5 px bigger up
 bind -r L resize-pane -R 2   # 5 px bigger right
 # bind > swap-pane -D       # swap current pane with the next one
 # bind < swap-pane -U       # swap current pane with the previous one
-bind -r < swap-window -t -
-bind -r > swap-window -t +
+bind -r < swap-window -d -t -
+bind -r > swap-window -d -t +
 
 # Keys to toggle monitoring activity in a window and the synchronize-panes option
 bind m set monitor-activity

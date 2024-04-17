@@ -1,8 +1,7 @@
-/** EWW.SCSS
-Created by saimoom **/
 *{
   all: unset;
   font-family: FiraCode Nerd Font;
+  // font-family: JetBrainsMono Nerd Font;
 }
 
 /** General **/
@@ -17,11 +16,10 @@ Created by saimoom **/
   // background-color: #0f0f17;
 }
 
-
 .modules {
   font-size: 20px;
   font-weight: normal;
-  margin: 0px 0px 6px 10px;
+  margin: 0px 0px 0px 10px;
   border-radius: 16px;
   background-color: #282828 ;
   // background-color: #0f0f17;
@@ -35,7 +33,7 @@ tooltip.background {
   color: #bfc9db;
 }
 
-tooltip label {
+tooltip.label {
   margin: 6px;
 }
 
@@ -43,217 +41,17 @@ tooltip label {
 /** --------------------- Widgets ------------------- **/
 // ------------------------------------------------------
 
-/** Window title **/
-.module-window {
-  font-size: 20px;
-  font-weight: normal;
-  margin: 0px 0px 0px 0px;
-  border-radius: 16px;
-}
-
-.window_title {
-  font-size: 14px;
-  color: #61afef ;
-  margin: 0px 10px 0px 10px;
-}
-
-.linux {
-  background-color: #61afef ;
-  border-radius: 0px 16px 16px 0px ;
-}
-
-.linux_icon {
-  color: #0f0f17 ;
-  background-color: #61afef ;
-  font-weight: bold;
-  font-size: 30px;
-  margin: 0px 0px 0px 10px;
-  border-radius: 0px 16px 16px 0px ;
-}
-
-.module-apps {
-  color: #8ec07c ;
-  background-color: #8ec07c ;
-  border-radius: 0px 16px 16px 0px ;
-}
-
-.apps_icon {
-  color: #0f0f17 ;
-  background-color: #8ec07c ;
-  font-weight: bold;
-  font-size: 20px;
-  margin: 0px 10px 0px 10px;
-  border-radius: 0px 16px 16px 0px ;
-}
-
-.module-power {
-  color: #e06c75 ;
-  background-color: #e06c75 ;
-  border-radius: 0px 16px 16px 0px ;
-}
-
-.power_icon {
-  color: #0f0f17 ;
-  background-color: #e06c75 ;
-  font-weight: bold;
-  font-size: 20px;
-  margin: 0px 10px 0px 10px;
-  border-radius: 0px 16px 16px 0px ;
-}
-
-/** Clock **/
-.clock_sep {
-  font-size: 16px;
-  font-weight: bold;
-  color: #bfc9db;
-  margin: 0px 4px 0px 4px;
-}
-.clock_hour, .clock_minute {
-  font-size: 16px;
-}
-.clock_date {
-  font-size: 14px;
-  font-weight: bold;
-  margin: 0px 20px 0px -1px;
-  color: #d7beda;
-}
-.clock_minute {
-  margin: 0px 20px 0px 3px;
-  color: #bfc9db;
-}
-.clock_hour {
-  color: #bfc9db;
-  margin: 0px 0px 0px 0px;
-}
-
-.module-tray {
-  color: #bfc9db;
-}
-
-.systray {
-  font-size: 22px;
-  margin: 0px 15px 0px 5px;
-}
-
-/** Volume **/
-.module-volume {
-  font-size: 18px;
-}
-.volume_icon {
-  font-size: 18px;
-  color: #a1bdce;
-  margin: 0px 10px 0px 10px;
-}
-.volume_mute {
-  font-size: 18px;
-  color: #e06c75;
-  margin: 0px 10px 0px 10px;
-}
-.volbar trough highlight {
-  background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
-  border-radius: 10px;
-}
-.volbar_mute trough highlight {
-  background-image: linear-gradient(to right, #575268 30%, #575268 50%, #575268 100% *50);
-  border-radius: 10px;
-}
-
-/** Brightness **/
-.module-bright {
-  font-size: 18px;
-  // background-color: #0f0f17;
-}
-.bright_icon {
-  font-size: 18px;
-  color: #e4c9af;
-  margin: 0px 10px 0px 10px;
-}
-.bright_bar trough highlight {
-  background-image: linear-gradient(to right, #e4c9af 30%, #f2cdcd 50%, #e0b089 100% *50);
-  border-radius: 10px;
-}
-
-/** Wifi **/
-.module-wifi {
-  font-size: 18px;
-  border-radius: 100%;
-  margin: 0px 10px 0px 5px;
-}
-.wifi_text {
-  font-size: 10px;
-  margin: 0px 10px 0px 0px;
-}
-.wifi_icon {
-  font-size: 18px;
-  color: #fabd2f;
-  margin: 0px 10px 0px 0px;
-}
-
-
-.module-sep {
-  color: #3e424f;
-  font-weight: bold;
-  font-size: 26px;
-  margin: 0px 0px 0px 0px;
-}
-
-/** Battery **/
-.module-bat {
-  font-size: 18px;
-  // background-color: #0f0f17;
-  margin: 5px 0px 5px 0px;
-}
-.bat_bar {
-  color: #afbea2;
-}
-.bat_icon {
-  color: #afbea2;
-}
-/** Memory **/
-.module-mem {
-  font-size: 18px;
-  // background-color: #0f0f17;
-  margin: 5px 10px 5px 10px;
-}
-.mem_icon {
-  color: #e0b089;
-}
-.mem_bar {
-  color: #e0b089;
-}
-.module-bat,.module-mem {
-  border-radius: 16px;
-}
-.bat_bar,.mem_bar {
-  background-color: #38384d;
-  border-radius: 10px;
-}
-.bat_icon, .mem_icon {
-  font-size: 15px;
-  margin: 10px;
-}
-
-scale trough {
-  all: unset;
-  background-color: #22242b;
-  box-shadow: 0 2px 3px 2px #06060b;
-  border-radius: 16px;
-  min-height: 10px;
-  min-width: 70px;
-  margin: 0px 10px 0px 0px;
-}
-
+// Left widgets
+// ------------------------------------------------------
 /* Workspaces */
 .workspace {
-  // font-size: 27px;
-  font-size: 18px;
-  margin: 0px 10px 10px 10px;
-  font-weight: normal;
-  border-radius: 16px 0px 0px 16px ;
   // background-color: #0f0f17;
+  margin: 3px 5px 4px 10px;
 }
 .tag_empty, .tag_opened, .tag_current, .tag_urgent{
-  margin: 8px 10px 0px 0px;
+  font-size: 16px;
+  font-weight: normal;
+  margin: 2px 10px 2px 0px;
 }
 /* Unoccupied */
 .tag_empty {
@@ -272,37 +70,70 @@ scale trough {
   color: #ea6962 ;
 }
 
-.song_cover_art {
-  background-size: cover;
-  background-position: center;
-  min-height: 24px;
-  min-width: 24px;
-  margin: 10px;
-  border-radius: 100px;
+.module-apps {
+  color: #8ec07c ;
+  background-color: #8ec07c ;
+  font-size: 30px;
+  border-radius: 0px 16px 16px 0px ;
 }
 
-.song {
-  color: #a1bdce;
-  font-size : 18px;
-  font-weight : bold;
-  margin : 3px 5px 0px 0px;
+.apps_icon {
+  color: #0f0f17 ;
+  background-color: #8ec07c ;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0px 20px 0px 10px;
 }
 
-.song_btn_play {
-  color: #a1bdce;
-  font-size : 28px;
-  margin : 3px 0px 0px 5px;
-
+// Center widgets
+// ------------------------------------------------------
+/** Common **/
+.linux, .linux_icon{
+  border-radius: 0px 16px 16px 0px ;
+  background-color: #61afef ;
+}
+/** Window title **/
+.module-window {
+  margin: 1px 0px 2px 10px;
+}
+.window_title {
+  color: #61afef ;
+  font-size: 14px;
+  margin: 0px 10px 0px 10px;
+}
+/** Linux Logo **/
+.linux {
+}
+.linux_icon {
+  color: #0f0f17 ;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0px 0px 0px 10px;
 }
 
-.song_btn_prev, .song_btn_next {
-  color: #bfc9db;
-  font-size : 24px;
-  margin : 3px 0px 0px 5px;
-
+// Right widgets
+// ------------------------------------------------------
+/** Separator **/
+.module-sep {
+  color: #3e424f;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0px 0px 0px 2px;
 }
-
-// Calendar
+/** Power **/
+.module-power {
+  color: #e06c75 ;
+  background-color: #e06c75 ;
+  border-radius: 0px 16px 16px 0px ;
+}
+.power_icon {
+  color: #0f0f17 ;
+  background-color: #e06c75 ;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0px 20px 0px 10px;
+}
+/** Calendar **/
 .cal {
   background-color: #0f0f17;
   font-family: JetBrainsMono Nerd Font;
@@ -323,32 +154,26 @@ scale trough {
     }
   }
 }
-
 calender {
   color: #bfc9db;
 }
 calendar:selected {
   color: #a1bdce;
 }
-
 calendar.header {
   color: #a1bdce;
   font-weight: bold;
 }
-
 calendar.button {
   color: #afbea2;
 }
-
 calendar.highlight {
   color: #a1bdce;
   font-weight: bold;
 }
-
 calendar:indeterminate {
   color: #bfc9db;
 }
-
 .sys_sep {
   color: #38384d;
   font-size: 18px;
@@ -395,72 +220,6 @@ calendar:indeterminate {
   border-radius: 16px;
   margin: 10px 10px 15px 20px;
 }
-
-.music_pop {
-  background-color: #0f0f17;
-  border-radius: 16px;
-}
-.music_cover_art {
-  background-size: cover;
-  background-position: center;
-  min-height: 100px;
-  box-shadow: 5px 5px 5px 5px #06060b;
-  min-width: 170px;
-  margin: 20px;
-  border-radius: 20px;
-}
-
-.music {
-  color: #a1bdce;
-  font-size : 20px;
-  font-weight : bold;
-  margin : 20px 0px 0px -15px;
-}
-
-.music_artist {
-  color: #bbc5d7;
-  font-size : 16px;
-  font-weight : normal;
-  margin : 0px 0px 0px 0px;
-}
-
-.music_btn_prev, .music_btn_play, .music_btn_next {
-  font-family: Iosevka Nerd Font;
-}
-.music_btn_prev {
-  color: #bbc5d7;
-  font-size : 32px;
-  font-weight : normal;
-  margin: 0px 0px 0px 0px;
-}
-.music_btn_play {
-  color: #a1bdce;
-  font-size : 48px;
-  font-weight : normal;
-  margin: 0px 0px 0px 0px;
-}
-.music_btn_next {
-  color: #bbc5d7;
-  font-size : 32px;
-  font-weight : normal;
-  margin: 0px 0px 0px 0px;
-}
-
-.music_bar scale trough highlight {
-  all: unset;
-  background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
-  border-radius: 24px;
-}
-.music_bar scale trough {
-  all: unset;
-  background-color: #232232;
-  box-shadow: 0 6px 5px 2px #06060b;
-  border-radius: 24px;
-  min-height: 13px;
-  min-width: 190px;
-  margin : -10px 10px 20px 0px;
-}
-
 .audio-box {
   background-color: #0f0f17;
   border-radius: 16px;
@@ -474,14 +233,12 @@ calendar:indeterminate {
   margin: 10px 20px 5px 20px;
   border-radius: 12px;
 }
-
 .speaker_text {
   color: #a1bdce;
   font-size : 26px;
   font-weight : bold;
   margin: 20px 0px 0px 0px;
 }
-
 .speaker_bar scale trough highlight {
   all: unset;
   background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
@@ -490,13 +247,12 @@ calendar:indeterminate {
 .speaker_bar scale trough {
   all: unset;
   background-color: #232232;
-  box-shadow: 0 6px 5px 2px #06060b;
+  box-shadow: 0px 6px 5px 2px #06060b;
   border-radius: 24px;
   min-height: 13px;
   min-width: 120px;
   margin : 0px 0px 5px 0px;
 }
-
 .mic_icon {
   background-size: cover;
   background-image: url('images/mic.png');
@@ -506,14 +262,12 @@ calendar:indeterminate {
   margin: 5px 20px 20px 20px;
   border-radius: 12px;
 }
-
 .mic_text {
   color: #a1bdce;
   font-size : 26px;
   font-weight : bold;
   margin: 0px 0px 0px 0px;
 }
-
 .mic_bar scale trough highlight {
   all: unset;
   background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
@@ -521,16 +275,137 @@ calendar:indeterminate {
 }
 .mic_bar scale trough {
   all: unset;
-  box-shadow: 0 6px 5px 2px #06060b;
+  box-shadow: 0px 6px 5px 2px #06060b;
   background-color: #232232;
   border-radius: 24px;
   min-height: 13px;
   min-width: 120px;
   margin : 0px 0px 20px 0px;
 }
-
 .audio_sep {
   color: #38384d;
   font-size: 18;
   margin : 0px 0px 0px 0px;
+}
+/** Clock **/
+.clock_sep {
+  font-size: 16px;
+  font-weight: bold;
+  color: #bfc9db;
+  margin: 0px 4px 0px 4px;
+}
+.clock_hour, .clock_minute {
+  font-size: 16px;
+}
+.clock_date {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0px 20px 0px -1px;
+  color: #d7beda;
+}
+.clock_minute {
+  margin: 0px 20px 0px 3px;
+  color: #bfc9db;
+}
+.clock_hour {
+  color: #bfc9db;
+  margin: 0px 0px 0px 0px;
+}
+/** System Tray **/
+.module-systray {
+  color: #bfc9db;
+}
+.systray {
+  font-size: 22px;
+  margin: 0px 15px 0px 5px;
+}
+/** Wifi **/
+.module-wifi {
+  margin: 0px 10px 0px 5px;
+}
+.wifi_text {
+  font-size: 10px;
+  margin: 0px 10px 0px 5px;
+}
+.wifi_icon {
+  font-size: 16px;
+  color: #fabd2f;
+  margin: 0px 10px 0px 0px;
+}
+/** Volume **/
+.module-volume {
+  font-size: 18px;
+}
+.volume_icon {
+  font-size: 18px;
+  color: #a1bdce;
+  margin: 0px 10px 0px 10px;
+}
+.volume_mute {
+  font-size: 18px;
+  color: #e06c75;
+  margin: 0px 10px 0px 10px;
+}
+.volbar trough highlight {
+  background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
+  border-radius: 10px;
+}
+.volbar_mute trough highlight {
+  background-image: linear-gradient(to right, #575268 30%, #575268 50%, #575268 100% *50);
+  border-radius: 10px;
+}
+/** Brightness **/
+.module-bright {
+  margin: 0px 0px 0px 10px;
+  // background-color: #0f0f17;
+}
+.bright_icon {
+  font-size: 18px;
+  color: #e4c9af;
+  margin: 0px 10px 0px 10px;
+}
+.bright_bar trough highlight {
+  background-image: linear-gradient(to right, #e4c9af 30%, #f2cdcd 50%, #e0b089 100% *50);
+  border-radius: 10px;
+}
+/** Battery & Memory **/
+/** Common **/
+.bat_bar,.mem_bar {
+  background-color: #38384d;
+  margin: 0px 0px 0px 0px;
+}
+.bat_icon, .mem_icon {
+  font-size: 12px;
+  padding: 0px 5px 0px 0px;
+}
+/** Memory **/
+.module-mem {
+  margin: 0px 10px 0px 0px;
+  // background-color: #0f0f17;
+}
+.mem_icon {
+  color: #e0b089;
+}
+.mem_bar {
+  color: #e0b089;
+}
+/** Battery **/
+.module-bat {
+  margin: 0px 10px 0px 0px;
+  // background-color: #0f0f17;
+}
+.bat_bar {
+  color: #afbea2;
+}
+.bat_icon {
+  color: #afbea2;
+}
+scale trough {
+  all: unset;
+  background-color: #22242b;
+  box-shadow: 0px 2px 3px 2px #06060b;
+  border-radius: 16px;
+  min-height: 10px;
+  min-width: 70px;
+  margin: 0px 10px 0px 0px;
 }
