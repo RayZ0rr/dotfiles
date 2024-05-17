@@ -8,9 +8,9 @@ alias l='ls -CF'
 # exa aliases
 # if command -v exa > /dev/null 2>&1 ; then
 if command -v eza &> /dev/null ; then
-  alias ls='eza --icons'
-  alias la='eza -a --icons'
-  alias ll='eza -la --icons'
+  alias ls='eza --icons auto'
+  alias la='eza -a --icons auto'
+  alias ll='eza -la --icons auto'
 fi
 
 alias ncdu="ncdu --color=dark"

@@ -8,4 +8,4 @@ Target=linux-lts
 [Action]
 Description = Updating Arch linux kernel for rEFInd on ESP
 When=PostTransaction
-Exec=/usr/bin/touch /boot/vmlinuz-linux-lts
+Exec=/usr/bin/touch /boot/vmlinuz-linux

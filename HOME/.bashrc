@@ -117,12 +117,12 @@ fi
 # ~/.bash_aliases, ~/.bash_sources instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ${BASH_CONFIG_PATH}/.bash_aliases ]; then
-    . ${BASH_CONFIG_PATH}/.bash_aliases
-fi
-
 if [ -f ${BASH_CONFIG_PATH}/.bash_sources ]; then
     . ${BASH_CONFIG_PATH}/.bash_sources
+fi
+
+if [ -f ${BASH_CONFIG_PATH}/.bash_aliases ]; then
+    . ${BASH_CONFIG_PATH}/.bash_aliases
 fi
 
 if [ -f ${BASH_CONFIG_PATH}/.bash_functions ]; then

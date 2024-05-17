@@ -100,10 +100,10 @@ mvr() {
 mybtrfs() {
     case "${@}" in
         "balance")
-            btrfs balance start -dusage=50 -dlimit=2 -musage=50 -mlimit=4 /
+            sudo btrfs balance start -dusage=50 -dlimit=2 -musage=50 -mlimit=4 /
             return 0 ;;
         "scrub")
-            btrfs scrub start -B -d -c 2 -n 4 /
+            sudo btrfs scrub start -B -d -c 2 -n 4 /
             return 0 ;;
         *)
             printf "\nAccepts only 2 arguments.\n1. Run mybtrfs [balance|scrub]\n"

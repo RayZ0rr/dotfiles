@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-# Auto screen-locker
-# betterlockscreen -u "$HOME/.local/src/lock.png" &
+# Map capslock to escape
+/usr/bin/setxkbmap -option "caps:escape"
+
 # xset s on
 # xset -dpms
 # xset s 300 600
 xset -dpms
-xset s 60 120
-xss-lock -n 'bash $HOME/.local/bin/dim-screen' -- $HOME/.local/bin/mylock &
-# xss-lock -n 'bash $HOME/.local/bin/dim-screen.sh' -- betterlockscreen -l &
+xset s 180 300
+# xss-lock -n "bash $HOME/.local/bin/dim-screen" -- $HOME/.local/bin/mylock &
+xss-lock $HOME/.local/bin/mylock &
 # xautolock -time 10 -notify 5 -notifier '/usr/lib/xsecurelock/until_nonidle /usr/lib/xsecurelock/dimmer' -locker 'betterlockscreen -l --blur 0.0' &
 
 # feh --bg-fill $HOME/Pictures/Walls/Minimal/521028.png

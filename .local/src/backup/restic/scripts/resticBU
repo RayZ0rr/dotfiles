@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-/home/razorr/data_shared/BackUp/restic/resticBUP.bash
-/home/razorr/data_shared/BackUp/restic/resticBUD.bash
-/home/razorr/data_shared/BackUp/restic/resticBUV.bash
-/home/razorr/data_shared/BackUp/restic/resticBUM.bash

@@ -155,6 +155,12 @@ hc keybind $Mod-$Altkey-space                                                   
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
+hc keybind $Mod-$Altkey-o                                                           \
+            and . compare tags.focus.curframe_wcount ge 2                   \
+                     . cycle_layout +1 horizontal max
+hc keybind $Mod-$Altkey-u                                                           \
+            and . compare tags.focus.curframe_wcount ge 2                   \
+                     . cycle_layout +1 vertical max
 
 # hc add desktop
 # hc keybind $Altkey-Shift-d use desktop
