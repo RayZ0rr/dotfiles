@@ -9,7 +9,7 @@
 ;; -----------------------------------------------------
 
 (defwidget workspaces []
-  (literal :content workspace :class "workspace" :height 32 :width 32)
+  (literal :content workspace :class "workspace" :height 32 :width 32 :hexpand "true" :show-truncated "false")
 )
 
 (defwidget apps []

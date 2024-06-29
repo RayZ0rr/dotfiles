@@ -38,7 +38,7 @@ case "$action" in
     cleanup
     ;;
   "draw")
-    [ ! -f "${PCACHE}.jpg" ] && convert "$image_file"'[0]' "${PCACHE}.jpg"
+    [ ! -f "${PCACHE}.jpg" ] && magick "$image_file"'[0]' "${PCACHE}.jpg"
     # FILE="$PWD/$image_file"
     image "${PCACHE}.jpg" "$width" "$height" 2>/dev/null
     # img2sixel $popt --width=$width --height=$height "${PCACHE}.jpg"

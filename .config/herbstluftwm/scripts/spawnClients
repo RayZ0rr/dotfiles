@@ -38,7 +38,7 @@ then
     RULES=( tag="${tag_names[0]}" index=1 )  # right-hand frame
     spawn_with_rules ${Terminal1} --class Term2
     sleep 1
-    xdotool type --window $(xdotool search --classname Term2) $'neofetch\n'
+    xdotool type --window $(xdotool search --classname Term2) $'fastfetch\n'
     # xdotool key --window $(xdotool search --classname Term2) KP_Enter
 
     #---------------------------------------------------------------
@@ -109,9 +109,9 @@ then
     #---------------------------------------------------------------
 
     RULES=( tag="${tag_10}" index=010 )  # Top right terminal
-    spawn_with_rules ${Terminal2} -n "${Terminal2}Pokemon" &
+    spawn_with_rules ${Terminal2} -n "${Terminal2}Colorscript" &
     sleep 1
-    xdotool type --window $(xdotool search --classname "${Terminal2}Pokemon") $'pokemon-colorscripts -r\n'
+    xdotool type --window $(xdotool search --classname "${Terminal2}Colorscript") $'colorscript -r\n'
     # spawn_with_rules ${Terminal2} -n "${Terminal2}Nothing2" &
 
     #---------------------------------------------------------------

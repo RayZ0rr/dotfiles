@@ -15,9 +15,11 @@ herbstclient --idle "tag_*" 2>/dev/null | {
     # Read tags into $tags as array
     IFS=$'\t' read -ra tags <<< "$(herbstclient tag_status "${MON_IDX}")"
     {
-      echo "(box :class \"workspace\"  :orientation \"h\" :spacing 5 :space-evenly \"false\" "
+      echo "(box :class \"workspace\"  :orientation \"h\" :spacing 5 :space-evenly \"false\" :truncate false"
       for i in "${tags[@]}" ; do
 	# Read the prefix from each tag and render them according to that prefix
+        tag="${i:1}"
+        label="(label :text \"$tag\" :show-truncated \"false\")"
 	case ${i:0:1} in
 	  '.')
 	    # the tag is empty
@@ -26,20 +28,18 @@ herbstclient --idle "tag_*" 2>/dev/null | {
 	    # echo "%{A1:herbstclient focus_monitor ${MON_IDX}; herbstclient use ${i:1}:}%{B#345F0C}  ${i:1}  %{B-}%{A}"
 	    ;;
 	  ':')
-	    tag="${i:1}"
 	    # echo "%{A1:herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}:}%{F#608B4E} ${tag} %{F-}%{A}"
 	    # echo  "(box :class \"works\"  :orientation \"h\" :spacing 5 :space-evenly \"false\" (button :onclick \"herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}\" :class  \"011\" \"$tag\") (button :onclick \"bspc desktop -f $ws2\"	:class \"011\"	\"2\") (button :onclick \"bspc desktop -f $ws3\"  :class \"0\" \"two\") (button :onclick \"bspc desktop -f $ws4\" :class \"033\"  \"third\") (button :onclick \"bspc desktop -f $ws5\"	:class \"03\" \"fourth\")  (button :onclick \"bspc desktop -f $ws6\"  :class \"0\" \"fifth\"))"
-	    echo  "(button :onclick \"herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}\" :class  \"tag_opened\" \"$tag\")"
+            echo  "(button :onclick \"herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}\" :class  \"tag_opened\" $label)"
 	    ;;
 	  '+')
 	    # the tag is viewed on the specified MONITOR, but this monitor is not focused.
 	    # TODO Add your formatting tags
 	    ;;
 	  '#')
-	    tag="${i:1}"
 	    # echo "%{A1:herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}:}%{F#569CD6} ${tag} %{F-}%{A}"
 	    # echo  "(button :onclick \"bspc desktop -f $ws2\"  :class \"011\"  \"2\")"
-	    echo  "(button :onclick \"herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}\" :class  \"tag_current\" \"$tag\")"
+	    echo  "(button :onclick \"herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}\" :class  \"tag_current\" $label)"
 	    ;;
 	  '-')
 	    # the tag is viewed on a different MONITOR, but this monitor is not focused.
@@ -51,7 +51,7 @@ herbstclient --idle "tag_*" 2>/dev/null | {
 	    ;;
 	  '!')
 	    tag="${i:1}"
-	    echo  "(button :onclick \"herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}\" :class  \"tag_urgent\" \"${tag}\")"
+	    echo  "(button :onclick \"herbstclient focus_monitor ${MON_IDX}; herbstclient use ${tag}\" :class  \"tag_urgent\" $label)"
 	    ;;
 	esac
 

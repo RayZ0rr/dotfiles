@@ -3,17 +3,16 @@
 # Map capslock to escape
 /usr/bin/setxkbmap -option "caps:escape"
 
-# xset s on
+# bash $HOME/.local/bin/screensaver.sh "init" && bash $HOME/.local/bin/screensaver.sh "xset" &
 # xset -dpms
-# xset s 300 600
+# xset s 60 60
+# xss-lock -n "bash $HOME/.local/bin/screensaver.sh start" -- $HOME/.local/bin/mylock &
 xset -dpms
-xset s 180 300
-# xss-lock -n "bash $HOME/.local/bin/dim-screen" -- $HOME/.local/bin/mylock &
-xss-lock $HOME/.local/bin/mylock &
-# xautolock -time 10 -notify 5 -notifier '/usr/lib/xsecurelock/until_nonidle /usr/lib/xsecurelock/dimmer' -locker 'betterlockscreen -l --blur 0.0' &
+xset s 60 180
+xss-lock -n "bash $HOME/.local/bin/dim-screen" -- $HOME/.local/bin/mylock &
 
 # feh --bg-fill $HOME/Pictures/Walls/Minimal/521028.png
-feh --bg-fill $HOME/.local/src/wall.png &
+feh --no-fehbg --bg-fill $HOME/.local/src/wall.png &
 
 $HOME/.config/conky/Mine/branch/ConkybooterBranch &
 

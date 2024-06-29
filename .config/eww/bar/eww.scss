@@ -1,7 +1,7 @@
 *{
   all: unset;
-  font-family: FiraCode Nerd Font;
-  // font-family: JetBrainsMono Nerd Font;
+  // font-family: FiraCode Nerd Font;
+  font-family: JetBrainsMono Nerd Font;
 }
 
 /** General **/
@@ -51,7 +51,7 @@ tooltip.label {
 .tag_empty, .tag_opened, .tag_current, .tag_urgent{
   font-size: 16px;
   font-weight: normal;
-  margin: 2px 10px 2px 0px;
+  margin: 2px 10px 0px 0px;
 }
 /* Unoccupied */
 .tag_empty {
@@ -94,7 +94,7 @@ tooltip.label {
 }
 /** Window title **/
 .module-window {
-  margin: 1px 0px 2px 10px;
+  margin: 1px 0px 0px 10px;
 }
 .window_title {
   color: #61afef ;
@@ -106,9 +106,9 @@ tooltip.label {
 }
 .linux_icon {
   color: #0f0f17 ;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: bold;
-  margin: 0px 0px 0px 10px;
+  margin: 0px 0px 2px 10px;
 }
 
 // Right widgets
@@ -116,7 +116,7 @@ tooltip.label {
 /** Separator **/
 .module-sep {
   color: #3e424f;
-  font-size: 30px;
+  font-size: 28px;
   font-weight: bold;
   margin: 0px 0px 0px 2px;
 }
@@ -296,20 +296,19 @@ calendar:indeterminate {
 }
 .clock_hour, .clock_minute {
   font-size: 16px;
+  color: #bfc9db;
+}
+.clock_minute {
+  margin: 0px 20px 0px 3px;
+}
+.clock_hour {
+  margin: 0px 0px 0px 0px;
 }
 .clock_date {
   font-size: 14px;
   font-weight: bold;
   margin: 0px 20px 0px -1px;
   color: #d7beda;
-}
-.clock_minute {
-  margin: 0px 20px 0px 3px;
-  color: #bfc9db;
-}
-.clock_hour {
-  color: #bfc9db;
-  margin: 0px 0px 0px 0px;
 }
 /** System Tray **/
 .module-systray {

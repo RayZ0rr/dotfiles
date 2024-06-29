@@ -53,12 +53,12 @@
     :onclick "alacritty -t nmtui -e nmtui &"
     (box :class "module-wifi"
       :vexpand "false" :hexpand "false" :space-evenly "false"
-      (button :class "wifi_icon" :onclick "alacritty -t nmtui -e nmtui &" :style "color: ${WLAN_COLOR};" WLAN_ICON)
+      (button :class "wifi_icon" :onclick "alacritty -t nmtui -e nmtui &" :style "color: ${WLAN_COLOR};" "${WLAN_ICON}")
       (revealer
 	:transition "slideright"
 	:reveal wifi_rev
 	:duration "350ms"
-	(label :class "wifi_text" :text WLAN_ESSID)
+	(label :class "wifi_text" :text WLAN_ESSID :show-truncated false)
       )
 )))
 
@@ -97,15 +97,16 @@
     :onhover "${EWW_CMD} update time_rev=true"
     :onhoverlost "${EWW_CMD} update time_rev=false ; ${EWW_CMD} update"
     (box :class "module-clock" :space-evenly "false" :orientation "h" :spacing "3"
-      (label :text clock_hour :class "clock_hour" )
+      (label :text clock_hour :class "clock_hour" :show-truncated "false")
       (label :text ":" :class "clock_sep" )
       ;; (label :text "" :class "clock_sep" )
-      (label :text clock_minute :class "clock_minute")
+      (label :text clock_minute :class "clock_minute" :show-truncated false)
       (revealer :transition "slideleft"
 	:reveal time_rev
 	:duration "350ms"
 	(button :class "clock_date"
-	   :onclick "scripts/pop calendar" clock_date
+	   :onclick "scripts/pop calendar"
+           (label :text clock_date :show-truncated "false")
 	)
       )
     )
@@ -158,7 +159,7 @@
 	  :onchange "$HOME/.config/eww/bar/scripts/brightness.sh set {}" )
 ))))
 
-(defwidget systray []
+(defwidget system_tray []
   (eventbox
     :onclick "bash $HOME/.config/eww/bar/scripts/systray.sh toggle"
     (box
@@ -187,7 +188,7 @@
     (battery)
     (memory)
     (sep)
-    (systray)
+    (system_tray)
     (clock_module)
     (power)
 ))

@@ -36,7 +36,7 @@ znap source zdharma-continuum/fast-syntax-highlighting
 
 [ -f $ZDOTDIR/.zsh_extra ] && source $ZDOTDIR/.zsh_extra
 
-command -v colorscript &> /dev/null && colorscript random
+command -v colorscript &> /dev/null && colorscript --random
 command -v fortune &> /dev/null && printf "\n$(fortune -s)\n\n"
 
 eval "$(starship init zsh)"

@@ -133,7 +133,7 @@ if [ -f ${BASH_CONFIG_PATH}/.bash_extra ]; then
    . ${BASH_CONFIG_PATH}/.bash_extra
 fi
 
-command -v colorscript &> /dev/null && colorscript random
+command -v colorscript &> /dev/null && colorscript --random
 command -v fortune &> /dev/null && printf "\n$(fortune -s)\n\n"
 
 eval "$(starship init bash)"
