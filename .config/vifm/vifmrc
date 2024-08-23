@@ -176,6 +176,7 @@ fileviewer {*.docx},
            \vnd.openxmlformats-officedocument.wordprocessingml.document>
          \ docx2txt.pl %f -
 
+fileviewer * bat --color always --wrap never --pager never %c -p
 " fileviewer .* bat --color=always --line-range :100 %c
 " fileviewer *.* bat --color=always --line-range :100 %c
 " fileviewer * defviewer %c

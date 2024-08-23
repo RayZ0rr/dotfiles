@@ -266,6 +266,7 @@ hc rule title="Event Tester"	     floating=on	      floatplacement=smart	# float
 hc rule class=Pavucontrol	     floating=on	      floatplacement=center	# float pulse audio volume control
 hc rule class=KopiaUI		     floating=on	      floatplacement=center	# float kopia UI backup tool
 hc rule class=ROOT		     floating=on	      floatplacement=center	# float CERN ROOT GUI
+hc rule class="Matplotlib"	     floating=on	      floatplacement=center	# float matplotlib windows
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on floatplacement=center

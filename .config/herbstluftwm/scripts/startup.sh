@@ -8,7 +8,7 @@
 # xset s 60 60
 # xss-lock -n "bash $HOME/.local/bin/screensaver.sh start" -- $HOME/.local/bin/mylock &
 xset -dpms
-xset s 60 180
+xset s 180 60
 xss-lock -n "bash $HOME/.local/bin/dim-screen" -- $HOME/.local/bin/mylock &
 
 # feh --bg-fill $HOME/Pictures/Walls/Minimal/521028.png
