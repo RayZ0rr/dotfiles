@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PATH=$PATH:$HOME/.local/bin
+pathPrepend "$HOME/.local/bin"
 
 #----------------------------------------------------
 # NEOVIM
@@ -33,7 +33,7 @@ if [[ -d "$HOME/anaconda3" ]] ; then
       if [ -f "/home/razorr/anaconda3/etc/profile.d/conda.sh" ]; then
         . "/home/razorr/anaconda3/etc/profile.d/conda.sh"
       else
-        export PATH="/home/razorr/anaconda3/bin:$PATH"
+        pathPrepend "$HOME/anaconda3/bin"
       fi
     fi
     unset __conda_setup
@@ -67,11 +67,11 @@ fi
 # GO language
 #----------------------------------------------------
 if [ -x "$(command -v go)" ]; then
-  if ! [[ -d "${HOME}/.local/share/go/bin" ]]; then
-    mkdir -p "${HOME}/.local/share/go/bin"
-  fi
-  export GOPATH=${HOME}/.local/share/go
-  export PATH=${PATH}:${GOPATH}/bin
+    if ! [[ -d "${HOME}/.local/share/go/bin" ]]; then
+        mkdir -p "${HOME}/.local/share/go/bin"
+    fi
+    export GOPATH="${HOME}/.local/share/go"
+    pathAppend "${GOPATH}/bin"
 fi
 
 #----------------------------------------------------

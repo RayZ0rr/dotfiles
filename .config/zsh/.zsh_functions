@@ -116,7 +116,7 @@ mybtrfs() {
             sudo btrfs fi usage -T /
             return 0 ;;
         *)
-            printf "\nAccepts only 3 arguments.\n1. Run mybtrfs [balance|scrub\usage]\n"
+            printf "\nAccepts only 3 arguments.\n1. Run mybtrfs [balance|scrub|usage]\n"
             return 1
     esac
 }

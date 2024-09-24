@@ -1,0 +1,13 @@
+# zsh-users/zsh-completions is a popular plugin for adding supplemental completions.
+# We combine the `path:` and `kind:fpath` annotations here:
+zsh-users/zsh-completions path:src kind:fpath
+
+mattmc3/ez-compinit
+
+# Syntax highlighting
+#zsh-users/zsh-syntax-highlighting kind:defer
+zdharma-continuum/fast-syntax-highlighting
+
+# These popular core plugins should be loaded at the end
+zsh-users/zsh-autosuggestions
+# zsh-users/zsh-history-substring-search
