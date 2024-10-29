@@ -20,7 +20,7 @@ slowfade () {
 }
 
 # set background based on the selected image
-Background="$HOME/.local/src/lock.jpg"
+Background="$HOME/.local/src/wall/lock.jpg"
 
 color_white1="#b6beca"
 color_white2="#c0caf5"

@@ -7,6 +7,7 @@ function module.apply_to_config(config)
   -- config.color_scheme = "Classic Dark (base16)"
   -- config.color_scheme = "Pnevma"
   -- config.color_scheme = "Dracula (Official)"
+  config.color_scheme = "Builtin Solarized Light"
   config.color_scheme = 'Batman'
   config.color_scheme = "Paradise"
 

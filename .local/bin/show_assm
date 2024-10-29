@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+makeAssemblyRelease() {
+    if [[ -z "$3" ]]; then
+        g++ -O1 -S -Wa,-alh -fverbose-asm "$1" -o "$2"
+    else
+        g++ -O1 $3 -S -Wa,-alh -fverbose-asm "$1" -o "$2"
+    fi
+}
+
+makeAssemblyDebug() {
+    if [[ -z "$3" ]]; then
+        g++ -g -S -Wa,-alh -fverbose-asm "$1" -o "$2"
+    else
+        g++ $3 -S "$1" -o "$2"
+    fi
+}
+
+showAssembly() {
+    cat "$1"
+}
+
+extra_flags=""
+mode="Release"
+in_file="$1"
+if ! [[ -z "$2" ]]; then
+    mode="$1"
+    in_file="$2"
+fi
+if ! [[ -z "$3" ]]; then
+    extra_flags="${@: 3}"
+fi
+
+mode="${mode,,}"
+out_file="${in_file%.*}.s"
+
+case "${mode}" in
+  "release"|"r")
+    echo "--------------------------------------------------"
+    printf "Compiling assembly in release mode\n"
+    echo "--------------------------------------------------"
+    makeAssemblyRelease "$in_file" "$out_file" "$extra_flags"
+    showAssembly "$out_file"
+    exit 0 ;;
+  "debug"|"d")
+    echo "--------------------------------------------------"
+    printf "Compiling assembly in debug mode\n"
+    echo "--------------------------------------------------"
+    makeAssemblyDebug "$in_file" "$out_file" "$extra_flags"
+    showAssembly "$out_file"
+    exit 0 ;;
+  *)
+    printf "\nRun 'show_assm [release|debug]' <filename>\n"
+    exit 1 ;;
+esac

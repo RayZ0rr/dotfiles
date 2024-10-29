@@ -76,7 +76,7 @@ do
     if [ $percent -gt $charge_full ];
     then
       notify-send -t 20000 -i $icon_full -u normal -h string:hlcolor:#4444ff -h string:fgcolor:#1d6636 "Battery is almost full ($percent %)" "Disconnect power supply to improve battery life" ;
-      paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
+      paplay /usr/share/sounds/freedesktop/stereo/complete.oga
       # (notify-send -i $icon_full "Battery is almost CHARGED = $percent %" "Disconnect power supply to improve battery life" ; $(play -q -n synth 0.2 sin 880 >& /dev/null) ; sleep 1 ; spd-say "Disconnect Charger" || speak "Disconnect Charger")
     fi
   # ------- Discharging Protection -------
@@ -91,12 +91,12 @@ do
 	! [[ "${choice}" == "no" ]] && systemctl hibernate
       else
 	notify-send -i $icon_low -u critical "Battery is critically low ($percent %)" "Connect power supply to continue" ;
-	paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
+	paplay /usr/share/sounds/freedesktop/stereo/bell.oga
       fi
     # ------- Very low notify -------
     elif [ $percent -lt $charge_low ]; then
       notify-send -i $icon_low -u critical "Battery is very low ($percent %)" "Connect power supply to continue" ;
-      paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
+      paplay /usr/share/sounds/freedesktop/stereo/bell.oga
       # (notify-send -i $icon_low "Battery is about to DISCHARGE = $percent % remaining" "Connect power supply to continue" ; $(play -q -n synth 0.2 sin 880 >& /dev/null) ; sleep 1 ; spd-say "Connect Charger" || speak "Connect Charger")
     fi
   # ------- Full cahrge/Not charging -------
@@ -105,12 +105,12 @@ do
     if [ $percent -gt $charge_full ];
     then
       notify-send -t 20000 -i $icon_not -u critical -h string:hlcolor:#4444ff -h string:fgcolor:#1d6636 "Battery is full ($percent %)" "Disconnect power supply to improve battery life" ;
-      paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
+      paplay /usr/share/sounds/freedesktop/stereo/complete.oga
       # (notify-send -i $icon_full "Battery is almost CHARGED = $percent %" "Disconnect power supply to improve battery life" ; $(play -q -n synth 0.2 sin 880 >& /dev/null) ; sleep 1 ; spd-say "Disconnect Charger" || speak "Disconnect Charger")
     elif [ $percent -lt $charge_low ];
     then
       notify-send -i $icon_low -u critical "Battery not charging ($percent %)" "Connect power supply to continue" ;
-      paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
+      paplay /usr/share/sounds/freedesktop/stereo/complete.oga
       # (notify-send -i $icon_low "Battery is about to DISCHARGE = $percent % remaining" "Connect power supply to continue" ; $(play -q -n synth 0.2 sin 880 >& /dev/null) ; sleep 1 ; spd-say "Connect Charger" || speak "Connect Charger")
     fi
   # else exit 0

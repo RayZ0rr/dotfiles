@@ -1,0 +1,2 @@
+[general]
+import = ["/home/razorr/.config/alacritty/main.toml", "/home/razorr/.config/alacritty/keybindings.toml", "/home/razorr/.config/alacritty/theme.toml"]

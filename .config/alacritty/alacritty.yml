@@ -11,7 +11,8 @@
 #import:
 #  - /path/to/alacritty.yml
 
-import:
-  - ~/.config/alacritty/main.yml
-  - ~/.config/alacritty/keybindings.yml
-  - ~/.config/alacritty/theme.yml
+general:
+  import:
+    - ~/.config/alacritty/main.yml
+    - ~/.config/alacritty/keybindings.yml
+    - ~/.config/alacritty/theme.yml
