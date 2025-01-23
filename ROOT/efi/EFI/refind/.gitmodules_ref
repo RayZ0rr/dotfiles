@@ -1,0 +1,8 @@
+[submodule "refind-theme-regular"]
+	path = refind/themes/refind-theme-regular
+	url = https://github.com/bobafetthotmail/refind-theme-regular.git
+	branch = master
+[submodule "dedsec-grub2-theme"]
+	path = grub/themes/dedsec-grub2-theme
+	url = https://github.com/vandalsoul/dedsec-grub2-theme.git
+	branch = main
