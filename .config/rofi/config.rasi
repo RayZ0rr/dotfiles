@@ -46,6 +46,7 @@ configuration {
   kb-mode-previous:           "Control+Left,Control+ISO_Left_Tab,ISO_Left_Tab";
   kb-toggle-case-sensitivity: "Control+i";
   kb-cancel:                  "Escape,Control+c,Control+q";
+  kb-secondary-copy:          "Control+Shift+c";
   me-accept-entry:            "MousePrimary,MouseDPrimary";
   kb-move-word-back:          "Alt+b";
   kb-move-word-forward:       "Alt+f";

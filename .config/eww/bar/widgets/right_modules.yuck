@@ -50,10 +50,10 @@
   (eventbox
     :onhover "${EWW_CMD} update wifi_rev=true"
     :onhoverlost "${EWW_CMD} update wifi_rev=false"
-    :onclick "alacritty -t nmtui -e nmtui &"
+    :onclick "alacritty -t nmtui -e bash $HOME/.local/bin/nmtui.sh &"
     (box :class "module-wifi"
       :vexpand "false" :hexpand "false" :space-evenly "false"
-      (button :class "wifi_icon" :onclick "alacritty -t nmtui -e nmtui &" :style "color: ${WLAN_COLOR};" "${WLAN_ICON}")
+      (button :class "wifi_icon" :style "color: ${WLAN_COLOR};" "${WLAN_ICON}")
       (revealer
 	:transition "slideright"
 	:reveal wifi_rev
