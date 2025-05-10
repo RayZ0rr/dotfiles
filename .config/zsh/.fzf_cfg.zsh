@@ -8,24 +8,24 @@
 #---------------------------------------------------------------------------------
 if [[ $- == *i* ]]
 then
-  if [[ -f "/usr/share/fzf/shell/completion.zsh" ]] ; then
-    source "/usr/share/fzf/shell/completion.zsh" 2> /dev/null
-  elif [[ -f "/usr/share/fzf/completion.zsh" ]] ; then
-    source "/usr/share/fzf/completion.zsh" 2> /dev/null
-  elif [[ -f "${MY_FZF_PATH}/completion.zsh" ]] ; then
-    source "${MY_FZF_PATH}/completion.zsh" 2> /dev/null
-  fi
+    if [[ -f "/usr/share/fzf/shell/completion.zsh" ]] ; then
+        source "/usr/share/fzf/shell/completion.zsh" 2> /dev/null
+    elif [[ -f "/usr/share/fzf/completion.zsh" ]] ; then
+        source "/usr/share/fzf/completion.zsh" 2> /dev/null
+    elif [[ -f "${MY_FZF_PATH}/completion.zsh" ]] ; then
+        source "${MY_FZF_PATH}/completion.zsh" 2> /dev/null
+    fi
 fi
 
 if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
-  source $ZDOTDIR/fzf-zsh-completion.sh
-  bindkey '^I' fzf_completion
+    source $ZDOTDIR/fzf-zsh-completion.sh
+    bindkey '^I' fzf_completion
 
-  zstyle ':completion:*' fzf-search-display true
-  # basic file preview for ls (you can replace with something more sophisticated than head)
-  zstyle ':completion::*:(ls|eza)::*' fzf-completion-opts -m --preview='eval head {+1}'
-  zstyle ':completion::*:(vim|nvim|nv)::*' fzf-completion-opts -m --preview='eval head {+1}'
-  zstyle ':completion::*:(cd|zd)::*' fzf-completion-opts --preview='eval tree {+1}'
+    zstyle ':completion:*' fzf-search-display true
+    # basic file preview for ls (you can replace with something more sophisticated than head)
+    zstyle ':completion::*:(ls|eza)::*' fzf-completion-opts -m --preview='eval head {+1}'
+    zstyle ':completion::*:(vim|nvim|nv)::*' fzf-completion-opts -m --preview='eval head {+1}'
+    zstyle ':completion::*:(cd|zd)::*' fzf-completion-opts --preview='eval tree {+1}'
 
   # preview when completing env vars (note: only works for exported variables)
   # eval twice, first to unescape the string, second to expand the $variable
@@ -44,11 +44,11 @@ fi
 # Key bindings
 #---------------------------------------------------------------------------------
 if [[ -f "/usr/share/fzf/shell/key-bindings.zsh" ]] ; then
-  source "/usr/share/fzf/shell/key-bindings.zsh" 2> /dev/null
+    source "/usr/share/fzf/shell/key-bindings.zsh" 2> /dev/null
 elif [[ -f "/usr/share/fzf/key-bindings.zsh" ]] ; then
-  source "/usr/share/fzf/key-bindings.zsh" 2> /dev/null
+    source "/usr/share/fzf/key-bindings.zsh" 2> /dev/null
 elif [[ -f "${MY_FZF_PATH}/key-bindings.zsh" ]] ; then
-  source "${MY_FZF_PATH}/key-bindings.zsh"
+    source "${MY_FZF_PATH}/key-bindings.zsh"
 fi
 
 #---------------------------------------------------------------------------------
@@ -143,10 +143,10 @@ __sff__() {
 }
 
 __sffw__() {
-  LBUFFER="${LBUFFER}$(__sff__)"
-  local ret=$?
-  zle reset-prompt
-  return $ret
+    LBUFFER="${LBUFFER}$(__sff__)"
+    local ret=$?
+    zle reset-prompt
+    return $ret
 }
 zle     -N   __sffw__
 bindkey -M emacs '^T^T' __sffw__

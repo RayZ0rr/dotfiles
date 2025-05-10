@@ -12,30 +12,30 @@
 #---------------------------------------------------------------------------------
 if [[ $- == *i* ]]
 then
-  if [[ -f "/usr/share/fzf/shell/completion.bash" ]] ; then
-    source "/usr/share/fzf/shell/completion.bash" 2> /dev/null
-  elif [[ -f "/usr/share/fzf/completion.bash" ]] ; then
-    source "/usr/share/fzf/completion.bash" 2> /dev/null
-  elif [[ -f "${MY_FZF_PATH}/completion.bash" ]] ; then
-    source "${MY_FZF_PATH}/completion.bash" 2> /dev/null
-  fi
+    if [[ -f "/usr/share/fzf/shell/completion.bash" ]] ; then
+        source "/usr/share/fzf/shell/completion.bash" 2> /dev/null
+    elif [[ -f "/usr/share/fzf/completion.bash" ]] ; then
+        source "/usr/share/fzf/completion.bash" 2> /dev/null
+    elif [[ -f "${MY_FZF_PATH}/completion.bash" ]] ; then
+        source "${MY_FZF_PATH}/completion.bash" 2> /dev/null
+    fi
 fi
 
 if [[ -f ${BASH_CONFIG_PATH}/fzf-bash-completion.sh ]] ; then
-  source ${BASH_CONFIG_PATH}/fzf-bash-completion.sh
-  bind -x '"\t": fzf_bash_completion'
-  # _fzf_bash_completion_loading_msg() { echo "${PS1@P}${READLINE_LINE}" | tail -n1; }
-  FZF_COMPLETION_AUTO_COMMON_PREFIX=true
-  FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=true
+    source ${BASH_CONFIG_PATH}/fzf-bash-completion.sh
+    bind -x '"\t": fzf_bash_completion'
+    # _fzf_bash_completion_loading_msg() { echo "${PS1@P}${READLINE_LINE}" | tail -n1; }
+    FZF_COMPLETION_AUTO_COMMON_PREFIX=true
+    FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=true
 fi
 # Key bindings
 #---------------------------------------------------------------------------------
 if [[ -f "/usr/share/fzf/shell/key-bindings.bash" ]] ; then
-  source "/usr/share/fzf/shell/key-bindings.bash" 2> /dev/null
+    source "/usr/share/fzf/shell/key-bindings.bash" 2> /dev/null
 elif [[ -f "/usr/share/fzf/key-bindings.bash" ]] ; then
-  source "/usr/share/fzf/key-bindings.bash" 2> /dev/null
+    source "/usr/share/fzf/key-bindings.bash" 2> /dev/null
 elif [[ -f "${MY_FZF_PATH}/key-bindings.bash" ]] ; then
-  source "${MY_FZF_PATH}/key-bindings.bash"
+    source "${MY_FZF_PATH}/key-bindings.bash"
 fi
 
 #---------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ export FZF_ALT_C_COMMAND=$FZF_FOLDER_COMMAND
 export FZF_ALT_C_OPTS="--header 'cd Dir' --preview 'tree -C {} | head -100' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FOLDER_WINDOW[@]}"
 
 FZF_FD_COMMAND=( "${FZF_FILE_COMMAND[@]}" " | fzf -m " "${FZF_FILE_PREVIEW[@]}" )
-# CTRL-T + CTRL-T - Paste the selected file path(s) into the command line
+# CTRL-T + CTRL-T - Paste the selected file path(s) from $HOME into the command line
 #---------------------------------------------------------------------------------
 __sff__() {
     local cmd="${FZF_FILE_COMMAND} $HOME"
@@ -128,9 +128,9 @@ __sff__() {
 }
 
 __sffw__() {
-  local selected="$(__sff__ "$@")"
-  READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
-  READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+    local selected="$(__sff__ "$@")"
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+    READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 }
 bind -x '"\C-t\C-t":"__sffw__"'
 # bind -x '"__FileSeach__": fzf-file-widget'

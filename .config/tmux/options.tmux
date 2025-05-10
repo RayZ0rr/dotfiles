@@ -42,18 +42,15 @@ set -g mouse on
 
 # Set the base index for windows to 1 instead of 0
 set -g base-index 1
-
 # Set the base index for panes to 1 instead of 0
 set -g pane-base-index 1
-
 #Don't rename windows automatically
 set -g allow-rename off
+# re-number windows when one is closed
+set -g renumber-windows on
 
 # Use titles in tabs
 set -g set-titles on
-
-# re-number windows when one is closed
-set -g renumber-windows on
 
 # No bells at all
 set -g bell-action none

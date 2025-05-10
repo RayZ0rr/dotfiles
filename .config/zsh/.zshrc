@@ -15,7 +15,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # Clone antidote if necessary.
 [[ -d ${ZDOTDIR:-~}/.antidote ]] ||
-  git clone --depth 1 -- \
+    git clone --depth 1 -- \
     https://github.com/mattmc3/antidote ${ZDOTDIR:-~}/.antidote
 
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
@@ -34,4 +34,10 @@ typeset -gU path fpath
 command -v colorscript &> /dev/null && colorscript --random
 command -v fortune &> /dev/null && printf "\n$(fortune -s)\n\n"
 
-eval "$(starship init zsh)"
+if (( $+commands[starship] )) ; then
+    eval "$(starship init zsh)"
+fi
+
+if (( $+commands[direnv] )) ; then
+    eval "$(direnv hook zsh)"
+fi

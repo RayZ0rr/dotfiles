@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
-      *) return;;
+    *) return;;
 esac
 
 BASH_CONFIG_PATH="${HOME}/.config/bash"
@@ -52,12 +52,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -70,11 +70,11 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *)
+        ;;
 esac
 
 # enable color support of ls and also add handy aliases
@@ -105,11 +105,11 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 
 # Alias and sources definitions.
@@ -118,7 +118,7 @@ fi
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [[ -f ${BASH_CONFIG_PATH}/.bash_extra ]]; then
-   . ${BASH_CONFIG_PATH}/.bash_extra
+    . ${BASH_CONFIG_PATH}/.bash_extra
 fi
 
 if [[ -f ${BASH_CONFIG_PATH}/.bash_sources ]]; then
@@ -136,4 +136,12 @@ fi
 command -v colorscript &> /dev/null && colorscript --random
 command -v fortune &> /dev/null && printf "\n$(fortune -s)\n\n"
 
-eval "$(starship init bash)"
+if [ -x "$(command -v starship)" ]; then
+    eval "$(starship init bash)"
+fi
+# command -v starship &> /dev/null && eval "$(starship init bash)"
+if [ -x "$(command -v direnv)" ]; then
+    eval "$(direnv hook bash)"
+fi
+# command -v direnv &> /dev/null && eval "$(direnv hook bash)"
+
