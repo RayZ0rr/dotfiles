@@ -5,11 +5,6 @@
 set -g default-terminal "tmux-256color"
 set -g default-shell "/usr/bin/zsh"
 
-# address vim mode switching delay (http://superuser.com/a/252717/65504)
-set -g escape-time 10
-
-set -g status-position top
-
 # Undercurl
 # set -g default-terminal "${TERM}"
 # set-option -as terminal-features ',XXX:RGB'
@@ -20,6 +15,11 @@ set -as terminal-features ",wezterm*:RGB"
 set -as terminal-features ',wezterm*:extkeys'
 set -as terminal-features ",xterm-*:RGB"
 set -as terminal-features ',xterm*:extkeys'
+
+# address vim mode switching delay (http://superuser.com/a/252717/65504)
+set -g escape-time 10
+
+set -g status-position top
 
 set -s extended-keys on
 
@@ -59,12 +59,13 @@ set -g focus-events on
 # highlight window when it has new activity
 set -g monitor-activity on
 # set -g visual-activity on
+# set -g focus-events on
 
 # increase scrollback buffer size
-set -g history-limit 5000
+set -g history-limit 20000
 
 # tmux messages are displayed for 4 seconds
-# set -g display-time 4000
+set -g display-time 4000
 
 # refresh 'status-left' and 'status-right' more often
 # set -g status-interval 5
@@ -76,8 +77,5 @@ set -g history-limit 5000
 # vi keys, even for vim users
 # set -g status-keys emacs
 
-# set -g focus-events on
-
 # super useful when using "grouped sessions" and multi-monitor setup
 # setw -g aggressive-resize on
-

@@ -11,8 +11,8 @@ esac
 BASH_CONFIG_PATH="${HOME}/.config/bash"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=100000
+HISTFILESIZE=100000
 HISTFILE=${BASH_CONFIG_PATH}/.bash_history
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -133,15 +133,8 @@ if [[ -f ${BASH_CONFIG_PATH}/.bash_functions ]]; then
     . ${BASH_CONFIG_PATH}/.bash_functions
 fi
 
-command -v colorscript &> /dev/null && colorscript --random
+# command -v colorscript &> /dev/null && colorscript --random
 command -v fortune &> /dev/null && printf "\n$(fortune -s)\n\n"
 
-if [ -x "$(command -v starship)" ]; then
-    eval "$(starship init bash)"
-fi
-# command -v starship &> /dev/null && eval "$(starship init bash)"
-if [ -x "$(command -v direnv)" ]; then
-    eval "$(direnv hook bash)"
-fi
-# command -v direnv &> /dev/null && eval "$(direnv hook bash)"
-
+command -v starship &> /dev/null && eval "$(starship init bash)"
+command -v direnv &> /dev/null && eval "$(direnv hook bash)"

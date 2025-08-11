@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Map capslock to escape
-/usr/bin/setxkbmap -option "caps:escape"
+# /usr/bin/setxkbmap -option "caps:escape"
 
 # bash $HOME/.local/bin/screensaver.sh "init" && bash $HOME/.local/bin/screensaver.sh "xset" &
 # xset -dpms
@@ -35,3 +35,5 @@ nm-applet &
 syncthing-gtk -m &
 
 copyq &
+
+systemctl --user start kmonad@mine_custom_kbd.path
