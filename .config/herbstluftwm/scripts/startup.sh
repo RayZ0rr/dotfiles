@@ -7,9 +7,13 @@
 # xset -dpms
 # xset s 60 60
 # xss-lock -n "bash $HOME/.local/bin/screensaver.sh start" -- $HOME/.local/bin/mylock &
+export XSECURELOCK_SAVER=saver_mpv
+export XSECURELOCK_DISCARD_FIRST_KEYPRESS=1
+export XSECURELOCK_LIST_VIDEOS_COMMAND='find ~/.cache/qtgreet_vids/night -type f'
 xset -dpms
 xset s 180 60
-xss-lock -n "bash $HOME/.local/bin/dim-screen" -- $HOME/.local/bin/mylock &
+xss-lock -n "bash $HOME/.local/bin/dim-screen" -- xsecurelock &
+# xss-lock -n "bash $HOME/.local/bin/dim-screen" -- $HOME/.local/bin/mylock &
 
 # feh --bg-fill $HOME/Pictures/Walls/Minimal/521028.png
 feh --no-fehbg --bg-fill $HOME/.local/src/wall/home.png &
@@ -36,4 +40,4 @@ syncthing-gtk -m &
 
 copyq &
 
-systemctl --user start kmonad@mine_custom_kbd.path
+# systemctl --user start kmonad@mine_custom_kbd.path

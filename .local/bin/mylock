@@ -1,124 +1,129 @@
 #!/usr/bin/env bash
 
-pgrep i3lock && exit
-
-slowfade () {
-    dis=$(echo -n "$DISPLAY" | tr -c '[:alnum:]' _)
-    ifc='com.github.chjj.compton'
-    obj='/com/github/chjj/compton'
-    if [[ "$1" == "start" ]]; then
-        dbus-send --dest=$ifc.$dis \
-            $obj $ifc.opts_set string:fade_in_step double:0.02
-        dbus-send --dest=$ifc.$dis \
-            $obj $ifc.opts_set string:fade_out_step double:0.02
-    else
-        dbus-send --dest=$ifc.$dis \
-            $obj $ifc.opts_set string:fade_in_step double:0.1
-        dbus-send --dest=$ifc.$dis \
-            $obj $ifc.opts_set string:fade_out_step double:0.1
-    fi
-}
-
-# set background based on the selected image
-Background="$HOME/.local/src/wall/lock.jpg"
-
-color_white1="#b6beca"
-color_white2="#c0caf5"
-color_red1="#e05f65"
-color_red2="#BB6468"
-color_grey="#4d5768"
-color_green1="#78dba9"
-color_green2="#9ece6a"
-color_blue1="#7aa2f7"
-
-color_ring=$color_white1
-color_layout=$color_white1
-color_time=$color_white1
-color_date=$color_white1
-color_greeter=$color_white1
-color_verify=$color_green1
-color_wrong=$color_red1
-
-pos_ind="w/6:h/6+100"
-pos_layout="w/6:h/6+220"
-pos_time="w/6:h/6+380"
-pos_date="w/6:h/6+280"
-pos_greeter="w/6:h/6"
-pos_verify="w/6:h/6-40"
-pos_wrong="w/6:h/6-40"
-
-# font_layout="Comic Shanns"
-font_layout="ComicShannsMonoNerdFont-Bold"
-font_time=$font_layout
-font_date=$font_layout
-font_greeter=$font_layout
-font_verify=$font_layout
-font_wrong=$font_layout
-
 dunstctl set-paused true
 
-i3lock --nofork                                     \
-    --ignore-empty-password                                 \
-    --show-failed-attempts                                  \
-    --pointer=default                                       \
-    --pass-media-keys                                       \
-    --pass-volume-keys                                      \
-    --no-modkey-text                                        \
-                                                            \
-    --image="$Background"                                   \
-                                                            \
-    --indicator                                             \
-    --ind-pos=$pos_ind                                      \
-    --radius=69                                             \
-    --ring-width=10                                         \
-    --ring-color=$color_ring                                \
-    --ringver-color=$color_verify                           \
-    --ringwrong-color=$color_wrong                          \
-    --inside-color="#4d576800"                              \
-    --insidever-color="#4d576800"                           \
-    --insidewrong-color="#4d576833"                         \
-                                                            \
-    --line-uses-inside                                      \
-    --separator-color=$color_verify                         \
-    --bshl-color=$color_verify                              \
-    --keyhl-color=$color_verify                             \
-                                                            \
-    --keylayout 0                                           \
-    --layout-color=$color_layout                            \
-    --layout-font=$font_layout                              \
-    --layout-size=20                                        \
-    --layout-pos=$pos_layout                                \
-                                                            \
-    --clock                                                 \
-    --time-str="%H:%M:%S"                                   \
-    --time-color=$color_time                                \
-    --time-font=$font_time                                  \
-    --time-size=100                                         \
-    --time-pos=$pos_time                                    \
-                                                            \
-    --date-str="%a, %d %b"                                  \
-    --date-color=$color_date                                \
-    --date-font=$font_date                                  \
-    --date-size=45                                          \
-    --date-pos=$pos_date                                    \
-                                                            \
-    --greeter-font=$font_greeter                            \
-    --greeter-size=23                                       \
-    --greeter-text="Type the password to Unlock"            \
-    --greeter-pos=$pos_greeter                              \
-    --greeter-color=$color_greeter                          \
-                                                            \
-    --verif-font=$font_verify                               \
-    --verif-size=23                                         \
-    --verif-text="Verifying Password..."                    \
-    --verif-pos=$pos_verify                                 \
-    --verif-color=$color_verify                             \
-                                                            \
-    --wrong-font=$font_wrong                                \
-    --wrong-size=23                                         \
-    --wrong-text="Wrong Password!"                          \
-    --wrong-pos=$pos_wrong                                  \
-    --wrong-color=$color_wrong
+export XSECURELOCK_SAVER=saver_mpv
+export XSECURELOCK_DISCARD_FIRST_KEYPRESS=1
+export XSECURELOCK_LIST_VIDEOS_COMMAND='find ~/.cache/qtgreet_vids/night -type f'
+xsecurelock
+
+# pgrep i3lock && exit
+
+# slowfade () {
+#     dis=$(echo -n "$DISPLAY" | tr -c '[:alnum:]' _)
+#     ifc='com.github.chjj.compton'
+#     obj='/com/github/chjj/compton'
+#     if [[ "$1" == "start" ]]; then
+#         dbus-send --dest=$ifc.$dis \
+#             $obj $ifc.opts_set string:fade_in_step double:0.02
+#         dbus-send --dest=$ifc.$dis \
+#             $obj $ifc.opts_set string:fade_out_step double:0.02
+#     else
+#         dbus-send --dest=$ifc.$dis \
+#             $obj $ifc.opts_set string:fade_in_step double:0.1
+#         dbus-send --dest=$ifc.$dis \
+#             $obj $ifc.opts_set string:fade_out_step double:0.1
+#     fi
+# }
+
+# # set background based on the selected image
+# Background="$HOME/.local/src/wall/lock.jpg"
+
+# color_white1="#b6beca"
+# color_white2="#c0caf5"
+# color_red1="#e05f65"
+# color_red2="#BB6468"
+# color_grey="#4d5768"
+# color_green1="#78dba9"
+# color_green2="#9ece6a"
+# color_blue1="#7aa2f7"
+
+# color_ring=$color_white1
+# color_layout=$color_white1
+# color_time=$color_white1
+# color_date=$color_white1
+# color_greeter=$color_white1
+# color_verify=$color_green1
+# color_wrong=$color_red1
+
+# pos_ind="w/6:h/6+100"
+# pos_layout="w/6:h/6+220"
+# pos_time="w/6:h/6+380"
+# pos_date="w/6:h/6+280"
+# pos_greeter="w/6:h/6"
+# pos_verify="w/6:h/6-40"
+# pos_wrong="w/6:h/6-40"
+
+# # font_layout="Comic Shanns"
+# font_layout="ComicShannsMonoNerdFont-Bold"
+# font_time=$font_layout
+# font_date=$font_layout
+# font_greeter=$font_layout
+# font_verify=$font_layout
+# font_wrong=$font_layout
+
+# i3lock --nofork                                     \
+#     --ignore-empty-password                                 \
+#     --show-failed-attempts                                  \
+#     --pointer=default                                       \
+#     --pass-media-keys                                       \
+#     --pass-volume-keys                                      \
+#     --no-modkey-text                                        \
+#                                                             \
+#     --image="$Background"                                   \
+#                                                             \
+#     --indicator                                             \
+#     --ind-pos=$pos_ind                                      \
+#     --radius=69                                             \
+#     --ring-width=10                                         \
+#     --ring-color=$color_ring                                \
+#     --ringver-color=$color_verify                           \
+#     --ringwrong-color=$color_wrong                          \
+#     --inside-color="#4d576800"                              \
+#     --insidever-color="#4d576800"                           \
+#     --insidewrong-color="#4d576833"                         \
+#                                                             \
+#     --line-uses-inside                                      \
+#     --separator-color=$color_verify                         \
+#     --bshl-color=$color_verify                              \
+#     --keyhl-color=$color_verify                             \
+#                                                             \
+#     --keylayout 0                                           \
+#     --layout-color=$color_layout                            \
+#     --layout-font=$font_layout                              \
+#     --layout-size=20                                        \
+#     --layout-pos=$pos_layout                                \
+#                                                             \
+#     --clock                                                 \
+#     --time-str="%H:%M:%S"                                   \
+#     --time-color=$color_time                                \
+#     --time-font=$font_time                                  \
+#     --time-size=100                                         \
+#     --time-pos=$pos_time                                    \
+#                                                             \
+#     --date-str="%a, %d %b"                                  \
+#     --date-color=$color_date                                \
+#     --date-font=$font_date                                  \
+#     --date-size=45                                          \
+#     --date-pos=$pos_date                                    \
+#                                                             \
+#     --greeter-font=$font_greeter                            \
+#     --greeter-size=23                                       \
+#     --greeter-text="Type the password to Unlock"            \
+#     --greeter-pos=$pos_greeter                              \
+#     --greeter-color=$color_greeter                          \
+#                                                             \
+#     --verif-font=$font_verify                               \
+#     --verif-size=23                                         \
+#     --verif-text="Verifying Password..."                    \
+#     --verif-pos=$pos_verify                                 \
+#     --verif-color=$color_verify                             \
+#                                                             \
+#     --wrong-font=$font_wrong                                \
+#     --wrong-size=23                                         \
+#     --wrong-text="Wrong Password!"                          \
+#     --wrong-pos=$pos_wrong                                  \
+#     --wrong-color=$color_wrong
 
 dunstctl set-paused false
 # slowfade start
