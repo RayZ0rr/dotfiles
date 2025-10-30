@@ -2,13 +2,22 @@
 
 #vifm preview dependency scripts
 if [ -n "$INSIDE_VIFM" ]; then
-    PS1="[Vi]$PS1"
+    shell_name="$(basename $SHELL)"
+    if [ "${shell_name}" == "zsh" ]; then
+        printf "\e[48;5;21m"
+        echo "-- VIFM SHELL SESSION --"
+        export PROMPT="-- VIFM_SESSION --"$'\n'"${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)"
+    fi
+    if [ "${shell_name}" == "bash" ]; then
+        PS1="[Vi]$PS1"
+    fi
     unset INSIDE_VIFM
 fi
 
-VIFM_VF_PATH="$HOME/.local/bin/vfcd"
-if [[ -f "${VIFM_VF_PATH}" ]] ; then
-    alias vf="source ${VIFM_VF_PATH}"
+VIFMCD_PATH="$HOME/.local/bin/vifmcd"
+if [[ -f "${VIFMCD_PATH}" ]] ; then
+    source "${VIFMCD_PATH}"
+    alias vf=vfcd
 else
     alias vf=vifm
 fi

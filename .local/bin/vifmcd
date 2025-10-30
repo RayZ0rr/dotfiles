@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# check if "xterm-direct" or "tmux-direct" is present
+VIFM_TERM_DIRECT="$(find  /usr/share/terminfo/ -type f  -print | grep -E ".-direct$" | awk -F'/' '{print $NF}' | grep -E "xterm|tmux" | head -n 1)"
+# If not choose any available *-direct
+if [[ -z "$VIFM_TERM_DIRECT" ]] ; then
+    VIFM_TERM_DIRECT="$(find  /usr/share/terminfo/ -type f  -print | grep -E ".-direct$" | awk -F'/' '{print $NF}' | head -n 1)"
+fi
+# If not set it to default TERM
+if [[ -z "$VIFM_TERM_DIRECT" ]] ; then
+    VIFM_TERM_DIRECT="$TERM"
+fi
+
+vfcd()
+{
+    local dst="$(TERM="$VIFM_TERM_DIRECT" command vifm --choose-dir - "$@")"
+    if [ -z "$dst" ]; then
+        echo 'Directory picking cancelled/failed'
+        return 1
+    fi
+    cd "$dst"
+}

@@ -1,83 +1,61 @@
-"----------------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
+"               Options
+"-------------------------------------------------------------------------------
 
-"               Settings and options
-
-"------------------------------------------------------------------------------------------------
 " Show indicator when shell inside vifm (also change .bashrc)
+"-------------------------------------------------------------------------------
 let $INSIDE_VIFM = 'true'
 
 set vicmd=$EDITOR
 
-"open with preview window and dotfiles hidden
-view!
-" normal! zo
-set dotfiles
+" Open vifm with three tabs per pane. The first tab of each pane is in current
+" directory. Remaining are home directory.
+"-------------------------------------------------------------------------------
+set tabscope=pane
+if tabpagenr("$") == 1
+    windo tabnew
+    cd ~ ~
+    windo tabnew
+    cd ~ ~
+    tabnext 1
+    winc w
+    tabnext 1
+    winc w
+endif
 
-" tabname tab1
-
-tabnew
-cd ~ ~
-
-tabnew
-cd ~ ~
-
-tabnext 1
-
-set viewcolumns=-50%{name},50%{ext}
-
-set vifminfo=dhistory,chistory,state,tui,shistory,
-    \phistory,fhistory,dirstack,registers,bookmarks,bmarks
-
+view " open with preview window
+set dotfiles " open with dotfiles shown
 set syscalls
-
 set trash
-
-set history=100
-
-" set followlinks
-
-" set fastrun
-
+set history=20000
+set sort=-mtime,-size,dir
+set viewcolumns='-80%{name}..,{# |},{ext},{# |},{size}..'
 set sortnumbers
-
 set undolevels=100
-
 set vimhelp
-
 set norunexec
-
-colorscheme paradise
-" colorscheme dracula
-" colorscheme zenburn_1
-" colorscheme onedark
-" colorscheme test
-
-set timefmt=%m/%d\ %H:%M
-
+" set fastrun
 set wildmenu
-
 set wildstyle=popup
-
 set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
-
 set ignorecase
 set smartcase
-
 set nohlsearch
 set incsearch
-
 set scrolloff=4
-
 if !has('win')
     set slowfs=curlftpfs
 endif
+set dotdirs=
 
 set statusline='  %t%= %A %10u:%-7g %15E %20d  '
-plugin load
+set timefmt=%m/%d\ %H:%M
+set vifminfo=dhistory,chistory,state,tui,shistory,
+    \phistory,fhistory,dirstack,registers,bookmarks,bmarks
 
+plugin load
 if has('#sbar#fmt')
     set statusline=#sbar#fmt
-
     " current session, if any
     sbar left $session
     " file name
@@ -90,15 +68,24 @@ if has('#sbar#fmt')
     sbar right %d
 endif
 
-"Bookmarks ( set with m, goto with ')
+"-------------------------------------------------------------------------------
+"               Bookmarks ( set with m, goto with ')
+"-------------------------------------------------------------------------------
 mark d ~/Documents/
 mark D ~/Downloads
 
-" ------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
+"               Colorscheme
+"-------------------------------------------------------------------------------
+colorscheme paradise
+" colorscheme dracula
+" colorscheme zenburn_1
+" colorscheme onedark
+" colorscheme test
 
-command! df df -h %m 2> /dev/null
-command! diff nvim -d %f %F
-nnoremap <a-d> :diff <CR>
+" ------------------------------------------------------------------------------
+command! df df -h 2> /dev/null %m
+command! du du -hs * 2> /dev/null | sort -r -h | cut -f 2 %U
 command! zip zip -r %f.zip %f
 command! run !! ./%f
 command! make !!make %a
@@ -106,25 +93,45 @@ command! mkcd :mkdir %a | cd %a
 command! vgrep vim "+grep %a"
 command! reload :write | restart full
 
-"----------------------------------------------------------------------------------------
+
+command! diff nvim -d %f %F
+nnoremap <a-d> :diff <CR>
+
+"-------------------------------------------------------------------------------
+"               File and Directory Preview
+"-------------------------------------------------------------------------------
+fileviewer *.cc,*.hh,*.[ch],*.[ch]pp,*.[ch]xx bat --color always --wrap never --pager never % -p
+fileviewer *[^/],.*[^/] bat --color always --wrap never --pager never %c -p
+fileviewer *[^/],.*[^/] defviewer %c
+
+fileviewer */,.*/ tree %c -L 1 --dirsfirst
+fileviewer */,.*/ eza --icons -a %c
+
+fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
+
+fileviewer *.tgz,*.tar.gz tar -tzf %c
+fileviewer *.tar.bz2,*.tbz2 tar -tjf %c
+fileviewer *.tar.txz,*.txz xz --list %c
+fileviewer {*.tar},<application/x-tar> tar -tf %c
+fileviewer {*.rar},<application/x-rar> unrar v %c
+fileviewer {*.7z},<application/x-7z-compressed> 7z l %c
+
+fileviewer *.zip,*.jar,*.war,*.ear,*.oxt zip -sf %c
+
+fileviewer {*.torrent},<application/x-bittorrent> dumptorrent -v %c
+
+fileviewer {*.doc},<application/msword> catdoc %c
+
+fileviewer {*.docx},
+          \<application/
+           \vnd.openxmlformats-officedocument.wordprocessingml.document>
+         \ docx2txt.pl %f -
+
 " Filepreview with vifm-sixel
 " 1. https://github.com/eylles/vifm-sixel-preview
 " 2. https://github.com/vifm/vifm/issues/419
-"------------------------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
 " set previewoptions+=hardgraphicsclear
-
-fileviewer *.cc,*.hh,*.[ch],*.[ch]pp,*.[ch]xx bat --color always --wrap never --pager never %c -p
-
-" fileviewer *[^/],.*[^/] bat --color=always --line-range :100 %c
-" fileviewer *.[a-z],*.[0-9] bat --color=always --line-range :100 %c
-" fileviewer * file -b %c
-
-fileviewer */,.*/ eza --icons -a %c
-fileviewer ../ eza --icons -a %c
-" fileviewer */,.*/ eza --tree --icons %c
-" fileviewer ../ eza --tree --icons %c
-fileviewer */,.*/ tree %c -L 1 --dirsfirst
-fileviewer ../ tree %c -L 1 --dirsfirst
 
 fileviewer *.pdf
     \ vifm-sixel pdf %pw %ph %c %pd
@@ -156,72 +163,46 @@ fileviewer <font/*>
     " \ %pc
     " \ vifm-sixel clear
 
-fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
-
-fileviewer *.tgz,*.tar.gz tar -tzf %c
-fileviewer *.tar.bz2,*.tbz2 tar -tjf %c
-fileviewer *.tar.txz,*.txz xz --list %c
-fileviewer {*.tar},<application/x-tar> tar -tf %c
-fileviewer {*.rar},<application/x-rar> unrar v %c
-fileviewer {*.7z},<application/x-7z-compressed> 7z l %c
-
-fileviewer *.zip,*.jar,*.war,*.ear,*.oxt zip -sf %c
-
-fileviewer {*.torrent},<application/x-bittorrent> dumptorrent -v %c
-
-fileviewer {*.doc},<application/msword> catdoc %c
-
-fileviewer {*.docx},
-          \<application/
-           \vnd.openxmlformats-officedocument.wordprocessingml.document>
-         \ docx2txt.pl %f -
-
-fileviewer * bat --color always --wrap never --pager never %c -p
-" fileviewer .* bat --color=always --line-range :100 %c
-" fileviewer *.* bat --color=always --line-range :100 %c
-" fileviewer * defviewer %c
-
-"----------------------------------------------------------------------------------------
-
+"-------------------------------------------------------------------------------
 "               Default open for different filetypes
-
-"------------------------------------------------------------------------------------------------
-
+"-------------------------------------------------------------------------------
 " Directories
 filextype */
         \ {View in thunar}
-        \ thunar %f &,
+        \ pcmanfm %f &,
 
 " Pdf
 filextype {*.pdf},<application/pdf>
         \ {View in okular}
-        \ okular %f,
+        \ okular %f &,
 
 " PostScript
 filextype {*.ps,*.eps,*.ps.gz},<application/postscript>
         \ {View in okular}
-        \ okular %f,
-				\ {View in zathura}
-        \ zathura %f,
+        \ okular %f &,
+	\ {View in zathura}
+        \ zathura %f &,
         \ {View in gv}
         \ gv %c %i &,
 
 " Djvu
 filextype {*.djvu},<image/vnd.djvu>
         \ {View in okular}
-        \ okular %f,
+        \ okular %f &,
         \ {View in zathura}
-        \ zathura %f,
+        \ zathura %f &,
         \ {View in apvlv}
-        \ apvlv %f,
+        \ apvlv %f &,
 
 " Audio
 filetype {*.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus},
         \<audio/*>
+       \ {Play using MPV}
+       \ mpv %f &,
        \ {Play using ffplay}
-       \ ffplay -nodisp -autoexit %c,
+       \ ffplay -nodisp -autoexit %c &,
        \ {Play using MPlayer}
-       \ mplayer %f,
+       \ mplayer %f &,
 
 " Video
 filextype {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
@@ -229,22 +210,22 @@ filextype {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
           \*.as[fx]},
          \<video/*>
         \ {View using smplayer}
-        \ smplayer %f,
+        \ smplayer %f &,
         \ {View using MPV}
-        \ mpv --really-quiet %f,
+        \ mpv --really-quiet %f &,
         \ {View using ffplay}
-        \ ffplay -fs -autoexit %f,
+        \ ffplay -fs -autoexit %f &,
         \ {View using Dragon}
         \ dragon %f:p,
 
 " Web
 filextype {*.html,*.htm},<text/html>
-        \ {Open with dwb}
-        \ dwb %f %i &,
         \ {Open with firefox}
         \ firefox %f &,
         \ {Open with uzbl}
         \ uzbl-browser %f %i &,
+        \ {Open with dwb}
+        \ dwb %f %i &,
 filetype {*.html,*.htm},<text/html> links, lynx
 
 " Object
@@ -266,7 +247,6 @@ filextype <image/*>
         \ feh %d &,
         \ {View in cacaview}
         \ cacaview %c &,
-
 
 " OpenRaster
 filextype *.ora
@@ -306,7 +286,6 @@ filetype {*.asc},<application/pgp-signature>
 " Torrent
 filetype {*.torrent},<application/x-bittorrent> ktorrent %f &
 
-
 " FuseZipMount
 filetype {*.zip,*.jar,*.war,*.ear,*.oxt,*.apkg},
         \<application/zip,application/java-archive>
@@ -323,12 +302,10 @@ filetype {*.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz,*.tar.xz,*.txz},
        \ {Mount with archivemount}
        \ FUSE_MOUNT|archivemount %SOURCE_FILE %DESTINATION_DIR,
 
-
 " Rar2FsMount and rar archives
 filetype {*.rar},<application/x-rar>
        \ {Mount with rar2fs}
        \ FUSE_MOUNT|rar2fs %SOURCE_FILE %DESTINATION_DIR,
-
 
 " IsoMount
 filetype {*.iso},<application/x-iso9660-image>
@@ -357,7 +334,6 @@ filextype {*.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt},
           \application/vnd.ms-excel>
         \ libreoffice %f &
 
-
 " TuDu files
 filetype *.tudu tudu -f %c
 
@@ -366,15 +342,11 @@ filextype *.pro qtcreator %f &
 
 filetype * xdg-open
 
-"----------------------------------------------------------------------------------------
-
+"-------------------------------------------------------------------------------
 "               Key Bindings
-
-"------------------------------------------------------------------------------------------------
-
+"-------------------------------------------------------------------------------
 "extract better
 command! extf :execute '!%%n extractfiles' &fusehome expand('%%D') expand('%%f:p')
-
 nnoremap <a-x> :extf<CR>
 
 " Compare files with diff
@@ -386,7 +358,6 @@ command! cmp : if expand('%%c') == expand('%%f')
       \ |     echo expand('Comparing files: %%"f ...')
       \ |     cmpinternal %f
       \ | endif
-
 nnoremap <a-e> :cmp<CR>
 
 nnoremap drd :!dragon-drop %f<cr>
@@ -410,31 +381,8 @@ nnoremap S :sort<cr>
 " Toggle visibility of preview window
 nnoremap w :view<cr>
 vnoremap w :view<cr>gv
-" nnoremap <silent> w : if &quickview && !layoutis('only')
-"                    \|     view
-"                    \| else
-"                    \|     if layoutis('only')
-"                    \|         if &lines + 50 < &columns | vsplit | else | split | endif
-"                    \|     endif
-"                    \|     view!
-"                    \|     execute 'qnoremap w q:view|only|qunmap w<lt>cr>'
-"                    \|     execute 'wincmd w'
-"                    \| endif
-"                    \| <cr>
-" vnoremap <silent> w : if &quickview && !layoutis('only')
-"                    \|     view
-"                    \| else
-"                    \|     if layoutis('only')
-"                    \|         if &lines + 50 < &columns | vsplit | else | split | endif
-"                    \|     endif
-"                    \|     view!
-"                    \|     execute 'qnoremap w q:view|only|qunmap w<lt>cr>'
-"                    \|     execute 'wincmd w'
-"                    \| endif
-"                    \| <cr>gv
 
 " Open file in nvim
-" nnoremap oo :!$EDITOR %f<cr>
 nnoremap oo :!${TERMINAL:-alacritty} -e $EDITOR %f &<cr>
 
 " Open with default file manager (here pcmanfm)
@@ -445,7 +393,6 @@ nnoremap om :!mpv %f &<cr>
 
 " Open file in the background using its default program
 nnoremap gb :!xdg-open %f &<cr>
-" nnoremap gb :file &<cr>l
 
 nnoremap <C-j>  <C-w>w5j<C-w>w
 nnoremap <C-k>  <C-w>w5k<C-w>w
@@ -489,8 +436,7 @@ nnoremap A cw
 nnoremap ,tr :!${TERMINAL:-alacritty} &<cr>
 
 " Open editor to edit vifmrc and apply settings after returning to vifm
-" nnoremap ,c :write | edit $MYVIFMRC | restart full<cr>
-nnoremap ,c :write | execute ':!%n${EDITOR:-vim} $MYVIFMRC' | restart | tabn 5 | tabc | tabn 4 | tabc | tabn 1<cr>
+nnoremap ,c :write | execute ':!%n${EDITOR:-vim} $MYVIFMRC' | restart<cr>
 
 " Toggle wrap setting on ,w key
 nnoremap ,w :set wrap!<cr>
@@ -503,12 +449,24 @@ nnoremap cd :mkdir<space>
 nnoremap csl :!ln -s %C<cr>
 
 " Midnight commander alike mappings
-" Open current directory in the other pane
+"-------------------------------------------------------------------------------
+" Sync other pane to current directory
 nnoremap <a-i> :sync<cr>
-" Open directory under cursor in the other pane
+" Sync other pane to directory under cursor
 nnoremap <a-o> :sync %c<cr>
-" Swap panes
-nnoremap <c-u> <c-w>x
+" Sync next tab to current directory
+command! TabSync : let $DIR_CUR = "%d"
+                \| tabnext
+                \| cd "$DIR_CUR"
+                \| tabprev
+nnoremap <a-u> :TabSync<cr>
+" Sync next tab to directory under cursor
+command! TabSyncCursor : let $DIR_CUR = "%c"
+                      \| tabnext
+                      \| cd "$DIR_CUR"
+                      \| tabprev
+nnoremap <a-p> :TabSyncCursor<cr>
+
 
 nnoremap ~ :cd<cr>
 
@@ -542,11 +500,3 @@ nnoremap <a-t> :FzfEcho<cr>
 
 " NERD font devicons
 source $HOME/.config/vifm/icons/favicons.vifm
-" source 'icons/icons'
-
-" ------------------------------------------------------------------------------
-
-" Use ag (the silver searcher) instead of grep
-"
-" set grepprg='ag --line-numbers %i %a %s'
-
