@@ -17,7 +17,7 @@ unbind -Tcopy-mode MouseDrag1Pane
 
 # bind C-j new-window -n "session-switcher" "tmux list-sessions | sed -E 's/:.*$//' | grep -v \"^$(tmux display-message -p '#S')\$\" | fzf --reverse | xargs tmux switch-client -t"
 # bind C-e display-popup -E "tmux list-sessions | sed -E 's/:.*$//' | grep -v \"^$(tmux display-message -p '#S')\$\" | fzf --reverse | xargs -I{} tmux switch-client -t{}"
-bind C-e display-popup -E "tmux list-windows -a -F '#S:#I' | grep -v \"^$(tmux display-message -p '#S:#I')\$\" | fzf --reverse | xargs -I{} tmux switch-client -t{}"
+bind C-w display-popup -E "tmux list-windows -a -F '#S:#I' | grep -v \"^$(tmux display-message -p '#S:#I')\$\" | fzf --reverse | xargs -I{} tmux switch-client -t{}"
 
 if -b '[ "$SSH_CLIENT" ]' '         \
     set -g status-position bottom;     \

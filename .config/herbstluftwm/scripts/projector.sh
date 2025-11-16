@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 screen_primary="DP-4"
-screen_external="HDMI-0"
+screen_external="HDMI-1-0"
 # screen_external="DP-1"
 regex_external="HDMI.* connected"
 tag_external="Projector"
