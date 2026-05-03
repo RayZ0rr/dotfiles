@@ -13,7 +13,7 @@ highlight TopLineSel	cterm=none	ctermfg=120	ctermbg=default
 highlight Border	cterm=none	ctermfg=035	ctermbg=default
 highlight Win		cterm=none	ctermfg=250	ctermbg=default
 highlight Directory	cterm=bold	ctermfg=004	ctermbg=default
-highlight CurrLine	cterm=bold,inverse	ctermfg=default	ctermbg=default
+highlight CurrLine	cterm=none   ctermbg=black
 highlight OtherLine	cterm=bold	ctermfg=default	ctermbg=default
 highlight Selected	cterm=none	ctermfg=003	ctermbg=008
 
@@ -40,7 +40,7 @@ highlight TopLineSel	gui=none	guifg=#8CC77D	guibg=#151515
 highlight Win		gui=none	guifg=default	guibg=#151515
 highlight Border	gui=none	guifg=#8DA3B9	guibg=#151515
 highlight Directory	gui=bold	guifg=#8DA3B9	guibg=default
-" highlight CurrLine	gui=bold	guifg=#8DA3B9	guibg=#B66467
+highlight CurrLine	gui=bold,reverse
 
 highlight StatusLine	gui=none	guifg=#151515	guibg=#B66467
 highlight JobLine	gui=none	guifg=#928374	guibg=#151515

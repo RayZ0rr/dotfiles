@@ -17,6 +17,9 @@ control + alt + s ; c
 control + alt + s ; p
   peek -t
 
+control + alt + s ; g
+  gpick -p
+
 #Launch dmenu file browser (might take some time to load)
 control + alt + s ; f
   ~/.local/bin/dmfind
@@ -31,23 +34,19 @@ control + alt + s ; y
 
 #tdrop
 control + alt + s ; t
-  tdrop -y 40 alacritty -t tdrop
-  # tdrop -ma alacritty -t tdrop
-  # tdrop -ma -y 50 alacritty
+  tdrop -ma -y 40 alacritty
 
 # run + desktop apps launcher
 control + alt + s ; a
   ~/.local/bin/sway-launcher
-  # alacritty --class="fzf-menuSwayL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/sway-launcher-desktop
 
 # run apps launcher
 control + alt + s ; e
-  dmenu_path | ~/.local/bin/fzflaunch | bash
-  # alacritty --class="fzf-menuL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzflaunch
+  dmenu_path | ~/.local/bin/fzfmenu1 | xargs -I _ bash -c _
+  # dmenu_path | ~/.local/bin/fzfmenu1 | xargs ~/.local/bin/launchbg.sh
 
 control + alt + s ; r
-  dmenu_path | ~/.local/bin/fzfmenu | bash
-  # alacritty --class="fzf-menuL" --config-file $HOME/.config/alacritty/scratchpad.yml -e ~/.local/bin/fzflaunch
+  dmenu_path | ~/.local/bin/fzfmenu2 | xargs -I _ bash -c _
 
 #Launch fzf_dots
 control + alt + s ; d ; o

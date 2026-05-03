@@ -100,13 +100,6 @@ nnoremap <a-d> :diff <CR>
 "-------------------------------------------------------------------------------
 "               File and Directory Preview
 "-------------------------------------------------------------------------------
-fileviewer *.cc,*.hh,*.[ch],*.[ch]pp,*.[ch]xx bat --color always --wrap never --pager never % -p
-fileviewer *[^/],.*[^/] bat --color always --wrap never --pager never %c -p
-fileviewer *[^/],.*[^/] defviewer %c
-
-fileviewer */,.*/ tree %c -L 1 --dirsfirst
-fileviewer */,.*/ eza --icons -a %c
-
 fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
 
 fileviewer *.tgz,*.tar.gz tar -tzf %c
@@ -162,6 +155,13 @@ fileviewer <font/*>
     \ vifm-sixel font %pw %ph %c %pd
     " \ %pc
     " \ vifm-sixel clear
+
+fileviewer *.cc,*.hh,*.[ch],*.[ch]pp,*.[ch]xx bat --color always --wrap never --pager never % -p
+fileviewer *[^/],.*[^/] bat --color always --wrap never --pager never %c -p
+fileviewer *[^/],.*[^/] defviewer %c
+
+fileviewer */,.*/ tree %c -L 1 --dirsfirst
+fileviewer */,.*/ eza --icons -a %c
 
 "-------------------------------------------------------------------------------
 "               Default open for different filetypes
@@ -475,11 +475,11 @@ nnoremap <C-q> :cq<cr>
 nnoremap Q :qa<cr>
 
 " Choose file and cd into the parent
-command! FzfGotoParent : set noquickview
-                \| let $FZF_PICK = term('fd --type f --hidden --follow | fzf-tmux 2>/dev/tty')
-                \| if $FZF_PICK != ''
-                \|     execute 'goto' fnameescape($FZF_PICK)
-                \| endif
+command! FzfGoto : set noquickview
+                  \| let $FZF_PICK = term('fd --type f --hidden --follow | fzf-tmux 2>/dev/tty')
+                  \| if $FZF_PICK != ''
+                  \|     execute system('[ -f "$FZF_PICK" ] && echo goto || echo cd') fnameescape($FZF_PICK)
+                  \| endif
 
 command! FzfEcho : set noquickview
                 \| let $FZF_PICK = term('fd --type f --hidden --follow | fzf-tmux 2>/dev/tty')
@@ -488,15 +488,35 @@ command! FzfEcho : set noquickview
                 \| endif
 
 " Choose directory and cd into it
-command! FzfGoto : set noquickview
-                  \| let $FZF_PICK = term('fd --type d --hidden --follow | fzf-tmux 2>/dev/tty')
-                  \| if $FZF_PICK != ''
-                  \|     execute system('[ -f "$FZF_PICK" ] && echo goto || echo cd') fnameescape($FZF_PICK)
-                  \| endif
+command! Fzfcd : set noquickview
+                \| let $FZF_PICK = term('fd --type d --hidden --follow | fzf-tmux 2>/dev/tty')
+                \| if $FZF_PICK != ''
+                \|     execute 'cd' fnameescape($FZF_PICK)
+                \|     execute '!zoxide add %%d %%i'
+                \| endif
 
-nnoremap <a-c> :FzfGoto<cr>
-nnoremap <C-t> :FzfGotoParent<cr>
+nnoremap <a-c> :Fzfcd<cr>
+nnoremap <C-t> :FzfGoto<cr>
 nnoremap <a-t> :FzfEcho<cr>
+
+" Choose directory with zoxide query, where user enter a search term after `Zcd` like `:Zcd <substring>` and cd into it
+command! Zcd : set noquickview
+              \| let $Z_PICK = term('zoxide query "%a"')
+              \| if $Z_PICK != ''
+              \|     let $dir_name = fnameescape($Z_PICK)
+              \|     cd $dir_name
+              \|     execute '!zoxide add %%d %%i'
+              \| endif
+" Choose directory with zoxide interactive and cd into it
+command! ZcdI : set noquickview
+               \| let $Z_PICK = term('zoxide query -l | fzf --height 20 2>/dev/tty')
+               \| if $Z_PICK != ''
+               \|     let $dir_name = fnameescape($Z_PICK)
+               \|     cd $dir_name
+               \|     execute '!zoxide add %%d %%i'
+               \| endif
+nnoremap <a-a> :Zcd<space>
+nnoremap <a-s> :ZcdI<cr>
 
 " NERD font devicons
 source $HOME/.config/vifm/icons/favicons.vifm

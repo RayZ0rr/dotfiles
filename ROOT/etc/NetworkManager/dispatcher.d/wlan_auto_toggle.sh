@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = "enp2s0" ]; then
+if [ "$1" = "enp2s0" || "$1" = "eno1" ]; then
   case "$2" in
     up)
       nmcli radio wifi off

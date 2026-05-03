@@ -28,13 +28,14 @@ $HOME/.local/src/scripts/battery_notifications.sh &
 # /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 /usr/bin/lxqt-policykit-agent &
 
-$HOME/.config/eww/bar/hlwm_bar &
+quickshell &
+# $HOME/.config/eww/bar/hlwm_bar &
 # $HOME/.config/polybar/hlwmbar.sh &
 # tint2 &
 
 sxhkd &
 blueman-applet &
-nm-applet &
+nm-applet --indicator &
 
 syncthing-gtk -m &
 

@@ -1,24 +1,15 @@
 # Setup fzf
 #-------------------------------------------------------------------------------
-#if [[ ! "$PATH" == *${MY_FZF_PATH}/bin* ]]; then
-# export PATH="${PATH:+${PATH}:}${MY_FZF_PATH}/bin"
-#fi
-
-# Auto-completion
-#-------------------------------------------------------------------------------
-if [[ $- == *i* ]]
-then
-    if [[ -f "/usr/share/fzf/shell/completion.zsh" ]] ; then
-        source "/usr/share/fzf/shell/completion.zsh" 2> /dev/null
-    elif [[ -f "/usr/share/fzf/completion.zsh" ]] ; then
-        source "/usr/share/fzf/completion.zsh" 2> /dev/null
-    elif [[ -f "${MY_FZF_PATH}/completion.zsh" ]] ; then
-        source "${MY_FZF_PATH}/completion.zsh" 2> /dev/null
-    fi
+if [[ ! "$+commands[fzf]" && -n "${MY_FZF_PATH}" && ! "$PATH" == *${MY_FZF_PATH}/bin* ]]; then
+    export PATH="${PATH:+${PATH}:}${MY_FZF_PATH}/bin"
 fi
 
-if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
-    source $ZDOTDIR/fzf-zsh-completion.sh
+# Auto-completion & Key bindings
+#-------------------------------------------------------------------------------
+source <(fzf --zsh)
+
+if [[ -f ${ZDOTDIR}/fzf-zsh-completion.sh ]] ; then
+    source ${ZDOTDIR}/fzf-zsh-completion.sh
     bindkey '^I' fzf_completion
 
     zstyle ':completion:*' fzf-search-display true
@@ -42,34 +33,35 @@ if [[ -f $ZDOTDIR/fzf-zsh-completion.sh ]] ; then
   # done'
 fi
 
-# Key bindings
-#-------------------------------------------------------------------------------
-if [[ -f "/usr/share/fzf/shell/key-bindings.zsh" ]] ; then
-    source "/usr/share/fzf/shell/key-bindings.zsh" 2> /dev/null
-elif [[ -f "/usr/share/fzf/key-bindings.zsh" ]] ; then
-    source "/usr/share/fzf/key-bindings.zsh" 2> /dev/null
-elif [[ -f "${MY_FZF_PATH}/key-bindings.zsh" ]] ; then
-    source "${MY_FZF_PATH}/key-bindings.zsh"
-fi
-
 #-------------------------------------------------------------------------------
 #Custom fzf settings (keybindings & functions)
 #-------------------------------------------------------------------------------
-
 FIND_IGNORE_COMMAND="fd . --color=never --hidden --follow --exclude .git --exclude node_modules --no-ignore"
 FIND_FILE_COMMAND="fd . --type f --color=never --hidden --follow --exclude .git --exclude node_modules"
 FIND_FOLDER_COMMAND="fd . --type d --color=never --hidden --follow --exclude .git --exclude node_modules"
 
 RG_FILE_COMMAND='rg --hidden --follow --glob "!.git" --files'
 
-FZF_FILE_PREVIEW=(--preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-z:ignore' --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)')
+FZF_FILE_PREVIEW=(
+    --preview "bat --style=-header-filename --color=always --line-range :100 {}"
+    --bind "ctrl-z:ignore,ctrl-space:toggle-preview,ctrl-o:execute-silent(xdg-open {} 2> /dev/null &),ctrl-e:execute-silent(nvim {} 2> /dev/null)"
+)
 FZF_FILE_WINDOW=(--preview-window '50%,+{2}+3/3,~3')
 
-FZF_FOLDER_PREVIEW=(--preview 'tree -C {} | head -100' --bind 'ctrl-z:ignore' --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)')
+FZF_FOLDER_PREVIEW=(--preview='tree -C {} | head -100' --bind='ctrl-z:ignore,ctrl-space:toggle-preview,ctrl-o:execute-silent(xdg-open {} 2> /dev/null &)')
 FZF_FOLDER_WINDOW=(--preview-window '50%,~1')
 
+FZF_FIND_COMMAND=( "${FIND_FILE_COMMAND}" " | fzf -m " "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}")
+
 export FZF_DEFAULT_COMMAND=${FIND_FILE_COMMAND}
-export FZF_DEFAULT_OPTS="--prompt=' ' --info=inline-right --tmux 80%,80% --height '100%' --no-separator --input-border=rounded --border=block --layout=reverse --cycle --preview-border=line --preview-window '<80(down)'"
+export FZF_DEFAULT_OPTS="--prompt=' ' --info=inline-right --height 100% --tmux center,95%,95% --no-separator --style full --border=rounded --padding 1% --pointer '' --layout=reverse --cycle"
+bind_str="focus:transform-preview-label:[[ -n {} ]] && printf ' Previewing [%s] ' {}"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS
+  --bind=ctrl-j:preview-page-down
+  --bind=ctrl-k:preview-page-up
+  --bind=\"${bind_str}\"
+"
+unset bind_str
 
 _gen_fzf_default_opts() {
     local color00='#2E3440'
@@ -98,6 +90,8 @@ _gen_fzf_default_opts() {
     local cyan='#88C0D0'
     local blue='#81A1C1'
     local blue2='#5E81AC'
+    local blue3="#6cb8f4"
+    local blue_dark="#51afef"
     local pink='#B48EAD'
     local rose='#ff87d7'
     local violet='#af87ff'
@@ -110,119 +104,183 @@ _gen_fzf_default_opts() {
 
     export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS
       --color=dark
-      --color=input-fg:$fg1,fg:$fg2,bg:$bg1,fg+:$black,bg+:$green
+      --color=input-fg:$fg1,selected-fg:$blue_dark,selected-bg:$bg1,fg:$fg2,bg:$bg1,fg+:$black,current-bg:$green,scrollbar:$bg2
       --color=input-bg:$bg1,list-bg:$bg2,preview-bg:$bg3,header-bg:$bg1
-      --color=hl:$red,hl+:$purple,info:$pink:italic
-      --color=border:$bg1,list-border:$bg1,preview-border:$fg1,input-border:$fg1
-      --color=header:$yellow:italic,spinner:$cyan,prompt:$blue,marker:$orange,pointer:$dark_red,gutter:$bg2
-      --bind=ctrl-d:preview-page-down
-      --bind=ctrl-u:preview-page-up
+      --color=hl:$dark_red,hl+:$purple,info:$pink:italic
+      --color=border:$bg1,header-border:$grey_dark1,list-border:$bg2,preview-border:$bg3,input-border:$grey_dark1
+      --color=header:$yellow:italic,spinner:$cyan,prompt:$blue,marker:$blue_dark,pointer:$dark_red,gutter:$rose
+      --color=label:#cccccc,preview-label:$orange,list-label:$orange,input-label:$blue
     "
 }
 _gen_fzf_default_opts
 
 export FZF_CTRL_T_COMMAND=${FIND_FILE_COMMAND}
-export FZF_CTRL_T_OPTS="--header 'Choose Files' --preview 'bat --color=always --line-range :100 {}' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FILE_WINDOW[@]}"
+export FZF_CTRL_T_OPTS="--header 'Choose files'"
 
 export FZF_ALT_C_COMMAND=${FIND_FOLDER_COMMAND}
-export FZF_ALT_C_OPTS="--header 'cd Dir' --preview 'tree -C {} | head -100' --bind=ctrl-z:ignore --bind 'ctrl-space:toggle-preview,ctrl-o:execute(xdg-open {} 2> /dev/null &)' ${FZF_FOLDER_WINDOW[@]}"
+export FZF_ALT_C_OPTS="--header 'cd to directory'"
 
-FZF_FIND_COMMAND=( "${FIND_FILE_COMMAND}" " | fzf -m " "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}")
+# Ctrl-t - Paste the selected file path(s) from cwd (recursive) into the command line
+#-------------------------------------------------------------------------------
+__fzf_ff__() {
+    setopt localoptions pipefail no_aliases 2> /dev/null
+    local item
+    FZF_DEFAULT_COMMAND=${FZF_CTRL_T_COMMAND:-} \
+        FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=file,follow,hidden --scheme=path" "${FZF_CTRL_T_OPTS-} -m") \
+        FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}" "$@" < /dev/tty | while read -r item; do
+        echo -n -E "${(q)item} "
+    done
+    local ret=$?
+    echo
+    return $ret
+}
+fzf_ff_widget() {
+    LBUFFER="${LBUFFER}$(__fzf_ff__)"
+    local ret=$?
+    zle reset-prompt
+    return $ret
+}
+if [[ "${FZF_CTRL_T_COMMAND-x}" != "" ]]; then
+    zle     -N            fzf_ff_widget
+    bindkey -M emacs '^T' fzf_ff_widget
+    bindkey -M vicmd '^T' fzf_ff_widget
+    bindkey -M viins '^T' fzf_ff_widget
+fi
 
 # Ctrl-t + Ctrl-t - Paste the selected file path(s) from $HOME into the command line
 #-------------------------------------------------------------------------------
-__sff__() {
-    local cmd="${FIND_FILE_COMMAND} $HOME"
+__fzf_ffh__() {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local item
-    eval "$cmd" | fzf-tmux -m "${FZF_FILE_PREVIEW[@]}" ${FZF_FILE_WINDOW[@]} --header 'Choose Files from Home' "$@" | while read item; do
-        echo -n "${(q)item} "
+    FZF_DEFAULT_COMMAND="${FIND_FILE_COMMAND} $HOME" \
+        FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=file,follow,hidden --scheme=path" "--header 'Choose files from HOME' -m") \
+        FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}" "$@" < /dev/tty | while read -r item; do
+        echo -n -E "${(q)item} "
     done
     local ret=$?
     echo
     return $ret
 }
-__sffw__() {
-    LBUFFER="${LBUFFER}$(__sff__)"
+fzf_ffh_widget() {
+    LBUFFER="${LBUFFER}$(__fzf_ffh__)"
     local ret=$?
     zle reset-prompt
     return $ret
 }
-zle     -N   __sffw__
-bindkey -M emacs '^T^T' __sffw__
-bindkey -M vicmd '^T^T' __sffw__
-bindkey -M viins '^T^T' __sffw__
+if [[ "${FIND_FILE_COMMAND-x}" != "" ]]; then
+    zle     -N              fzf_ffh_widget
+    bindkey -M emacs '^T^T' fzf_ffh_widget
+    bindkey -M vicmd '^T^T' fzf_ffh_widget
+    bindkey -M viins '^T^T' fzf_ffh_widget
+fi
 
 # Alt-t - Paste the selected folder path(s) into the command line
 #-------------------------------------------------------------------------------
-__sdf__() {
-    local cmd="${FIND_FOLDER_COMMAND}"
+__fzf_fd__() {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local item
-    eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} --header 'Choose Dir' "$@" | while read item; do
-        echo -n "${(q)item} "
+    FZF_DEFAULT_COMMAND="${FZF_ALT_C_COMMAND}" \
+        FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=dir,follow,hidden --scheme=path" "--header 'Choose dirs' -m") \
+        FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FOLDER_PREVIEW[@]}" "${FZF_FOLDER_WINDOW[@]}" "$@" < /dev/tty | while read -r item; do
+        echo -n -E "${(q)item} "
     done
     local ret=$?
     echo
     return $ret
 }
-__sdfw__() {
-    LBUFFER="${LBUFFER}$(__sdf__)"
+fzf_fd_widget() {
+    LBUFFER="${LBUFFER}$(__fzf_fd__)"
     local ret=$?
     zle reset-prompt
     return $ret
 }
-zle     -N   __sdfw__
-bindkey -M emacs '\et' __sdfw__
-bindkey -M vicmd '\et' __sdfw__
-bindkey -M viins '\et' __sdfw__
+if [[ "${FZF_ALT_C_COMMAND-x}" != "" ]]; then
+    zle     -N             fzf_fd_widget
+    bindkey -M emacs '\et' fzf_fd_widget
+    bindkey -M vicmd '\et' fzf_fd_widget
+    bindkey -M viins '\et' fzf_fd_widget
+fi
 
 # Alt-t + Alt-t - Paste the selected folder path(s) from $HOME into the command line
 #-------------------------------------------------------------------------------
-__sdhf__() {
-    local cmd="${FIND_FOLDER_COMMAND} $HOME"
+__fzf_fdh__() {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local item
-    eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} --header 'Choose Dir from Home' "$@" | while read item; do
-        echo -n "${(q)item} "
+    FZF_DEFAULT_COMMAND="${FIND_FOLDER_COMMAND} $HOME" \
+        FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=dir,follow,hidden --scheme=path" "--header 'Choose dirs from HOME' -m") \
+        FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FOLDER_PREVIEW[@]}" "${FZF_FOLDER_WINDOW[@]}" "$@" < /dev/tty | while read -r item; do
+        echo -n -E "${(q)item} "
     done
     local ret=$?
     echo
     return $ret
 }
-__sdhfw__() {
-    LBUFFER="${LBUFFER}$(__sdhf__)"
+fzf_fdh_widget() {
+    LBUFFER="${LBUFFER}$(__fzf_fdh__)"
     local ret=$?
     zle reset-prompt
     return $ret
 }
-zle     -N   __sdhfw__
-bindkey -M emacs '\et\et' __sdhfw__
-bindkey -M vicmd '\et\et' __sdhfw__
-bindkey -M viins '\et\et' __sdhfw__
+if [[ "${FIND_FOLDER_COMMAND-x}" != "" ]]; then
+    zle     -N                fzf_fdh_widget
+    bindkey -M emacs '\et\et' fzf_fdh_widget
+    bindkey -M vicmd '\et\et' fzf_fdh_widget
+    bindkey -M viins '\et\et' fzf_fdh_widget
+fi
+
+# Alt-c - cd into the selected directory in cwd (recursive) from anywhere
+#-------------------------------------------------------------------------------
+fzf_cd_widget() {
+  setopt localoptions pipefail no_aliases 2> /dev/null
+  local dir="$(
+    FZF_DEFAULT_COMMAND=${FZF_ALT_C_COMMAND:-} \
+    FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=dir,follow,hidden --scheme=path" "${FZF_ALT_C_OPTS-} +m") \
+    FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FOLDER_PREVIEW[@]}" "${FZF_FOLDER_WINDOW[@]}" < /dev/tty)"
+  if [[ -z "$dir" ]]; then
+    zle redisplay
+    return 0
+  fi
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="builtin cd -- ${(q)dir:a}"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
+}
+if [[ "${FZF_ALT_C_COMMAND-x}" != "" ]]; then
+  zle     -N             fzf_cd_widget
+  bindkey -M emacs '\ec' fzf_cd_widget
+  bindkey -M vicmd '\ec' fzf_cd_widget
+  bindkey -M viins '\ec' fzf_cd_widget
+fi
 
 # Alt-c + Alt-c - cd into the selected directory from anywhere
 #-------------------------------------------------------------------------------
-__cda__() {
-    local cmd="${FIND_FOLDER_COMMAND} $HOME"
-    setopt localoptions pipefail no_aliases 2> /dev/null
-    local dir="$(eval "$cmd" | fzf-tmux -m ${FZF_FOLDER_PREVIEW[@]} ${FZF_FOLDER_WINDOW[@]} --header 'cd from Home')"
-    if [[ -z "$dir" ]]; then
-        zle redisplay
-        return 0
-    fi
-    zle push-line # Clear buffer. Auto-restored on next prompt.
-    BUFFER="builtin cd -- ${(q)dir}" #"
-    zle accept-line
-    local ret=$?
-    unset dir # ensure this doesn't end up appearing in prompt expansion
-    zle reset-prompt
-    return $ret
+fzf_cdh_widget() {
+  setopt localoptions pipefail no_aliases 2> /dev/null
+  local dir="$(
+    FZF_DEFAULT_COMMAND="${FIND_FOLDER_COMMAND} $HOME" \
+    FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=dir,follow,hidden --scheme=path" "--header 'cd to directory from HOME' +m") \
+    FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FOLDER_PREVIEW[@]}" "${FZF_FOLDER_WINDOW[@]}" < /dev/tty)"
+  if [[ -z "$dir" ]]; then
+    zle redisplay
+    return 0
+  fi
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="builtin cd -- ${(q)dir:a}"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
 }
-zle     -N    __cda__
-bindkey -M emacs '\ec\ec' __cda__
-bindkey -M vicmd '\ec\ec' __cda__
-bindkey -M viins '\ec\ec' __cda__
+if [[ "${FIND_FOLDER_COMMAND-x}" != "" ]]; then
+  zle     -N                fzf_cdh_widget
+  bindkey -M emacs '\ec\ec' fzf_cdh_widget
+  bindkey -M vicmd '\ec\ec' fzf_cdh_widget
+  bindkey -M viins '\ec\ec' fzf_cdh_widget
+fi
 
 # ripgrep->fzf->vim/nvim [QUERY]
 #-------------------------------------------------------------------------------
@@ -233,11 +291,11 @@ fzfrg() {
         else
             $EDITOR +cw -q {+f}  # Build quickfix list for the selected items.
     fi'
-    fzf-tmux -m < /dev/null \
-        --disabled --layout=reverse --ansi --multi \
+    fzf -m < /dev/null \
+        --ansi \
         --bind "start:$RELOAD" --bind "change:$RELOAD" \
         --bind "enter:become:$OPENER" \
-        --bind "ctrl-o:execute:$OPENER" \
+        --bind "ctrl-o:execute-silent:$OPENER" \
         --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
         --delimiter : \
         --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
@@ -247,43 +305,62 @@ fzfrg() {
 
 # Alt-c + Alt-t - cd into the directory of the selected file
 #-------------------------------------------------------------------------------
-__cdf__() {
-    local file
-    local dir
-    file=$(fzf-tmux +m ${FZF_FILE_PREVIEW[@]} ${FZF_FILE_WINDOW[@]} --header 'Choose file to cd to its pwd' -q "$1") && dir=$(dirname "$file") && builtin cd "$dir"
+fzf_cdf_widget() {
+  setopt localoptions pipefail no_aliases 2> /dev/null
+  local dir="$(
+    FZF_DEFAULT_COMMAND=${FZF_CTRL_T_COMMAND:-} \
+    FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=file,follow,hidden --scheme=path" "--header 'cd to file directory' +m") \
+    FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}" < /dev/tty)"
+  if [[ -z "$dir" ]]; then
+    zle redisplay
+    return 0
+  fi
+  dir=${dir:h}
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="builtin cd -- ${(q)dir:a}"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
 }
-zle     -N    __cdf__
-bindkey -M emacs '\ec\et' __cdf__
-bindkey -M vicmd '\ec\et' __cdf__
-bindkey -M viins '\ec\et' __cdf__
+if [[ "${FZF_CTRL_T_COMMAND-x}" != "" ]]; then
+  zle     -N                fzf_cdf_widget
+  bindkey -M emacs '\ec\et' fzf_cdf_widget
+  bindkey -M vicmd '\ec\et' fzf_cdf_widget
+  bindkey -M viins '\ec\et' fzf_cdf_widget
+fi
 
 # Ctrl-t + Ctrl-f - List contents of the current directory only (not recursive).
 #-------------------------------------------------------------------------------
-__fd1__() {
-    local cmd="${FIND_FILE_COMMAND} -td --max-depth=1"
+__fzf_ffc__() {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local item
-    eval "$cmd" | fzf-tmux -m --header 'PWD content' "$@" | while read item; do
-    echo -n "${(q)item} "
+    FZF_DEFAULT_COMMAND="${FIND_FILE_COMMAND} $PWD" \
+        FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=file,follow,hidden --scheme=path" "--header 'Choose files from CWD' -m") \
+        FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}" "$@" < /dev/tty | while read -r item; do
+        echo -n -E "${(q)item} "
     done
     local ret=$?
     echo
     return $ret
 }
-__fd1w__() {
-    LBUFFER="${LBUFFER}$(__fd1__)"
+fzf_ffc_widget() {
+    LBUFFER="${LBUFFER}$(__fzf_ffc__)"
     local ret=$?
     zle reset-prompt
     return $ret
 }
-zle     -N   __fd1w__
-bindkey -M emacs '^T^f' __fd1w__
-bindkey -M vicmd '^T^f' __fd1w__
-bindkey -M viins '^T^f' __fd1w__
+if [[ "${FIND_FILE_COMMAND-x}" != "" ]]; then
+    zle     -N              fzf_ffc_widget
+    bindkey -M emacs '^T^F' fzf_ffc_widget
+    bindkey -M vicmd '^T^F' fzf_ffc_widget
+    bindkey -M viins '^T^F' fzf_ffc_widget
+fi
 
 #---------------------------------------------------------------------------------
 __fzfmenu__(){
-    local cmd="${FZF_FILE_COMMAND} -td --max-depth=1"
+    local cmd="${FIND_FILE_COMMAND} -td --max-depth=1"
     eval $cmd | ~/.local/bin/fzfmenu
 }
 __fzf-menu__() {
@@ -316,9 +393,10 @@ bindkey -M viins '^T^R' fzfnova
 onv() {
     local files
 
+    local list_files=$(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf --query="$1" -m "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}" --header 'Choose Files for Vim')
     # files=(${(f)"${FZF_FD_COMMAND[@]}"})
-    files=(${(f)"$(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf -m ${FZF_FILE_WINDOW[@]} --header 'Choose Files for Vim' --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)')"})
-    # files=("$(fdfind --type f --color=never --hidden --follow | fzf -m ${FZF_FILE_WINDOW[@]} --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)' --height=80% --layout=reverse)")
+    files=(${(f)"${list_files}"})
+    # files=("$(fdfind --type f --color=never --hidden --follow | fzf -m ${FZF_FILE_WINDOW[@]} --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute-silent(xdg-open {} 2> /dev/null &)' --height=80% --layout=reverse)")
 
     if [[ -n $files ]]
     then
@@ -329,18 +407,15 @@ onv() {
 # Open files from $HOME directory recursively with vim(nvim)
 #---------------------------------------------------------------------------------
 anv() {
-    filepath=$PWD
-    cd
     local files
 
-    files=(${(f)"$(fd --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf -m ${FZF_FILE_WINDOW[@]} --header 'Choose Files for Vim from Home' --preview 'bat --color=always --line-range :100 {}' --bind 'ctrl-space:toggle-preview,f2:execute(xdg-open {} 2> /dev/null &)')"})
+    files=(${(f)"$(fd . $HOME --type f --color=never --hidden --follow --exclude .git --exclude node_modules | fzf --query="$1" -m "${FZF_FILE_PREVIEW[@]}" "${FZF_FILE_WINDOW[@]}" --header 'Choose Files for Vim from Home')"})
 
     if [[ -n $files ]]
     then
         ${EDITOR:-vim} -- $files
         echo $(echo $files[@] | awk 'BEGIN{ORS=" "};{print $0}')
     fi
-    cd $filepath
 }
 
 #---------------------------------------------------------------------------------
