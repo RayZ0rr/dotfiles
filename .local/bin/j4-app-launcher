@@ -10,7 +10,8 @@ fi
 # [[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='term-dmenu --no-extended --print-query'
 # [[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='term-dmenu'
 # [[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='fzfmenu'
-[[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='fzflaunch'
+# [[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='fzflaunch'
+[[ -z "$DMENU_PROGRAM" ]] && DMENU_PROGRAM='fzfmenu1'
 
 # launcher for .desktop files; used with app-runner script
 # shellcheck disable=SC2154

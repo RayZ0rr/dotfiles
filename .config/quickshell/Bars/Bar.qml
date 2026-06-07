@@ -24,7 +24,11 @@ Scope {
 
             Item {
                 id: root
-                anchors.fill: parent
+                // anchors.fill: parent
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                // anchors.horizontalCenter: parent.horizontalCenter
 
                 BarLeft {
                     id: barLeft

@@ -11,5 +11,4 @@ Row {
     spacing: Config.spacing
 
     Workspace{}
-    AppDrawer{}
 }

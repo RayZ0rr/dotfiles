@@ -582,6 +582,9 @@ case "$1" in
         getCurVol
         echo "$VOL_LEVEL"
         ;;
+    set-silent)
+        SetVol $2
+        ;;
     set)
         SetVol $2
         sendNotification

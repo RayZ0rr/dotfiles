@@ -39,49 +39,24 @@ Item {
         }
     }
     HoverHandler {
-        id: hoverControls
         acceptedDevices: PointerDevice.Mouse
         cursorShape: Qt.WhatsThisCursor
+        onHoveredChanged: {
+            if (this.hovered && !tooltip.popTimer.running && !tooltip.enter.running) {
+                tooltip.popTimer.running = true
+            }
+            if (!this.hovered) {
+                if (tooltip.enter.running || tooltip.opened || tooltip.popTimer.running) {
+                    tooltip.popTimer.running = false
+                    tooltip.close()
+                }
+            }
+        }
     }
-    ToolTip {
+    MyTooltip {
         id: tooltip
-        property real maxHeight: 0
-        padding: 0
-        delay: 1000
-        timeout: 0
-        visible: hoverControls.hovered
-        focus: false
-        y: root.height + root.commonPopupGap
-        implicitWidth: dateInfoBox.implicitWidth
-        implicitHeight: dateInfoBox.implicitHeight
-        popupType: Popup.Window
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        // closePolicy: Popup.NoAutoClose
-        transformOrigin: Popup.Top
-
-        enter: Transition{
-            SequentialAnimation {
-                ParallelAnimation {
-                    NumberAnimation {property: "opacity"; from: 0.0; to: 1.0; duration: 110; easing.type: Easing.OutCubic}
-                    NumberAnimation {property: "scale"; from: 0.18; to: 1.0; duration: 170; easing.type: Easing.OutBack}
-                }
-                ScriptAction {script: {
-                    tooltip.maxHeight = tooltip.height + root.commonPopupGap
-                    root.tooltipHeight = root.tooltipHeight + tooltip.maxHeight
-                }}
-            }
-        }
-        exit: Transition{
-            SequentialAnimation {
-                ParallelAnimation {
-                    NumberAnimation {property: "opacity"; from: 0.0; to: 1.0; duration: 110; easing.type: Easing.OutCubic}
-                    NumberAnimation {property: "scale"; from: 0.18; to: 1.0; duration: 170; easing.type: Easing.OutBack}
-                }
-                ScriptAction {script: {
-                    root.tooltipHeight = root.tooltipHeight - tooltip.maxHeight
-                }}
-            }
-        }
+        rootItem: root
+        delay: 500
         contentItem: Rectangle {
             id: dateInfoBox
             // anchors.centerIn: parent

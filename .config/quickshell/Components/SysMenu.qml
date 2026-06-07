@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+
 import Quickshell
 import Quickshell.Io
 
@@ -31,14 +32,14 @@ Loader{
             readonly property string label: "Brightness"
             readonly property int minValue: 10
             readonly property int maxValue: 100
-            readonly property string cmd: "$HOME/.config/eww/bar/scripts/brightness.sh"
+            readonly property string cmd: Quickshell.shellPath("Scripts/brightness.sh")
             property string iconText: "☀"
             property color iconColor: root.iconColor
             property string tooltipText: "Default brightness"
             property int value: 60
             function applyValue(v) {
                 const next = Math.round(v)
-                procBrightExec.exec(["sh", "-lc", `${this.cmd} set ${next}`])
+                procBrightExec.exec(["sh", "-lc", `${this.cmd} set-silent ${next}`])
             }
             property bool hasRefreshFn: true
             function refresh() {
@@ -66,7 +67,7 @@ Loader{
             property bool muted: false
             function applyValue(v) {
                 const next = Math.round(v)
-                procVolumeExec.exec(["sh", "-lc", `${this.cmd} set ${next}`])
+                procVolumeExec.exec(["sh", "-lc", `${this.cmd} set-silent ${next}`])
             }
             property bool hasRefreshFn: true
             function refresh() {

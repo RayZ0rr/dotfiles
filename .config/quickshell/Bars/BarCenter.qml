@@ -17,5 +17,7 @@ Row {
     anchors.verticalCenter: parent.verticalCenter
     spacing: Config.spacing
 
+    AppDrawer{}
     CurrentProcess{}
+    PowerLock{}
 }

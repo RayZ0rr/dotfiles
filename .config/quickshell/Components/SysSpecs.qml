@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 
 import qs.Config
+import qs.Components
 
 Item {
     id: root
@@ -13,6 +14,8 @@ Item {
     property real strokeWidth: 4
     readonly property real usableHeight: Math.max(0, Config.height - marginSizeY)
     readonly property real radiusY: Math.max(0, (usableHeight - strokeWidth) / 2)
+    readonly property real popupMarginSizeX: 40
+    readonly property real popupMarginSizeY: 30
     property real radiusX: this.radiusY
     property real radiusInnerOffset: this.radiusX * 0.6
     property real ringWidth: 2*this.radiusX + this.strokeWidth
@@ -33,6 +36,8 @@ Item {
         spacing: Config.spacing
         Rectangle{
             id: cpuSpecsBox
+            property real tooltipHeight: 0
+            property real commonPopupGap: 5
             color: Config.colorBg
             implicitWidth: cpuSpecs.implicitWidth + root.marginSizeX
             implicitHeight: Config.height
@@ -90,9 +95,57 @@ Item {
                     }
                 }
             }
+            HoverHandler {
+                acceptedDevices: PointerDevice.Mouse
+                cursorShape: Qt.WhatsThisCursor
+                onHoveredChanged: {
+                    if (this.hovered && !cpuTooltip.popTimer.running && !cpuTooltip.enter.running) {
+                        cpuTooltip.popTimer.running = true
+                    }
+                    if (!this.hovered) {
+                        if (cpuTooltip.enter.running || cpuTooltip.opened || cpuTooltip.popTimer.running) {
+                            cpuTooltip.popTimer.running = false
+                            cpuTooltip.close()
+                        }
+                    }
+                }
+            }
+            MyTooltip {
+                id: cpuTooltip
+                rootItem: batSpecsBox
+                delay: 500
+                contentItem: Rectangle {
+                    implicitWidth: cpuValueText.implicitWidth + root.popupMarginSizeX
+                    implicitHeight: cpuValueText.implicitHeight + root.popupMarginSizeY
+                    radius: Config.radius
+                    color: Config.colorBg
+                    Text {
+                        id: cpuValueText
+                        property real valNum: Math.round(100*info_cpu.usedMem/info_cpu.totalMem)
+                        anchors.centerIn: parent
+                        font.pixelSize: 15
+                        text: {
+                            let c = "darkgreen"
+                            const i = "󰍛"
+                            const v = cpuValueText.valNum
+                            if (v > 90) {
+                                c = "red"
+                            } else if (v > 50) {
+                                c = "yellow"
+                            } else if (v > 10) {
+                                c = "green"
+                            }
+                            const l = `${i}&nbsp;&nbsp;&nbsp;${v}`
+                            return `<font color=\"${c}\">${l}</font>`
+                        }
+                    }
+                }
+            }
         }
         Rectangle{
             id: batSpecsBox
+            property real tooltipHeight: 0
+            property real commonPopupGap: 5
             color: Config.colorBg
             implicitWidth: batSpecs.implicitWidth + root.marginSizeX
             implicitHeight: Config.height
@@ -147,6 +200,56 @@ Item {
                         centerY: batSpecs.centerY
                         startAngle: 0
                         sweepAngle: 360
+                    }
+                }
+            }
+            HoverHandler {
+                acceptedDevices: PointerDevice.Mouse
+                cursorShape: Qt.WhatsThisCursor
+                onHoveredChanged: {
+                    if (this.hovered && !batTooltip.popTimer.running && !batTooltip.enter.running) {
+                        batTooltip.popTimer.running = true
+                    }
+                    if (!this.hovered) {
+                        if (batTooltip.enter.running || batTooltip.opened || batTooltip.popTimer.running) {
+                            batTooltip.popTimer.running = false
+                            batTooltip.close()
+                        }
+                    }
+                }
+            }
+            MyTooltip {
+                id: batTooltip
+                rootItem: batSpecsBox
+                delay: 500
+                contentItem: Rectangle {
+                    id: batValueTextBox
+                    implicitWidth: batValueText.implicitWidth + root.popupMarginSizeX
+                    implicitHeight: batValueText.implicitHeight + root.popupMarginSizeY
+                    radius: Config.radius
+                    color: Config.colorBg
+                    Text {
+                        id: batValueText
+                        property real valNum: Math.round(info_bat.charge)
+                        anchors.centerIn: batValueTextBox
+                        font.pixelSize: 15
+                        text: {
+                            let c = "darkgreen"
+                            let i = "󰁹"
+                            const v = batValueText.valNum
+                            if(v < 10) {
+                                c = "red"
+                                i = "󰁺"
+                            } else if (v < 30) {
+                                c = "yellow"
+                                i = "󰁼"
+                            } else if (v < 99) {
+                                c = "green"
+                                i = "󰂀"
+                            }
+                            const l = `${i}&nbsp;&nbsp;&nbsp;${v}`
+                            return `<font color=\"${c}\">${l}</font>`
+                        }
                     }
                 }
             }

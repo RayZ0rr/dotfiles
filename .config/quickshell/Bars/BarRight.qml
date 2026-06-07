@@ -34,5 +34,4 @@ Row {
         commonSpacing: Config.spacing
         commonBg: Config.colorBg
     }
-    PowerLock{}
 }

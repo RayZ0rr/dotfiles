@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 
 import qs.Config
+import qs.Components
 
 Item {
     id: root
@@ -133,7 +134,6 @@ Item {
         }
     }
     MouseArea {
-        id: mouseControls
         anchors.fill: root
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         cursorShape: Qt.WhatsThisCursor
@@ -151,75 +151,23 @@ Item {
             mouse.accepted = true
         }
         onContainsMouseChanged: {
-            if (mouseControls.containsMouse && !hideTooltip.running && !tooltip.enter.running) {
-                hideTooltip.running = true
+            if (this.containsMouse && !tooltip.popTimer.running && !tooltip.enter.running) {
+                tooltip.popTimer.running = true
             }
-            if (!mouseControls.containsMouse && tooltip.opened) {
-                tooltip.close()
+            if (!this.containsMouse) {
+                if (tooltip.enter.running || tooltip.opened || tooltip.popTimer.running) {
+                    tooltip.popTimer.running = false
+                    tooltip.close()
+                }
             }
         }
     }
-    Popup {
+    MyTooltip {
         id: tooltip
-        property real maxHeight: 0
-        padding: 0
-        property real delay: 1000
-        property real timeout: 2000
-        Timer {
-            id: hideTooltip
-            interval: tooltip.timeout
-            running: mouseControls.containsMouse
-            onTriggered: {
-                if (tooltip.opened) {
-                    tooltip.close()
-                    this.running = false
-                } else {
-                    this.running = false
-                    tooltip.open()
-                    // hideTooltip.restart()
-                }
-            }
-        }
-        focus: false
-        y: Config.height + root.commonPopupGap
-        implicitWidth: networkTextBox.implicitWidth
-        implicitHeight: 0
-        popupType: Popup.Window
-        closePolicy: Popup.NoAutoClose
-        transformOrigin: Popup.Top
-        onOpened: {hideTooltip.running = true}
-
-        enter: Transition{
-            SequentialAnimation {
-                ParallelAnimation {
-                    NumberAnimation {property: "opacity"; from: 0.0; to: 1.0; duration: 500; easing.type: Easing.OutCubic}
-                    // NumberAnimation {target: tooltip; property: "implicitHeight"; to: 0.0; duration: 500; easing.type: Easing.OutBack}
-                    // NumberAnimation {property: "scale"; from: 0.18; to: 1.0; duration: 170; easing.type: Easing.OutBack}
-                    NumberAnimation {target: tooltip; property: "implicitHeight"; from: 0; to: networkTextBox.implicitHeight; duration: 500; easing.type: Easing.OutBack}
-                }
-                ScriptAction {script: {
-                    tooltip.maxHeight = tooltip.height + root.commonPopupGap
-                    root.tooltipHeight = root.tooltipHeight + tooltip.maxHeight
-                }}
-            }
-        }
-        exit: Transition{
-            SequentialAnimation {
-                ParallelAnimation {
-                    NumberAnimation {target: tooltip; property: "opacity"; from: 1.0; to: 0.0; duration: 500; easing.type: Easing.OutCubic}
-                    // NumberAnimation {target: networkTextBox; property: "scale"; from: 1.0; to: 0.18; duration: 1000; easing.type: Easing.OutBack}
-                    // NumberAnimation {target: tooltip; property: "scale"; to: 0.0; duration: 1000; easing.type: Easing.OutBack}
-                    // NumberAnimation {target: tooltip; property: "width"; to: 0.0; duration: 100; easing.type: Easing.OutBack}
-                    NumberAnimation {target: tooltip; property: "implicitHeight"; to: 0.0; duration: 500; easing.type: Easing.OutBack}
-                }
-                ScriptAction {script: {
-                    root.tooltipHeight = root.tooltipHeight - tooltip.maxHeight
-                }}
-            }
-        }
+        rootItem: root
+        delay: 500
         contentItem: Rectangle {
             id: networkTextBox
-            // anchors.centerIn: parent
             implicitWidth: networkText.implicitWidth + root.popupMarginSizeX
             implicitHeight: networkText.implicitHeight + root.popupMarginSizeY
             radius: Config.radius

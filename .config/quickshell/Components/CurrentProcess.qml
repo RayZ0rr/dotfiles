@@ -4,6 +4,7 @@ import QtQuick.Controls
 import Quickshell.Io
 
 import qs.Config
+import qs.Components
 
 Item {
     id: root
@@ -29,45 +30,31 @@ Item {
     Rectangle {
         id: currentInfoBox
         readonly property real itemMarginSizeX: 15
-        readonly property real itemMarginSizeY: 17
+        readonly property real itemMarginSizeY: 5
         anchors.centerIn: root
+        color: root.textColor
         implicitWidth: currentInfo.implicitWidth + root.marginSizeX
         implicitHeight: Config.height
         radius: Config.radius
         Row {
             id: currentInfo
-            Rectangle {
-                id: currentNameBox
+            anchors.centerIn: currentInfoBox
+            spacing: 10
+            Text {
+                id: currentIcon
+                text: root.currentIcon
                 color: Config.colorBg
-                implicitWidth: currentName.implicitWidth + currentInfoBox.itemMarginSizeX
-                implicitHeight: Config.height
-                topLeftRadius: Config.radius
-                bottomLeftRadius: Config.radius
-                Text {
-                    id: currentName
-                    anchors.centerIn: parent
-                    text: root.currentName
-                    color: root.textColor
-                    font.pixelSize: parent.height - currentInfoBox.itemMarginSizeY - 2
-                }
+                font.pixelSize: 25 - currentInfoBox.itemMarginSizeY
+                horizontalAlignment: Text.AlignHCenter
             }
-            Rectangle {
-                id: currentIconBox
-                color: root.textColor
-                implicitWidth: currentIcon.contentWidth + currentInfoBox.itemMarginSizeX
-                implicitHeight: Config.height
-                topRightRadius: Config.radius
-                bottomRightRadius: Config.radius
-                Text {
-                    id: currentIcon
-                    anchors.centerIn: parent
-                    elide: Text.ElideRight
-                    text: root.currentIcon
-                    color: Config.colorBg
-                    font.pixelSize: parent.height - currentInfoBox.itemMarginSizeY
-                    width: 10
-                    clip: true
-                }
+            Text {
+                id: currentName
+                text: root.currentName
+                color: Config.colorBg
+                font.pixelSize: 20 - currentInfoBox.itemMarginSizeY
+                elide: Text.ElideRight
+                width: Math.max(currentName.contentWidth, 100)
+                horizontalAlignment: Text.AlignHCenter
             }
         }
     }
@@ -76,49 +63,26 @@ Item {
         anchors.fill: root
         cursorShape: Qt.WhatsThisCursor
         hoverEnabled: true
+        onContainsMouseChanged: {
+            if (this.containsMouse && !tooltip.popTimer.running && !tooltip.enter.running) {
+                tooltip.popTimer.running = true
+            }
+            if (!this.containsMouse) {
+                if (tooltip.enter.running || tooltip.opened || tooltip.popTimer.running) {
+                    tooltip.popTimer.running = false
+                    tooltip.close()
+                }
+            }
+        }
     }
-    ToolTip {
+    MyTooltip {
         id: tooltip
+        rootItem: root
         property real maxHeight: 0
-        padding: 0
-        delay: 1000
-        timeout: 0
-        visible: mouseControls.containsMouse
-        focus: false
-        y: Config.height + root.commonPopupGap
-        implicitWidth: currentPIDBox.implicitWidth
-        implicitHeight: currentPIDBox.implicitHeight
-        popupType: Popup.Window
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        transformOrigin: Popup.Top
-
-        enter: Transition{
-            SequentialAnimation {
-                ParallelAnimation {
-                    NumberAnimation {property: "opacity"; from: 0.0; to: 1.0; duration: 110; easing.type: Easing.OutCubic}
-                    NumberAnimation {property: "scale"; from: 0.18; to: 1.0; duration: 170; easing.type: Easing.OutBack}
-                }
-                ScriptAction {script: {
-                    tooltip.maxHeight = tooltip.height + root.commonPopupGap
-                    root.tooltipHeight = root.tooltipHeight + tooltip.maxHeight
-                }}
-            }
-        }
-        exit: Transition{
-            SequentialAnimation {
-                ParallelAnimation {
-                    NumberAnimation {property: "opacity"; from: 0.0; to: 1.0; duration: 110; easing.type: Easing.OutCubic}
-                    NumberAnimation {property: "scale"; from: 0.18; to: 1.0; duration: 170; easing.type: Easing.OutBack}
-                }
-                ScriptAction {script: {
-                    root.tooltipHeight = root.tooltipHeight - tooltip.maxHeight
-                }}
-            }
-        }
+        delay: 500
         contentItem: Rectangle {
             id: currentPIDBox
-            // anchors.centerIn: parent
-            implicitWidth: currentPID.implicitWidth + root.popupMarginSizeX
+            implicitWidth: Math.max(currentPID.implicitWidth + root.popupMarginSizeX, currentInfoBox.implicitWidth)
             implicitHeight: currentPID.implicitHeight + root.popupMarginSizeY
             radius: Config.radius
             color: Config.colorBg
